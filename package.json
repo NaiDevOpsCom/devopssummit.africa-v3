@@ -114,7 +114,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-storybook": "^10.2.19",
     "globals": "^15.15.0",
-    "jsdom": "^28.1.0",
+    "jsdom": "^29.0.0",
     "lovable-tagger": "^1.1.13",
     "playwright": "^1.58.2",
     "postcss": "^8.5.6",
