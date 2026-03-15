@@ -1,0 +1,58 @@
+
+> vite_react_shadcn_ts@0.0.0 lint
+> eslint .
+
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\components\SummitGallery.tsx
+  1:48  warning  'useEffect' is defined but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+  8:10  warning  'GALLERY_YEAR_MAP' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\components\landing\Team.tsx
+  15:10  warning  'selectedIndex' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\components\ui\badge.tsx
+  2:10  warning  'cva' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\components\ui\button.tsx
+  3:10  warning  'cva' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\components\ui\form.tsx
+  10:3  warning  'useFormContext' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\config\env.ts
+  11:7  warning  'requireEnv' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\hooks\use-toast.ts
+  15:7  warning  'actionTypes' is assigned a value but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\pages\Index.tsx
+  23:5  warning  React Hook React.useMemo has an unnecessary dependency: 'resetCounter'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\pages\PrivacyPolicy.tsx
+  14:7  warning  'stagger' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\pages\Schedule.tsx
+  1:17  warning  'useState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\src\test\Navbar.test.tsx
+  1:32  warning  'vi' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\storybook-static\sb-manager\globals-runtime.js
+  10293:13  error  Definition for rule 'regexp/strict' was not found                                     regexp/strict
+  13105:11  error  Definition for rule 'regexp/no-dupe-characters-character-class' was not found         regexp/no-dupe-characters-character-class
+  15392:7   error  Definition for rule '@typescript-eslint/no-unnecessary-condition' was not found       @typescript-eslint/no-unnecessary-condition
+  15483:7   error  Definition for rule '@typescript-eslint/no-unnecessary-condition' was not found       @typescript-eslint/no-unnecessary-condition
+  15485:9   error  Definition for rule '@typescript-eslint/no-non-null-assertion' was not found          @typescript-eslint/no-non-null-assertion
+  31081:5   error  Definition for rule 'react-hooks/exhaustive-deps' was not found                       react-hooks/exhaustive-deps
+  31105:5   error  Definition for rule 'react-hooks/exhaustive-deps' was not found                       react-hooks/exhaustive-deps
+  52799:7   error  Definition for rule '@typescript-eslint/restrict-template-expressions' was not found  @typescript-eslint/restrict-template-expressions
+  53302:9   error  Definition for rule '@typescript-eslint/no-non-null-assertion' was not found          @typescript-eslint/no-non-null-assertion
+  61865:5   error  Definition for rule 'jsx-a11y/anchor-has-content' was not found                       jsx-a11y/anchor-has-content
+  72259:3   error  Definition for rule '@typescript-eslint/no-unused-vars' was not found                 @typescript-eslint/no-unused-vars
+  75491:7   error  Definition for rule 'react-hooks/rules-of-hooks' was not found                        react-hooks/rules-of-hooks
+
+C:\Users\jlc254\Music\devopssummit.africa-v3\storybook-static\sb-manager\runtime.js
+  11965:17  error  Definition for rule '@typescript-eslint/ban-ts-comment' was not found  @typescript-eslint/ban-ts-comment
+
+Γ£û 25 problems (13 errors, 12 warnings)
+
