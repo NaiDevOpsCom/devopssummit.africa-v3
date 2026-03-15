@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 💬 Ask a question or start a discussion
+    url: https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions
+    about: Not sure if this is a bug or a feature? Have a general question? Start a discussion instead.
+
+  - name: 🔒 Report a security vulnerability
+    url: mailto:TODO-security@devopssummit.africa
+    about: Do not open a public issue for security vulnerabilities. Email the team directly.
+
+  - name: 📖 Read the contributing guide
+    url: https://github.com/NaiDevOpsCom/devopssummit.africa-v3/blob/main/CONTRIBUTING.md
+    about: New contributor? Read the contributing guide before opening an issue.

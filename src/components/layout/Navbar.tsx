@@ -1,0 +1,205 @@
+import React, { useState, useEffect, useCallback } from "react";
+import { Menu, X } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const navLinks = [
+  { label: "Home", href: "#home", route: "/" },
+  { label: "About Us", href: "#about", route: "/about" },
+  { label: "Schedule", href: "#schedule", route: "/schedule" },
+  { label: "Sponsors", href: "#sponsors", route: "/sponsorship" },
+  { label: "Past Summits", href: "#past-summits", route: "/past-summits" },
+];
+
+const sectionIds = navLinks.map((l) => l.href.slice(1));
+
+const Navbar: React.FC = () => {
+  const [scrolled, setScrolled] = useState(() =>
+    typeof window !== "undefined" ? window.scrollY > 20 : false,
+  );
+  const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isHome = location.pathname === "/";
+
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 20);
+
+    if (!isHome) return;
+
+    const offset = window.innerHeight * 0.35;
+    for (let i = sectionIds.length - 1; i >= 0; i--) {
+      const el = document.getElementById(sectionIds[i]);
+      if (el && el.getBoundingClientRect().top <= offset) {
+        setActiveSection(sectionIds[i]);
+        return;
+      }
+    }
+    setActiveSection("home");
+  }, [isHome]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Use requestAnimationFrame to avoid synchronous setState in effect warning
+    const rafId = requestAnimationFrame(() => handleScroll());
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, [handleScroll]);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, link: (typeof navLinks)[0]) => {
+    e.preventDefault();
+
+    // Standalone pages — navigate directly
+    if (
+      link.route === "/about" ||
+      link.route === "/schedule" ||
+      link.route === "/sponsorship" ||
+      link.route === "/past-summits"
+    ) {
+      navigate(link.route);
+      setOpen(false);
+      return;
+    }
+
+    // If on home page, smooth scroll
+    if (isHome) {
+      const id = link.href.slice(1);
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Navigate home then scroll
+      navigate(link.route);
+    }
+    setOpen(false);
+  };
+
+  const isActive = (link: (typeof navLinks)[0]) => {
+    if (link.route === "/about") return location.pathname === "/about";
+    if (link.route === "/schedule") return location.pathname === "/schedule";
+    if (link.route === "/sponsorship") return location.pathname === "/sponsorship";
+    if (link.route === "/past-summits") return location.pathname === "/past-summits";
+    if (!isHome) return false;
+    return activeSection === link.href.slice(1);
+  };
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
+      }`}
+      aria-label="Main navigation"
+    >
+      <div className="max-w-7xl mx-auto section-padding flex items-center justify-between h-16 md:h-20">
+        <a
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/");
+            setOpen(false);
+          }}
+          className="flex items-center gap-2"
+          aria-label="Africa DevOps Summit home"
+        >
+          <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
+            <span className="text-primary-foreground font-heading font-bold text-xs">ADS</span>
+          </div>
+          <span
+            className={`font-heading font-bold text-sm hidden sm:inline ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
+          >
+            AFRICA DEVOPS SUMMIT
+          </span>
+        </a>
+
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((l) => {
+            const active = isActive(l);
+            return (
+              <a
+                key={l.label}
+                href={l.route}
+                onClick={(e) => handleClick(e, l)}
+                className={`text-sm font-medium transition-colors hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:origin-right after:transition-transform hover:after:scale-x-100 hover:after:origin-left ${
+                  active
+                    ? "text-primary after:scale-x-100 after:origin-left"
+                    : `after:scale-x-0 ${scrolled ? "text-foreground" : "text-primary-foreground"}`
+                }`}
+              >
+                {l.label}
+              </a>
+            );
+          })}
+        </div>
+
+        <div className="flex items-center gap-3">
+          <a
+            href="/#tickets"
+            onClick={(e) => {
+              e.preventDefault();
+              if (isHome) {
+                document.getElementById("tickets")?.scrollIntoView({ behavior: "smooth" });
+              } else {
+                navigate("/#tickets");
+              }
+            }}
+            className="hidden md:inline-flex px-6 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+            aria-label="Get a ticket"
+          >
+            Get a Ticket
+          </a>
+          <button
+            className="md:hidden p-2"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close menu" : "Open menu"}
+          >
+            {open ? (
+              <X className={scrolled ? "text-foreground" : "text-primary-foreground"} />
+            ) : (
+              <Menu className={scrolled ? "text-foreground" : "text-primary-foreground"} />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border">
+          <div className="flex flex-col p-6 gap-4">
+            {navLinks.map((l) => {
+              const active = isActive(l);
+              return (
+                <a
+                  key={l.label}
+                  href={l.route}
+                  className={`font-medium text-base transition-colors ${active ? "text-primary" : "text-foreground hover:text-primary"}`}
+                  onClick={(e) => handleClick(e, l)}
+                >
+                  {l.label}
+                </a>
+              );
+            })}
+            <a
+              href="/#tickets"
+              className="mt-2 inline-flex justify-center px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold"
+              onClick={(e) => {
+                e.preventDefault();
+                if (isHome) {
+                  document.getElementById("tickets")?.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  navigate("/#tickets");
+                }
+                setOpen(false);
+              }}
+            >
+              Get a Ticket
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;
