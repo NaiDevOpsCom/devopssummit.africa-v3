@@ -29,3 +29,5 @@ src/data/gallery.generated.json
 *.njsproj
 *.sln
 *.sw?
+
+storybook-static
