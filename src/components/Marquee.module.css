@@ -55,11 +55,6 @@
   }
 }
 
-/* Pause on hover if enabled */
-.pauseOnHover:hover .marqueeTrack {
-  animation-play-state: paused;
-}
-
 /* Bonus: Skew support */
 .skewed {
   transform: skewY(-2deg);

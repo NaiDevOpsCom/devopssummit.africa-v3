@@ -1,5 +1,5 @@
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useAnimate } from "framer-motion";
 import styles from "./Marquee.module.css";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +39,8 @@ export const Marquee: React.FC<MarqueeProps> = ({
   skew = false,
 }) => {
   const shouldReduceMotion = useReducedMotion();
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [scope, animate] = useAnimate();
 
   // Normalize speed value
   const normalizedSpeed = shouldReduceMotion ? 0 : Math.max(1, Number(speed) || 30);
@@ -49,26 +51,43 @@ export const Marquee: React.FC<MarqueeProps> = ({
     [items],
   );
 
+  React.useEffect(() => {
+    if (shouldReduceMotion || !items || items.length === 0) return;
+
+    const animation = animate(
+      scope.current,
+      { x: direction === "left" ? [0, "-50%"] : ["-50%", 0] },
+      {
+        duration: normalizedSpeed,
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop",
+      },
+    );
+
+    if (isHovered && pauseOnHover) {
+      animation.pause();
+    } else {
+      animation.play();
+    }
+
+    return () => animation.stop();
+  }, [
+    isHovered,
+    direction,
+    normalizedSpeed,
+    pauseOnHover,
+    shouldReduceMotion,
+    items,
+    animate,
+    scope,
+  ]);
+
   // Defensive guard for empty items
   if (!items || items.length === 0) return null;
 
   // Duplicate items to ensure a seamless loop
   const displayItems = [...itemsWithIds, ...itemsWithIds];
-
-  // Animation variants
-  const marqueeVariants = {
-    animate: {
-      x: shouldReduceMotion ? 0 : direction === "left" ? [0, "-50%"] : ["-50%", 0],
-      transition: {
-        x: {
-          repeat: shouldReduceMotion ? 0 : Infinity,
-          repeatType: "loop" as const,
-          duration: shouldReduceMotion ? 0 : normalizedSpeed,
-          ease: "linear" as const,
-        },
-      },
-    },
-  };
 
   return (
     <section
@@ -80,8 +99,10 @@ export const Marquee: React.FC<MarqueeProps> = ({
         className,
       )}
       aria-label={ariaLabel || "Infinite scrolling marquee"}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div className={styles.marqueeTrack} variants={marqueeVariants} animate="animate">
+      <motion.div ref={scope} className={styles.marqueeTrack}>
         {displayItems.map((item, index) => (
           <span
             key={item.id + (index >= itemsWithIds.length ? "-dup" : "")}
