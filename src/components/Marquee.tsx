@@ -67,12 +67,18 @@ export const Marquee: React.FC<MarqueeProps> = ({
       },
     );
 
+    // Ensure the new animation instance respects the current pause state
+    if (isHovered && pauseOnHover) {
+      animationRef.current.pause();
+    }
+
     return () => {
       if (animationRef.current) {
         animationRef.current.stop();
         animationRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [direction, normalizedSpeed, shouldReduceMotion, items, animate, scope]);
 
   // Handle play/pause without recreating the animation
