@@ -1,5 +1,5 @@
 import React from "react";
-import { motion, useReducedMotion, useAnimate } from "framer-motion";
+import { motion, useReducedMotion, useAnimate, AnimationPlaybackControls } from "framer-motion";
 import styles from "./Marquee.module.css";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +41,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = React.useState(false);
   const [scope, animate] = useAnimate();
+  const animationRef = React.useRef<AnimationPlaybackControls | null>(null);
 
   // Normalize speed value
   const normalizedSpeed = shouldReduceMotion ? 0 : Math.max(1, Number(speed) || 30);
@@ -51,10 +52,11 @@ export const Marquee: React.FC<MarqueeProps> = ({
     [items],
   );
 
+  // Handle animation lifecycle (creation and cleanup)
   React.useEffect(() => {
     if (shouldReduceMotion || !items || items.length === 0) return;
 
-    const animation = animate(
+    animationRef.current = animate(
       scope.current,
       { x: direction === "left" ? [0, "-50%"] : ["-50%", 0] },
       {
@@ -65,23 +67,24 @@ export const Marquee: React.FC<MarqueeProps> = ({
       },
     );
 
-    if (isHovered && pauseOnHover) {
-      animation.pause();
-    } else {
-      animation.play();
-    }
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.stop();
+        animationRef.current = null;
+      }
+    };
+  }, [direction, normalizedSpeed, shouldReduceMotion, items, animate, scope]);
 
-    return () => animation.stop();
-  }, [
-    isHovered,
-    direction,
-    normalizedSpeed,
-    pauseOnHover,
-    shouldReduceMotion,
-    items,
-    animate,
-    scope,
-  ]);
+  // Handle play/pause without recreating the animation
+  React.useEffect(() => {
+    if (!animationRef.current) return;
+
+    if (isHovered && pauseOnHover) {
+      animationRef.current.pause();
+    } else {
+      animationRef.current.play();
+    }
+  }, [isHovered, pauseOnHover]);
 
   // Defensive guard for empty items
   if (!items || items.length === 0) return null;
