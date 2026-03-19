@@ -46,6 +46,11 @@ html {
     --sponsor-bg: 203 100% 92%;
     --sponsor-card: 217 91% 64%;
     --sponsor-deck-btn: 217 62% 78%;
+    --color-bg-primary: hsl(var(--background));
+    --color-bg-accent: hsl(var(--accent));
+    --color-text-primary: hsl(var(--foreground));
+    --color-text-inverse: hsl(var(--primary-foreground));
+    --color-border-muted: hsl(var(--border));
   }
 }
 
