@@ -10,7 +10,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-build-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 
-[🌐 Live Site](https://devopssummit.africa) · [📋 PRD](./PRD.md) · [🤝 Contributing](./CONTRIBUTING.md) · [🐛 Report a Bug](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=bug_report.md) · [💡 Request a Feature](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=feature_request.md)
+[🌐 Live Site](https://devopssummit.africa) · [📋 PRD](./docs/prd.md) · [🤝 Contributing](./docs/contributing.md) · [🐛 Report a Bug](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=bug_report.md) · [💡 Request a Feature](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=feature_request.md)
 
 <!-- TODO: Replace with an actual screenshot or banner image of the site -->
 <!-- ![Africa DevOps Summit Screenshot](./public/assets/og-image.png) -->
@@ -101,17 +101,17 @@ devopssummit.africa-v3/
 
 Make sure you have the following installed before proceeding.
 
-**Node.js** — version **18 or higher** is required.
+**Node.js** — version **24 or higher** is required.
 
 We recommend managing Node versions with [nvm](https://github.com/nvm-sh/nvm):
 
 ```sh
 # Install the required Node version
-nvm install 18
-nvm use 18
+nvm install 24
+nvm use 24
 
 # Verify
-node --version   # should print v18.x.x or higher
+node --version   # should print v24.x.x or higher
 npm --version
 ```
 

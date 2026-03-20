@@ -37,8 +37,13 @@ export const validateEnv = (): void => {
     { pattern: /^SK[a-f0-9]{32}$/, name: "Twilio API Secret" },
   ];
 
+  // Whitelist safe variables that might match dangerous patterns (e.g., Git SHAs)
+  const safeVariables = new Set(["VITE_VERCEL_GIT_COMMIT_SHA", "VITE_GIT_COMMIT_SHA"]);
+
   Object.entries(import.meta.env).forEach(([key, value]) => {
     if (!key.startsWith("VITE_")) return;
+    if (safeVariables.has(key)) return;
+
     dangerousPatterns.forEach(({ pattern, name }) => {
       if (pattern.test(String(value))) {
         errors.push(
