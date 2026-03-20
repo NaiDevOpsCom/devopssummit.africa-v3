@@ -48,12 +48,12 @@ You don't need to write code to contribute. Here are all the ways you can help:
 
 Make sure you have the following installed before starting:
 
-- **Node.js ≥ 24.x** — required. We recommend managing versions with [nvm](https://github.com/nvm-sh/nvm):
+- **Node.js ≥ 20.x** — required. We recommend managing versions with [nvm](https://github.com/nvm-sh/nvm):
 
   ```sh
-  nvm install 24
-  nvm use 24
-  node --version  # should print v24.x.x or higher
+  nvm install 20
+  nvm use 20
+  node --version  # should print v20.x.x or higher
   ```
 
 - **npm** — comes bundled with Node.js
