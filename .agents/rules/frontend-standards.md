@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Frontend Development Standards
 
 This document establishes the performance, quality, and resilience standards for the Africa DevOps Summit Hub. Agents and developers should adhere to these guidelines to maintain a high-quality codebase.
