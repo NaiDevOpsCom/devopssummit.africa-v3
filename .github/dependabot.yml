@@ -1,26 +1,29 @@
-# .github/dependabot.yml
-# Dependabot configuration for React TypeScript application
-# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
 version: 2
 
 updates:
-  # ── NPM: React / TypeScript application ──────────────────────────────────
   - package-ecosystem: "npm"
     directory: "/"
+
     schedule:
       interval: "weekly"
       day: "monday"
       time: "06:00"
       timezone: "UTC"
 
-    # Limit open PRs to avoid noise — security PRs always bypass this
     open-pull-requests-limit: 10
-
-    # Target branch (change if your default branch differs)
     target-branch: "main"
 
-    # Group non-breaking updates into a single PR to reduce noise
+    # ✅ ONLY allow direct dependencies (reduces random breakage)
+    allow:
+      - dependency-type: "direct"
+
+    # ✅ BLOCK all major updates globally (not just React)
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+
+    # ✅ Group ONLY safe updates
     groups:
       react-ecosystem:
         patterns:
@@ -70,37 +73,19 @@ updates:
           - "minor"
           - "patch"
 
-    # Labels applied to all Dependabot PRs for easy filtering
     labels:
       - "dependencies"
       - "automated"
 
-    # Security-specific: keep major version bumps as individual PRs
-    # so they get dedicated review — do NOT group them
-    ignore:
-      # Pin these: major bumps require intentional migration
-      - dependency-name: "react"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "react-dom"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "typescript"
-        update-types: ["version-update:semver-major"]
-
-    # Commit message conventions (keeps git history clean)
     commit-message:
       prefix: "chore(deps)"
       prefix-development: "chore(deps-dev)"
       include: "scope"
 
-    # Optional: assign a reviewer / team for security-sensitive PRs
-    # reviewers:
-    #   - "your-security-team"
-    # assignees:
-    #   - "your-github-username"
-
-  # ── GitHub Actions: keep CI/CD pipeline dependencies patched ─────────────
+  # ── GitHub Actions ───────────────────────────────────────────────────────
   - package-ecosystem: "github-actions"
     directory: "/"
+
     schedule:
       interval: "weekly"
       day: "monday"
@@ -108,6 +93,12 @@ updates:
       timezone: "UTC"
 
     open-pull-requests-limit: 5
+
+    # ✅ Also block major updates for actions
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
 
     groups:
       github-actions:

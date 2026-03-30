@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Frontend Development Standards
 
 This document establishes the performance, quality, and resilience standards for the Africa DevOps Summit Hub. Agents and developers should adhere to these guidelines to maintain a high-quality codebase.
@@ -16,7 +20,7 @@ This document establishes the performance, quality, and resilience standards for
 
 ### Lazy Loading
 - **Page Level**: All pages MUST be lazy-loaded in `App.tsx`.
-- **Component Level**: Large, non-critical components (e.g., heavy carousels) should be lazy-loaded and wrapped in `Suspense`.
+- **Component Level**: Large, non-critical components that meet objective thresholds (e.g., bundle size >50KB, initial render time >100ms, DOM node count >300) should be lazy-loaded and wrapped in `Suspense`. Measure using Vite/Rollup visualizer for bundle size, React Profiler/Lighthouse for render time, and DOM inspector for node count. We recommend automated checks in CI using these tools.
 
 ## 2. Code Quality & Standards
 
@@ -77,7 +81,7 @@ Maintaining up-to-date documentation is critical for project health and long-ter
     - **Security Updates**: Document in `docs/security.md`.
     - **ImageKit/Asset Changes**: Update `docs/imagekit.md` for ImageKit config changes, `docs/imagekit-gallery.md` for gallery UI/usage changes, and both when applicable.
 - **Format**: Documentation should be clear, concise, and follow the existing patterns in the `docs/` directory.
-- **Knowledge Base**: Updates to internal standards should be reflected here in `.agents/instructions/frontend_standards.md`.
+- **Knowledge Base**: Updates to internal standards should be reflected here in `.agents/rules/frontend-standards.md`.
 
 ## 6. Security & XSS Prevention
 
