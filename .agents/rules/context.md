@@ -33,7 +33,7 @@ The **Africa DevOps Summit** website (`devopssummit.africa`) is Africa's premier
 | Styling | Tailwind CSS | 4.x | Utility-first. Semantic tokens only. No raw color values. |
 | UI Components | shadcn/ui | Latest | Built on Radix UI. Generated into `src/components/ui/`. |
 | Animations | Framer Motion | Latest | `fadeUp` variant pattern. Respect `prefers-reduced-motion`. |
-| Routing | React Router | v7 | Client-side SPA routing. `<Link>` and `useNavigate` only. Imports come from `react-router` not `react-router-dom`. |
+| Routing | React Router DOM | v7 | Client-side SPA routing. `<Link>` and `useNavigate` only. Imports come from `react-router-dom`. |
 | Icons | Lucide React | Latest | Import individually. Never import the entire library. |
 | Fonts | Sora + Inter | — | Via Google Fonts. `font-heading` = Sora. `font-body` = Inter. |
 | Sanitization | DOMPurify | Latest | Via `SafeHtml` component. Never use `dangerouslySetInnerHTML` directly. |
