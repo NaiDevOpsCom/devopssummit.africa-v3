@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 import { visualizer } from "rollup-plugin-visualizer";
 import { compression } from "vite-plugin-compression2";
 import { VitePWA } from "vite-plugin-pwa";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -16,6 +17,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [
+    tailwindcss(),
     react(),
     mode === "development" && componentTagger(),
     (process.env.ANALYZE === "true" || mode === "analysis") &&
@@ -80,27 +82,12 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   build: {
     rollupOptions: {
-      output: {
-        manualChunks: {
-          "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-ui": [
-            "framer-motion",
-            "lucide-react",
-            "@radix-ui/react-slot",
-            "clsx",
-            "tailwind-merge",
-          ],
-          "vendor-query": ["@tanstack/react-query"],
-        },
-      },
+      output: {},
     },
     target: "esnext",
-    minify: "esbuild",
+    minify: "oxc",
     cssMinify: true,
     sourcemap: false,
-  },
-  esbuild: {
-    pure: mode === "production" ? ["console.log", "console.debug"] : [],
   },
   resolve: {
     alias: {

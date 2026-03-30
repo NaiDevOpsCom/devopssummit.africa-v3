@@ -47,7 +47,7 @@ Do not suggest, install, or reference any of the following — they are not used
 - ❌ Redux, Zustand, Jotai, MobX — no global state library; use React `useState`
 - ❌ Axios — use native `fetch` or React Query
 - ❌ Styled Components, CSS Modules, Emotion — Tailwind only
-- ❌ Jest — confirm testing framework before generating test files (see Section 11)
+- ❌ Jest — use Vitest as the testing framework (see Section 11)
 - ❌ Express, Fastify, any server framework — there is no backend
 - ❌ Prisma, Mongoose, any ORM — there is no database
 - ❌ `next/image`, `next/link`, `next/router` — wrong framework
@@ -59,8 +59,9 @@ Do not suggest, install, or reference any of the following — they are not used
 
 ```
 devopssummit.africa-v3/
-├── agents/
-│   └── CONTEXT.md               ← YOU ARE HERE — single source of truth for agents
+├── .agents/
+│   └── rules/
+│       └── context.md               ← YOU ARE HERE — single source of truth for agents
 │
 ├── .github/
 │   ├── PULL_REQUEST_TEMPLATE.md
@@ -309,4 +310,26 @@ interface SpeakerCardProps {
 }
 
 export default function SpeakerCard({ name, designation, imageUrl }: SpeakerCardProps) {
-  return ( /*
+  return (
+    <div className="flex flex-col overflow-hidden rounded-lg bg-card-dark border border-border">
+      {imageUrl && (
+        <div className="aspect-w-1 aspect-h-1 w-full bg-muted">
+          <img src={imageUrl} alt={name} className="h-full w-full object-cover" />
+        </div>
+      )}
+      <div className="p-4 flex flex-col gap-1">
+        <h3 className="font-heading font-semibold text-lg text-foreground">{name}</h3>
+        {designation && <p className="font-body text-sm text-muted-foreground">{designation}</p>}
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+## 11. Testing
+
+- **Framework**: Use `Vitest` (not Jest) for all unit, hook, and utility tests. Vitest is configured in the repository and runs seamlessly via Vite.
+- **Location**: Test files should be placed inside the `src/test/` directory or alongside components with `.test.tsx` or `.test.ts` extension.
+- **Utilities**: Make use of React Testing Library for component-level tests.
