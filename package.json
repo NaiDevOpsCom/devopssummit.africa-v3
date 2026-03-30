@@ -115,7 +115,7 @@
     "eslint-plugin-no-unsanitized": "^4.1.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
-    "eslint-plugin-storybook": "^10.2.19",
+    "eslint-plugin-storybook": "^10.3.3",
     "globals": "^17.4.0",
     "jsdom": "^29.0.0",
     "lovable-tagger": "^1.1.13",
