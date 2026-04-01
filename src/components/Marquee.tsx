@@ -1,6 +1,5 @@
 import React from "react";
-import { motion, useReducedMotion, useAnimate, AnimationPlaybackControls } from "framer-motion";
-import styles from "./Marquee.module.css";
+import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -26,7 +25,10 @@ interface MarqueeProps {
 }
 
 /**
- * A reusable, accessible, and performant infinite marquee component built with Framer Motion.
+ * A reusable, accessible, and performant infinite marquee component.
+ *
+ * Uses CSS keyframe animations for smooth, GPU-accelerated scrolling.
+ * Respects `prefers-reduced-motion` via Framer Motion's `useReducedMotion` hook.
  */
 export const Marquee: React.FC<MarqueeProps> = ({
   items,
@@ -39,58 +41,13 @@ export const Marquee: React.FC<MarqueeProps> = ({
   skew = false,
 }) => {
   const shouldReduceMotion = useReducedMotion();
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [scope, animate] = useAnimate();
-  const animationRef = React.useRef<AnimationPlaybackControls | null>(null);
 
-  // Normalize speed value
-  const normalizedSpeed = shouldReduceMotion ? 0 : Math.max(1, Number(speed) || 30);
+  const normalizedSpeed = Math.max(1, Number(speed) || 30);
 
-  // Map items to stable objects for better reconciliation
   const itemsWithIds = React.useMemo(
     () => (items || []).map((item, index) => ({ id: `${item}-${index}`, value: item })),
     [items],
   );
-
-  // Handle animation lifecycle (creation and cleanup)
-  React.useEffect(() => {
-    if (shouldReduceMotion || !items || items.length === 0) return;
-
-    animationRef.current = animate(
-      scope.current,
-      { x: direction === "left" ? [0, "-50%"] : ["-50%", 0] },
-      {
-        duration: normalizedSpeed,
-        ease: "linear",
-        repeat: Infinity,
-        repeatType: "loop",
-      },
-    );
-
-    // Ensure the new animation instance respects the current pause state
-    if (isHovered && pauseOnHover) {
-      animationRef.current.pause();
-    }
-
-    return () => {
-      if (animationRef.current) {
-        animationRef.current.stop();
-        animationRef.current = null;
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [direction, normalizedSpeed, shouldReduceMotion, items, animate, scope]);
-
-  // Handle play/pause without recreating the animation
-  React.useEffect(() => {
-    if (!animationRef.current) return;
-
-    if (isHovered && pauseOnHover) {
-      animationRef.current.pause();
-    } else {
-      animationRef.current.play();
-    }
-  }, [isHovered, pauseOnHover]);
 
   // Defensive guard for empty items
   if (!items || items.length === 0) return null;
@@ -98,30 +55,40 @@ export const Marquee: React.FC<MarqueeProps> = ({
   // Duplicate items to ensure a seamless loop
   const displayItems = [...itemsWithIds, ...itemsWithIds];
 
+  const animationName = direction === "left" ? "marquee-scroll-left" : "marquee-scroll-right";
+  const isPaused = shouldReduceMotion === true;
+
   return (
     <section
       className={cn(
-        styles.marqueeContainer,
-        withFade && styles.withFade,
-        skew && styles.skewed,
-        pauseOnHover && styles.pauseOnHover,
+        "marquee-container",
+        withFade && "marquee-with-fade",
+        skew && "marquee-skewed",
+        pauseOnHover && "marquee-pause-on-hover",
         className,
       )}
       aria-label={ariaLabel || "Infinite scrolling marquee"}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div ref={scope} className={styles.marqueeTrack}>
+      <div
+        className="marquee-track"
+        style={{
+          animationName,
+          animationDuration: `${normalizedSpeed}s`,
+          animationTimingFunction: "linear",
+          animationIterationCount: "infinite",
+          animationPlayState: isPaused ? "paused" : "running",
+        }}
+      >
         {displayItems.map((item, index) => (
           <span
             key={item.id + (index >= itemsWithIds.length ? "-dup" : "")}
-            className={styles.marqueeItem}
+            className="marquee-item"
             aria-hidden={index >= itemsWithIds.length}
           >
             {item.value}
           </span>
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 };
