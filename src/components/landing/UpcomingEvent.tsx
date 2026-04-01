@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Calendar, Video } from "lucide-react";
 import { SafeLink } from "@/components/SafeLink";
+import { summitDetails } from "@/data/summitData";
 
 const BACKGROUND_IMAGES = [
   "https://ik.imagekit.io/nairobidevops/ads2025/IMG_6554.JPG",
@@ -116,13 +117,13 @@ const UpcomingEvent: React.FC = () => {
 
           <div className="flex flex-wrap justify-center gap-6 mb-12 text-sm md:text-base font-semibold text-gray-200">
             <SafeLink
-              href="https://www.google.com/maps/place/Nairobi,+Kenya"
+              href={summitDetails.mapLink}
               className="flex items-center gap-2 hover:text-primary transition-colors bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10"
             >
-              <MapPin className="w-5 h-5 text-primary" /> Nairobi, Kenya
+              <MapPin className="w-5 h-5 text-primary" /> {summitDetails.location}
             </SafeLink>
             <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-              <Calendar className="w-5 h-5 text-primary" /> November 20–21, 2026
+              <Calendar className="w-5 h-5 text-primary" /> {summitDetails.date}
             </div>
             <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
               <Video className="w-5 h-5 text-primary" /> In-Person

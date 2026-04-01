@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { summitDetails } from "@/data/summitData";
 
-const EVENT_DATE = new Date("2026-11-20T09:00:00").getTime();
+const _parsedDate = Date.parse(summitDetails.datetime);
+/** Falls back to Date.now() if datetime is missing or malformed, preventing NaN in countdown math. */
+const EVENT_DATE = isNaN(_parsedDate) ? null : _parsedDate;
 
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   useEffect(() => {
+    if (EVENT_DATE === null) return; // no valid date — leave zeros, show fallback message
     const tick = () => {
       const diff = Math.max(EVENT_DATE - Date.now(), 0);
       setTimeLeft({
@@ -147,16 +151,17 @@ const Hero: React.FC = () => {
             className="flex flex-wrap items-center gap-3 mb-6"
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-medium border border-primary/30">
-              November 20–21, 2026. Nairobi, Kenya.
+              {summitDetails.date}.{" "}
+              <a
+                href={summitDetails.mapLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline transition-all cursor-pointer"
+              >
+                {summitDetails.location}
+              </a>
+              .
             </span>
-            {/* <a
-              href="https://www.google.com/maps/place/Nairobi,+Kenya"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-medium border border-primary/30 hover:bg-primary/30 transition-colors"
-            >
-              📍 Nairobi, Kenya
-            </a> */}
             <span className="text-sm font-medium text-primary/70 tracking-wide">#ADS2026</span>
             <span className="text-sm font-medium text-primary/70 tracking-wide">#ADSummit2026</span>
           </motion.div>
@@ -190,19 +195,25 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="flex flex-wrap gap-4 sm:gap-6 md:gap-8 mb-10"
           >
-            <CountdownUnit value={days} label="Days" />
-            <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary/40 self-start">
-              :
-            </span>
-            <CountdownUnit value={hours} label="Hours" />
-            <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary/40 self-start">
-              :
-            </span>
-            <CountdownUnit value={minutes} label="Min" />
-            <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary/40 self-start">
-              :
-            </span>
-            <CountdownUnit value={seconds} label="Sec" />
+            {EVENT_DATE === null ? (
+              <p className="text-muted-foreground text-sm">Event date coming soon — stay tuned!</p>
+            ) : (
+              <>
+                <CountdownUnit value={days} label="Days" />
+                <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary/40 self-start">
+                  :
+                </span>
+                <CountdownUnit value={hours} label="Hours" />
+                <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary/40 self-start">
+                  :
+                </span>
+                <CountdownUnit value={minutes} label="Min" />
+                <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary/40 self-start">
+                  :
+                </span>
+                <CountdownUnit value={seconds} label="Sec" />
+              </>
+            )}
           </motion.div>
 
           <motion.div
@@ -213,14 +224,16 @@ const Hero: React.FC = () => {
           >
             <Link
               to="/sponsorship#packages"
-              className="px-7 py-3 rounded-full border-2 border-primary-foreground/40 text-primary-foreground font-semibold text-sm hover:bg-primary-foreground/10 transition-colors"
+              className="px-7 py-3 rounded-full border-2 border-primary bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 hover:border-primary/90 transition-all text-center"
               aria-label="Become a Sponsor"
             >
               Become a Sponsor
             </Link>
             <a
-              href="#"
-              className="px-7 py-3 rounded-full border-2 border-primary-foreground/40 text-primary-foreground font-semibold text-sm hover:bg-primary-foreground/10 transition-colors"
+              href="https://talks.nairobidevops.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-7 py-3 rounded-full border-2 border-white/40 bg-transparent text-white font-semibold text-sm hover:bg-white hover:text-black transition-all text-center"
               aria-label="Become a Speaker"
             >
               Become a Speaker
