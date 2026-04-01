@@ -1,6 +1,5 @@
 import React from "react";
-import { motion, useReducedMotion, useAnimate, AnimationPlaybackControls } from "framer-motion";
-import styles from "./Marquee.module.css";
+import { motion, useAnimate, useReducedMotion, AnimationPlaybackControls } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -38,13 +37,13 @@ export const Marquee: React.FC<MarqueeProps> = ({
   withFade = true,
   skew = false,
 }) => {
-  const shouldReduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = React.useState(false);
   const [scope, animate] = useAnimate();
   const animationRef = React.useRef<AnimationPlaybackControls | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
-  // Normalize speed value
-  const normalizedSpeed = shouldReduceMotion ? 0 : Math.max(1, Number(speed) || 30);
+  // Always compute the real speed — reduced motion is handled by skipping the animation effect
+  const normalizedSpeed = Math.max(1, Number(speed) || 30);
 
   // Map items to stable objects for better reconciliation
   const itemsWithIds = React.useMemo(
@@ -53,8 +52,11 @@ export const Marquee: React.FC<MarqueeProps> = ({
   );
 
   // Handle animation lifecycle (creation and cleanup)
+  // NOTE: shouldReduceMotion is intentionally excluded from this effect's deps.
+  // Reduced motion is handled by the play/pause effect below, which pauses the
+  // animation without tearing it down — avoiding a stop/no-restart race condition.
   React.useEffect(() => {
-    if (shouldReduceMotion || !items || items.length === 0) return;
+    if (!items || items.length === 0) return;
 
     animationRef.current = animate(
       scope.current,
@@ -79,18 +81,18 @@ export const Marquee: React.FC<MarqueeProps> = ({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [direction, normalizedSpeed, shouldReduceMotion, items, animate, scope]);
+  }, [direction, normalizedSpeed, items, animate, scope]);
 
-  // Handle play/pause without recreating the animation
+  // Handle play/pause for hover state AND prefers-reduced-motion
   React.useEffect(() => {
     if (!animationRef.current) return;
 
-    if (isHovered && pauseOnHover) {
+    if ((isHovered && pauseOnHover) || shouldReduceMotion === true) {
       animationRef.current.pause();
     } else {
       animationRef.current.play();
     }
-  }, [isHovered, pauseOnHover]);
+  }, [isHovered, pauseOnHover, shouldReduceMotion]);
 
   // Defensive guard for empty items
   if (!items || items.length === 0) return null;
@@ -101,21 +103,21 @@ export const Marquee: React.FC<MarqueeProps> = ({
   return (
     <section
       className={cn(
-        styles.marqueeContainer,
-        withFade && styles.withFade,
-        skew && styles.skewed,
-        pauseOnHover && styles.pauseOnHover,
+        "marquee-container",
+        withFade && "marquee-with-fade",
+        skew && "marquee-skewed",
+        pauseOnHover && "pause-on-hover",
         className,
       )}
       aria-label={ariaLabel || "Infinite scrolling marquee"}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div ref={scope} className={styles.marqueeTrack}>
+      <motion.div ref={scope} className="marquee-track">
         {displayItems.map((item, index) => (
           <span
             key={item.id + (index >= itemsWithIds.length ? "-dup" : "")}
-            className={styles.marqueeItem}
+            className="marquee-item"
             aria-hidden={index >= itemsWithIds.length}
           >
             {item.value}
