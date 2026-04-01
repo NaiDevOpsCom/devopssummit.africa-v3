@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { summitDetails } from "@/data/summitData";
 
 const _parsedDate = Date.parse(summitDetails.datetime);
-/** Falls back to Date.now() if datetime is missing or malformed, preventing NaN in countdown math. */
+/** Falls back to `null` if datetime is missing or malformed, disabling the countdown and showing a fallback message. */
 const EVENT_DATE = isNaN(_parsedDate) ? null : _parsedDate;
 
 function useCountdown() {
