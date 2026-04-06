@@ -97,7 +97,7 @@ Closes #<!-- issue number -->
 - [ ] `npm run lint` passes with no new warnings
 - [ ] `npm run typecheck` passes with no TypeScript errors
 - [ ] No `console.log`, commented-out code, or debug artifacts left in
-- [ ] Branch is up to date with `main`
+- [ ] Branch is up to date with `staging`
 - [ ] PR title follows Conventional Commits format (e.g. `feat: add speaker search filter`)
 
 ### Required for UI changes
