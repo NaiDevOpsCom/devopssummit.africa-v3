@@ -101,17 +101,17 @@ devopssummit.africa-v3/
 
 Make sure you have the following installed before proceeding.
 
-**Node.js** — version **24 or higher** is required.
+**Node.js** — version **^20.19.0** or **>=22.12.0** is required.
 
 We recommend managing Node versions with [nvm](https://github.com/nvm-sh/nvm):
 
 ```sh
 # Install the required Node version
-nvm install 24
-nvm use 24
+nvm install 22
+nvm use 22
 
 # Verify
-node --version   # should print v24.x.x or higher
+node --version   # should print v22.x.x or higher
 npm --version
 ```
 
