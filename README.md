@@ -187,10 +187,10 @@ Contributions are what make this project — and the African DevOps community �
 
 ### Quick contribution steps
 
-1. Clone the repo and create a branch off `main` using the naming convention: `feat/your-feature-name`
+1. Clone the repo and create a branch off `staging` using the naming convention: `feat/your-feature-name`
 2. Make your changes — follow the code standards in [CONTRIBUTING.md](./CONTRIBUTING.md)
 3. Run `npm run build` and `npm run lint` — both must pass
-4. Open a pull request against `main` with a clear description and screenshots for any UI changes
+4. Open a pull request against `staging` with a clear description and screenshots for any UI changes
 
 Not sure what to work on? [Browse open issues](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues) or [start a discussion](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions) — the team is happy to point you in the right direction.
 
@@ -221,9 +221,9 @@ Please read [**CONTRIBUTING.md**](./CONTRIBUTING.md) for the full guide includin
 The Africa DevOps Summit is organised by the **Nairobi DevOps Community** — a grassroots community of DevOps practitioners across Africa.
 
 - 🌐 Website: [devopssummit.africa](https://devopssummit.africa)
-- 🐦 Twitter / X: [`TODO: @handle`](https://twitter.com/TODO)
-- 💼 LinkedIn: [`TODO: LinkedIn page`](https://linkedin.com/TODO)
-- 💬 Community chat: `TODO: Link to Discord / Slack / WhatsApp community`
+- 🐦 Twitter / X: [`@AfDevOpsSummit`](https://x.com/AfDevOpsSummit)
+- 💼 LinkedIn: [`Africa DevOps Summit`](https://www.linkedin.com/company/africa-devops-summit/)
+- 💬 Community chat: [`Nairobi DevOps Community`](https://www.nairobidevops.com/community)
 - 📧 General enquiries: `TODO: hello@devopssummit.africa`
 
 ---
