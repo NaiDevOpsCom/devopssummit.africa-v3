@@ -16,8 +16,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-src/data/gallery*.json
-src/data/gallery*.ts
+src/data/gallery.generated.json
 *.local
 
 # Editor directories and files

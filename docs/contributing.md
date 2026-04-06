@@ -40,7 +40,7 @@ hotfix/* (Urgent)                                 └──o──┴───�
 
 ### Naming Conventions
 Use descriptive branch names with the following prefixes:
-- `feature/<name>` for new features or enhancements (e.g., `feature/speaker-cards`)
+- `feat/<name>` for new features or enhancements (e.g., `feat/speaker-cards`)
 - `fix/<name>` for bug fixes (e.g., `fix/navbar-mobile-menu`)
 - `chore/<name>` for tooling, config, or dependency updates (e.g., `chore/update-vite`)
 - `hotfix/<name>` for urgent production fixes branching from `main` (e.g., `hotfix/broken-payment-link`)
@@ -99,7 +99,7 @@ npm install
 
 2. **Create Your Branch:**
    ```bash
-   git checkout -b feature/your-feature-name
+   git checkout -b feat/your-feature-name
    ```
 
 3. **Develop and Commit:**

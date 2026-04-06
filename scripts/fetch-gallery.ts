@@ -4,10 +4,6 @@ import { config } from "dotenv";
 
 // Load env vars like Vite does
 config();
-if (process.env.SKIP_GALLERY_FETCH === "true") {
-  console.log("⏭️  Skipping gallery fetch (SKIP_GALLERY_FETCH=true)");
-  process.exit(0);
-}
 if (fs.existsSync(".env.local")) {
   config({ path: ".env.local", override: true });
 }
@@ -20,6 +16,11 @@ if (process.env.NODE_ENV) {
   if (fs.existsSync(envModeLocalPath)) {
     config({ path: envModeLocalPath, override: true });
   }
+}
+
+if (process.env.SKIP_GALLERY_FETCH === "true") {
+  console.log("⏭️  Skipping gallery fetch (SKIP_GALLERY_FETCH=true)");
+  process.exit(0);
 }
 
 // Use paths.ts correctly

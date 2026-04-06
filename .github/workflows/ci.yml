@@ -126,7 +126,7 @@ jobs:
         run: npm ci
 
       - name: Build (skip gallery fetch in CI)
-        run: npx vite build
+        run: npm run build:bundle
         env:
           # Provide stub env vars so build doesn't fail on missing vars
           VITE_APP_ENV: staging
