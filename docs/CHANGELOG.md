@@ -30,9 +30,7 @@ Move entries to a versioned release section when cutting a release.
 
 ### Removed
 
--
-
----
+- ***
 
 ## [0.3.0] — 2026-03-15
 
