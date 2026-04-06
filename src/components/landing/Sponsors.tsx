@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { sponsors } from "@/data/sponsors";
+import { summitDetails } from "@/data/summitData";
 
 const Sponsors: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -92,7 +93,11 @@ const Sponsors: React.FC = () => {
                 size="lg"
                 className="group px-10 py-4 rounded-full border-2 border-white text-white font-bold text-base hover:bg-white hover:text-primary transition-all"
               >
-                <a href="/deck.pdf" target="_blank" rel="noopener noreferrer">
+                <a
+                  href={summitDetails.sponsorshipDeckUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Download Sponsor Deck
                 </a>
               </Button>
