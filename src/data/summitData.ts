@@ -8,7 +8,7 @@
  * - src/components/landing/About.tsx: To display overarching summit stats.
  */
 
-import { Stat } from "@/types";
+import { type Stat } from "@/types";
 
 /**
  * Upcoming Summit Details

@@ -120,27 +120,15 @@ html {
 
 /* ── Variant backgrounds ─────────────────────────────────── */
 .marquee-primary {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--primary)) 0%,
-    hsl(var(--secondary)) 100%
-  );
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
 }
 
 .marquee-secondary {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--secondary)) 0%,
-    hsl(var(--secondary-alt)) 100%
-  );
+  background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-alt)) 100%);
 }
 
 .marquee-accent {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--brand-orange)) 0%,
-    hsl(var(--brand-purple)) 100%
-  );
+  background: linear-gradient(135deg, hsl(var(--brand-orange)) 0%, hsl(var(--brand-purple)) 100%);
 }
 
 /* ── Edge fade mask ──────────────────────────────────────── */
@@ -152,13 +140,7 @@ html {
     black 95%,
     transparent 100%
   );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 5%,
-    black 95%,
-    transparent 100%
-  );
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
 /* ── Track — continuous scroll via width: max-content ──── */

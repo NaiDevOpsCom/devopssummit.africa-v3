@@ -32,6 +32,7 @@ This document establishes the performance, quality, and resilience standards for
 - **Strict Props**: Pass specific props instead of spreading large objects where possible.
 
 ### Linting & Formatting
+- **No Unused Variables**: All declared variables, imports, and hooks MUST be used. Do not leave unused code lying around. Developers should omit unused props/variables until needed (preferred) or, if scaffolding must remain, use a temporary ESLint disable comment (e.g., `// eslint-disable-next-line @typescript-eslint/no-unused-vars`) that includes a ticket/PR reference and an expiry note. Committing commented-out code is explicitly discouraged. Note that `--max-warnings=0` applies to the repository's ESLint run and is enforced by ESLint's unused-vars rules.
 - **ESLint**: Run `npm run lint` before committing. All errors should be fixed.
 - **Prettier**: Code MUST be formatted according to `.prettierrc`.
 - **Line Endings**: Always use Unix-style (`LF`) line endings.

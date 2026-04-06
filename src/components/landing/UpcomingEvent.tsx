@@ -24,9 +24,9 @@ const UpcomingEvent: React.FC = () => {
       return img;
     });
     return () => {
-      preloaders.forEach((img) => {
+      for (const img of preloaders) {
         img.src = "";
-      });
+      }
     };
   }, []);
 

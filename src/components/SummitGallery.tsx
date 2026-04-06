@@ -1,11 +1,10 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
+import { FixedSizeGrid as Grid, type GridChildComponentProps } from "react-window";
 import { AutoSizer } from "react-virtualized-auto-sizer";
 import { useGalleryImages } from "@/hooks/useGalleryImages";
 import { useLazyImage } from "@/hooks/useLazyImage";
-import { GALLERY_YEAR_MAP } from "@/lib/imagekit.paths";
 import { summitGallery as fallbackGallery } from "@/data/summitExperience";
 import { IS_DEVELOPMENT } from "@/config/env";
 
@@ -16,8 +15,9 @@ const SHUFFLE_SEED = Math.random();
  * Deterministic PRNG (Mulberry32)
  */
 function createPRNG(seed: number) {
+  let s = seed;
   return function () {
-    let t = (seed += 0x6d2b79f5);
+    let t = (s += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
