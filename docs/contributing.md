@@ -61,11 +61,11 @@ Before making any changes or writing a single line of code, contributors **MUST*
 
 ## Local Setup & Prerequisites
 
-**Node.js**: Version **24 or higher** is required.
+**Node.js**: Version **^20.19.0** or **>=22.12.0** is required.
 We recommend using [nvm](https://github.com/nvm-sh/nvm):
 ```bash
-nvm install 24
-nvm use 24
+nvm install 22
+nvm use 22
 ```
 
 **Installation**:
