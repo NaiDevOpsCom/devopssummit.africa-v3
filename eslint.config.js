@@ -50,10 +50,7 @@ export default tseslint.config(
 
       // ── React Hooks ─────────────────────────────────────────────────
       ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 
       // ── TypeScript ──────────────────────────────────────────────────
       // Changed from "warn" → "error" — unused vars are dead code
@@ -95,10 +92,7 @@ export default tseslint.config(
       // ── General Code Quality ────────────────────────────────────────
       // Block console.log in production code
       // Use console.warn/error for real issues, or a logger utility
-      "no-console": [
-        "error",
-        { allow: ["warn", "error", "info"] },
-      ],
+      "no-console": ["error", { allow: ["warn", "error", "info"] }],
 
       // debugger statements must never reach a commit
       "no-debugger": "error",
@@ -114,10 +108,7 @@ export default tseslint.config(
         "warn",
         {
           props: true,
-          ignorePropertyModificationsFor: [
-            "acc",
-            "state",
-          ],
+          ignorePropertyModificationsFor: ["acc", "state"],
         },
       ],
 

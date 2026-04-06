@@ -56,13 +56,13 @@ This is a **frontend-only** React + Vite + TypeScript application. There is no b
 
 ## Tech Stack
 
-| Technology | Purpose |
-|---|---|
-| [React 18+](https://react.dev/) | UI component framework |
-| [Vite](https://vitejs.dev/) | Build tool and development server |
-| [TypeScript](https://www.typescriptlang.org/) | Strictly typed JavaScript |
-| [Tailwind CSS](https://tailwindcss.com/) | Utility-first styling |
-| [shadcn/ui](https://ui.shadcn.com/) | Accessible UI component primitives |
+| Technology                                    | Purpose                            |
+| --------------------------------------------- | ---------------------------------- |
+| [React 18+](https://react.dev/)               | UI component framework             |
+| [Vite](https://vitejs.dev/)                   | Build tool and development server  |
+| [TypeScript](https://www.typescriptlang.org/) | Strictly typed JavaScript          |
+| [Tailwind CSS](https://tailwindcss.com/)      | Utility-first styling              |
+| [shadcn/ui](https://ui.shadcn.com/)           | Accessible UI component primitives |
 
 ---
 
@@ -161,13 +161,13 @@ Refer to `.env.example` for the full list of variables and descriptions. **Never
 
 ### Available Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start the local development server at `http://localhost:5173` |
-| `npm run build` | Build the production-ready site into `dist/` |
-| `npm run preview` | Preview the production build locally before deploying |
-| `npm run lint` | Run ESLint across the codebase |
-| `npm run typecheck` | Run TypeScript type checking without emitting files |
+| Command             | Description                                                   |
+| ------------------- | ------------------------------------------------------------- |
+| `npm run dev`       | Start the local development server at `http://localhost:5173` |
+| `npm run build`     | Build the production-ready site into `dist/`                  |
+| `npm run preview`   | Preview the production build locally before deploying         |
+| `npm run lint`      | Run ESLint across the codebase                                |
+| `npm run typecheck` | Run TypeScript type checking without emitting files           |
 
 > 💡 Always run `npm run build` and verify it passes with no errors before opening a pull request.
 
@@ -202,15 +202,15 @@ Please read [**CONTRIBUTING.md**](./CONTRIBUTING.md) for the full guide includin
 
 ## Documentation
 
-| Document | Description |
-|---|---|
-| [`PRD.md`](./PRD.md) | Full product requirements, architecture, pages, and open TODOs |
-| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | How to contribute, branch strategy, code standards, PR process |
-| [`CHANGELOG.md`](./CHANGELOG.md) | History of meaningful changes per release |
-| [`SECURITY.md`](./SECURITY.md) | How to report security vulnerabilities |
-| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | Key technical decisions and why they were made |
-| [`docs/CMS_SCHEMA.md`](./docs/CMS_SCHEMA.md) | CMS content types, fields, and validation rules |
-| [`docs/CONTENT_GUIDE.md`](./docs/CONTENT_GUIDE.md) | Guide for non-developer contributors updating content |
+| Document                                           | Description                                                    |
+| -------------------------------------------------- | -------------------------------------------------------------- |
+| [`PRD.md`](./PRD.md)                               | Full product requirements, architecture, pages, and open TODOs |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md)             | How to contribute, branch strategy, code standards, PR process |
+| [`CHANGELOG.md`](./CHANGELOG.md)                   | History of meaningful changes per release                      |
+| [`SECURITY.md`](./SECURITY.md)                     | How to report security vulnerabilities                         |
+| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)   | Key technical decisions and why they were made                 |
+| [`docs/CMS_SCHEMA.md`](./docs/CMS_SCHEMA.md)       | CMS content types, fields, and validation rules                |
+| [`docs/CONTENT_GUIDE.md`](./docs/CONTENT_GUIDE.md) | Guide for non-developer contributors updating content          |
 
 > Some of these documents are works in progress. See the [open TODO items in PRD.md](./PRD.md#12-open-questions--todos).
 

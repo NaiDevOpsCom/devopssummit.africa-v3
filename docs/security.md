@@ -7,17 +7,18 @@ If you discover a security vulnerability in this project, **please do not open a
 Report it privately by emailing: **`TODO: security@devopssummit.africa`**
 
 Include as much detail as possible:
+
 - A description of the vulnerability and its potential impact
 - Steps to reproduce the issue
 - Any relevant screenshots, URLs, or proof-of-concept code
 
 ### What to expect after reporting
 
-| Timeframe | What happens |
-|---|---|
-| **Within 48 hours** | We acknowledge receipt of your report |
-| **Within 7 days** | We assess severity and share our initial findings with you |
-| **Within 30 days** | We aim to ship a fix for confirmed vulnerabilities |
+| Timeframe             | What happens                                                            |
+| --------------------- | ----------------------------------------------------------------------- |
+| **Within 48 hours**   | We acknowledge receipt of your report                                   |
+| **Within 7 days**     | We assess severity and share our initial findings with you              |
+| **Within 30 days**    | We aim to ship a fix for confirmed vulnerabilities                      |
 | **After fix is live** | We'll notify you and, with your permission, credit you in the changelog |
 
 We treat all reports seriously. If you follow responsible disclosure practices, we will too.
@@ -48,13 +49,13 @@ The following are **not** in scope for this security policy:
 
 This is a **frontend-only static SPA** with no backend server. Understanding the architecture helps scope what's actually at risk:
 
-| Layer | Detail |
-|---|---|
-| **Server-side** | None — no backend, no database, no API server owned by this project |
-| **Client-side** | React SPA served as static files from cPanel shared hosting |
-| **Data storage** | No user accounts, no server-side sessions, no cookies set by this app |
-| **External services** | CMS (read-only public API), image hosting (ImageKit), ticketing (external redirect) |
-| **User input** | Contact/inquiry forms POST to third-party services — no data is processed server-side by us |
+| Layer                 | Detail                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------- |
+| **Server-side**       | None — no backend, no database, no API server owned by this project                         |
+| **Client-side**       | React SPA served as static files from cPanel shared hosting                                 |
+| **Data storage**      | No user accounts, no server-side sessions, no cookies set by this app                       |
+| **External services** | CMS (read-only public API), image hosting (ImageKit), ticketing (external redirect)         |
+| **User input**        | Contact/inquiry forms POST to third-party services — no data is processed server-side by us |
 
 The primary client-side risks are **XSS** and **sensitive data exposure via environment variables**, both of which are addressed below.
 
@@ -195,14 +196,14 @@ Dependency updates should be done in a dedicated PR with the `chore` commit pref
 
 Use this guide when assessing or reporting a vulnerability:
 
-| Severity | Description | Examples |
-|---|---|---|
-| **Critical** | Direct data exposure or remote code execution | Private key exposed in bundle, full XSS with data exfiltration |
-| **High** | Significant impact, likely exploitable | Stored XSS, CSP bypass, sensitive config exposed |
-| **Medium** | Moderate impact or requires user interaction | Reflected XSS, open redirect, clickjacking |
-| **Low** | Minimal impact, unlikely to be exploited | Missing security headers, verbose error messages |
-| **Informational** | Best practice improvement, no direct impact | Missing `rel` attribute, suboptimal CSP directive |
+| Severity          | Description                                   | Examples                                                       |
+| ----------------- | --------------------------------------------- | -------------------------------------------------------------- |
+| **Critical**      | Direct data exposure or remote code execution | Private key exposed in bundle, full XSS with data exfiltration |
+| **High**          | Significant impact, likely exploitable        | Stored XSS, CSP bypass, sensitive config exposed               |
+| **Medium**        | Moderate impact or requires user interaction  | Reflected XSS, open redirect, clickjacking                     |
+| **Low**           | Minimal impact, unlikely to be exploited      | Missing security headers, verbose error messages               |
+| **Informational** | Best practice improvement, no direct impact   | Missing `rel` attribute, suboptimal CSP directive              |
 
 ---
 
-*This policy was last reviewed: March 2026*
+_This policy was last reviewed: March 2026_
