@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +22,8 @@ interface MarqueeProps {
   withFade?: boolean;
   /** Whether to apply a subtle skew/tilt. Defaults to false */
   skew?: boolean;
+  /** Visual variant for the ribbon. Defaults to "primary" */
+  variant?: "primary" | "secondary" | "accent";
 }
 
 /**
@@ -30,7 +32,7 @@ interface MarqueeProps {
  * Uses CSS keyframe animations for smooth, GPU-accelerated scrolling.
  * Respects `prefers-reduced-motion` via Framer Motion's `useReducedMotion` hook.
  */
-export const Marquee: React.FC<MarqueeProps> = ({
+export function Marquee({
   items,
   direction = "left",
   speed = 30,
@@ -39,21 +41,25 @@ export const Marquee: React.FC<MarqueeProps> = ({
   ariaLabel,
   withFade = true,
   skew = false,
-}) => {
+  variant = "primary",
+}: MarqueeProps) {
   const shouldReduceMotion = useReducedMotion();
 
   const normalizedSpeed = Math.max(1, Number(speed) || 30);
 
-  const itemsWithIds = React.useMemo(
+  const itemsWithIds = useMemo(
     () => (items || []).map((item, index) => ({ id: `${item}-${index}`, value: item })),
     [items],
   );
 
+  // Triple the items to create a truly seamless loop
+  const displayItems = useMemo(
+    () => [...itemsWithIds, ...itemsWithIds, ...itemsWithIds],
+    [itemsWithIds],
+  );
+
   // Defensive guard for empty items
   if (!items || items.length === 0) return null;
-
-  // Duplicate items to ensure a seamless loop
-  const displayItems = [...itemsWithIds, ...itemsWithIds];
 
   const animationName = direction === "left" ? "marquee-scroll-left" : "marquee-scroll-right";
   const isPaused = shouldReduceMotion === true;
@@ -62,6 +68,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
     <section
       className={cn(
         "marquee-container",
+        `marquee-${variant}`,
         withFade && "marquee-with-fade",
         skew && "marquee-skewed",
         pauseOnHover && "marquee-pause-on-hover",
@@ -81,14 +88,15 @@ export const Marquee: React.FC<MarqueeProps> = ({
       >
         {displayItems.map((item, index) => (
           <span
-            key={item.id + (index >= itemsWithIds.length ? "-dup" : "")}
+            key={`${item.id}-${index}`}
             className="marquee-item"
             aria-hidden={index >= itemsWithIds.length}
           >
+            <span className="marquee-dot" aria-hidden="true" />
             {item.value}
           </span>
         ))}
       </div>
     </section>
   );
-};
+}
