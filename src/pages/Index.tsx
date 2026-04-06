@@ -4,7 +4,7 @@ import SEO from "@/components/SEO";
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
-import { Marquee } from "@/components/Marquee";
+import { Marquee } from "@/components/landing/Marquee";
 import Footer from "@/components/layout/Footer";
 
 const Index = () => {
@@ -55,7 +55,7 @@ const Index = () => {
             <Speakers />
           </Suspense>
 
-          <div className="py-12 bg-dark-bg border-y border-border overflow-hidden flex flex-col gap-4">
+          <div className="py-4 bg-dark-bg overflow-hidden flex flex-col gap-0">
             <Marquee
               items={[
                 "DevOps Summit Africa 2026",
@@ -68,7 +68,8 @@ const Index = () => {
               ]}
               direction="left"
               speed={40}
-              className="bg-transparent border-none"
+              variant="primary"
+              withFade={false}
             />
             <Marquee
               items={[
@@ -81,8 +82,9 @@ const Index = () => {
               ]}
               direction="right"
               speed={35}
-              className="bg-transparent border-none"
+              variant="secondary"
               skew
+              withFade={false}
             />
           </div>
 

@@ -33,7 +33,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
             className={`w-full max-w-[400px] h-[1px] ${light ? "bg-white/20" : "bg-primary/20"}`}
           />
         </div>
-        <span className="relative z-10 inline-block px-6 py-2 rounded-full bg-brand-cyan text-black text-sm font-bold uppercase tracking-wider">
+        <span className="relative z-10 inline-block px-6 py-2 rounded-full bg-pill-bg text-black text-sm font-bold uppercase tracking-wider">
           {pill}
         </span>
       </div>

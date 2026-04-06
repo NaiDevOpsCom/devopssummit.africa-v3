@@ -29,7 +29,7 @@ function ApplySpeakerButton({ variant = "primary" }: ApplySpeakerButtonProps) {
         rel="noopener noreferrer"
         className="flex items-center gap-2"
       >
-        Want to speak? Apply now
+        Apply to speak
         <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
       </a>
     </Button>
@@ -109,7 +109,7 @@ const Speakers: React.FC = () => {
         <SectionHeader
           title="Featured Speakers"
           pill="Innovators Transforming Africa’s Tech Future"
-          subtitle="Meet the brilliant minds shaping the future of DevOps and cloud engineering across Africa. Our speakers are industry leaders, technical visionaries, and changemakers who have built, scaled, and transformed technology teams across the continent. They bring real-world experience, practical insights, and bold ideas that will inspire, challenge, and empower you to reach new heights in your career."
+          subtitle="Meet the experts shaping Africa’s DevOps and cloud future — sharing real-world insights, lessons, and bold ideas."
           light
         />
 

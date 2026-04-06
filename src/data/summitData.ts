@@ -21,6 +21,13 @@ export const summitDetails = {
   // Includes UTC+03:00 (EAT) offset so Date.parse() yields a deterministic instant
   // regardless of the browser's local timezone.
   datetime: "2026-11-20T09:00:00+03:00",
+  /**
+   * @property {string} sponsorshipDeckUrl
+   * The public URL or relative path to the conference sponsorship PDF used for download/display.
+   * Expected format: e.g., "/deck.pdf" or full "https://..." URL.
+   * This field can be empty/optional.
+   */
+  sponsorshipDeckUrl: "/deck.pdf",
 };
 
 export interface SummitHighlight {
