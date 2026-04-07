@@ -1,6 +1,6 @@
 import * as React from "react";
 import { sanitizeUrl } from "../utils/sanitize";
-import { AnchorHTMLAttributes } from "react";
+import { type AnchorHTMLAttributes } from "react";
 
 interface SafeLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;

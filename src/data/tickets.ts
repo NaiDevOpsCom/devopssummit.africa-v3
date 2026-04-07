@@ -1,4 +1,4 @@
-import { Ticket } from "@/types";
+import { type Ticket } from "@/types";
 
 export const tickets: Ticket[] = [
   {

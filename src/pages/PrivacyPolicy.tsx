@@ -11,10 +11,6 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const stagger = {
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
 /* ------------------------------------------------------------------ */
 /*  Data                                                                */
 /* ------------------------------------------------------------------ */
