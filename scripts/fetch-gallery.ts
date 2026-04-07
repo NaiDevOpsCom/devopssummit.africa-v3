@@ -20,6 +20,12 @@ if (process.env.NODE_ENV) {
 
 if (process.env.SKIP_GALLERY_FETCH === "true") {
   console.log("⏭️  Skipping gallery fetch (SKIP_GALLERY_FETCH=true)");
+  const outPath = path.resolve(__dirname, "../src/data/gallery.generated.json");
+  if (!fs.existsSync(outPath)) {
+    console.log("   Creating fallback empty gallery stub to prevent bundler errors.");
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    fs.writeFileSync(outPath, "{}");
+  }
   process.exit(0);
 }
 
