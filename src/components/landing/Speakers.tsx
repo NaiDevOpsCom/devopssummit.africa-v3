@@ -11,7 +11,7 @@ import { speakers } from "@/data/speakers";
 const CURRENT_YEAR = 2026;
 
 interface ApplySpeakerButtonProps {
-  variant?: "primary" | "secondary";
+  readonly variant?: "primary" | "secondary";
 }
 
 /** Shared CTA that appears in both the empty-state and below the carousel. */

@@ -30,31 +30,28 @@ const UpcomingEvent: React.FC = () => {
     };
   }, []);
 
+  const nextImage = React.useCallback(() => {
+    setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length);
+  }, []);
+
   React.useEffect(() => {
-    const handleVisibilityChange = () => {
+    let interval: ReturnType<typeof setInterval> | null = null;
+
+    const manageInterval = () => {
+      if (interval) clearInterval(interval);
       if (document.visibilityState === "visible") {
-        // Resume when tab becomes visible
-        const interval = setInterval(() => {
-          setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length);
-        }, 5000);
-        return () => clearInterval(interval);
+        interval = setInterval(nextImage, 5000);
       }
     };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    const interval = setInterval(() => {
-      // Only update if document is visible
-      if (document.visibilityState === "visible") {
-        setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length);
-      }
-    }, 5000); // Cycle every 5 seconds
+    manageInterval();
+    document.addEventListener("visibilitychange", manageInterval);
 
     return () => {
-      clearInterval(interval);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (interval) clearInterval(interval);
+      document.removeEventListener("visibilitychange", manageInterval);
     };
-  }, []);
+  }, [nextImage]);
 
   return (
     <section id="upcoming" className="relative py-20 md:py-28 bg-dark-bg overflow-hidden">
