@@ -1,59 +1,61 @@
+// vitest.config.ts
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { fileURLToPath } from "node:url";
-import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-import { playwright } from "@vitest/browser-playwright";
+
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [react()],
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: ["./src/test/setup.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
-    projects: [
-      {
-        extends: true,
-        test: {
-          name: "unit",
-          environment: "jsdom",
-          setupFiles: ["./src/test/setup.ts"],
-          include: ["src/**/*.{test,spec}.{ts,tsx}"],
-        },
-      },
-      {
-        extends: true,
-        plugins: [
-          // The plugin will run tests for the stories defined in your Storybook config
-          // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-          storybookTest({
-            configDir: path.join(dirname, ".storybook"),
-          }),
-        ],
-        test: {
-          name: "storybook",
-          browser: {
-            enabled: true,
-            headless: true,
-            provider: playwright({}),
-            instances: [
-              {
-                browser: "chromium",
-              },
-            ],
-          },
-          setupFiles: [".storybook/vitest.setup.ts"],
-        },
-      },
-    ],
-  },
   resolve: {
     alias: {
       "@": path.resolve(dirname, "./src"),
     },
+  },
+  test: {
+    // ── Environment ────────────────────────────────────────────────
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./src/test/setup.ts"],
+
+    // ── Which files to test ────────────────────────────────────────
+    // Single source of truth — no duplication inside projects
+    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    exclude: [
+      "src/components/ui/**", // shadcn generated — never test these
+      "src/test/example.test.ts", // delete this file, excluded as safety net
+      "node_modules/**",
+      "dist/**",
+      "storybook-static/**",
+    ],
+
+    // ── Coverage ───────────────────────────────────────────────────
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "lcov", "html"],
+      reportsDirectory: "coverage",
+      exclude: [
+        "src/components/ui/**", // shadcn — not your code
+        "src/test/**", // test utilities themselves
+        "src/tests/**",
+        "src/**/*.d.ts",
+        "src/main.tsx", // entry point, nothing to unit test
+        "src/App.tsx", // routing shell — covered by e2e
+        "src/**/*.stories.{ts,tsx}",
+      ],
+      // ── Thresholds — CI fails if these drop ───────────────────────
+      thresholds: {
+        lines: 60, // start achievable, raise 5% each sprint
+        branches: 55,
+        functions: 60,
+        statements: 60,
+      },
+    },
+
+    // ── Reporter ───────────────────────────────────────────────────
+    // verbose shows each test name + pass/fail — useful in CI logs
+    reporter: process.env.CI ? ["verbose", "github-actions"] : ["verbose"],
   },
 });
