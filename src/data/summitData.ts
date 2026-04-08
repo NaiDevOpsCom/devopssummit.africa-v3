@@ -5,7 +5,30 @@
  *
  * Used in:
  * - src/pages/PastSummits.tsx: To display detailed year-by-year highlights and growth charts.
+ * - src/components/landing/About.tsx: To display overarching summit stats.
  */
+
+import { type Stat } from "@/types";
+
+/**
+ * Upcoming Summit Details
+ * Used across the application for the next event date, location, and countdown.
+ */
+export const summitDetails = {
+  date: "November 20–21, 2026",
+  location: "Nairobi, Kenya",
+  mapLink: "https://www.google.com/maps/place/Nairobi,+Kenya",
+  // Includes UTC+03:00 (EAT) offset so Date.parse() yields a deterministic instant
+  // regardless of the browser's local timezone.
+  datetime: "2026-11-20T09:00:00+03:00",
+  /**
+   * @property {string} sponsorshipDeckUrl
+   * The public URL or relative path to the conference sponsorship PDF used for download/display.
+   * Expected format: e.g., "/deck.pdf" or full "https://..." URL.
+   * This field can be empty/optional.
+   */
+  sponsorshipDeckUrl: "/deck.pdf",
+};
 
 export interface SummitHighlight {
   title: string;
@@ -31,6 +54,21 @@ export interface GrowthMetric {
   label: string;
   values: { year: string; value: number }[];
 }
+
+/**
+ * Overarching statistics for the summit over the years.
+ * Displayed in the About section on the landing page.
+ *
+ * NOTE: These are marketing-rounded projection figures intended for at-a-glance
+ * impact and are NOT summed totals derived from growthMetrics. For precise
+ * year-by-year breakdowns, refer to growthMetrics below.
+ */
+export const stats: Stat[] = [
+  { value: "700+", label: "Attendees since 2024" },
+  { value: "23+", label: "Speakers" },
+  { value: "10+", label: "African countries represented" },
+  { value: "10+", label: "Partners & Sponsors" },
+];
 
 /**
  * Metrics tracking the summit's evolution across years.

@@ -1,4 +1,4 @@
-import { Testimonial } from "@/types";
+import { type Testimonial } from "@/types";
 import { IS_DEVELOPMENT } from "@/config/env";
 
 /**

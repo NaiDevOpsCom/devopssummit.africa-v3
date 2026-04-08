@@ -1,4 +1,4 @@
-import { Sponsor, SponsorTestimonial } from "@/types";
+import { type Sponsor, type SponsorTestimonial } from "@/types";
 
 /**
  * Unified Sponsors Data Source

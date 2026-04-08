@@ -19,21 +19,21 @@ The **Africa DevOps Summit** website (`devopssummit.africa`) is Africa's premier
 
 ## 2. Tech Stack — Exactly This, Nothing Else
 
-| Layer | Technology | Version | Notes |
-|---|---|---|---|
-| Framework | React | 18.x | Functional components + hooks only. No class components. |
-| Language | TypeScript | 5.x | Strict mode. No `any`. No type assertions unless unavoidable. |
-| Build Tool | Vite | 5.x | Dev server at `http://localhost:5173` |
-| Styling | Tailwind CSS | 3.x | Utility-first. Semantic tokens only. No raw color values. |
-| UI Components | shadcn/ui | Latest | Built on Radix UI. Generated into `src/components/ui/`. |
-| Animations | Framer Motion | Latest | `fadeUp` variant pattern. Respect `prefers-reduced-motion`. |
-| Routing | React Router DOM | v6 | Client-side SPA routing. `<Link>` and `useNavigate` only. |
-| Icons | Lucide React | Latest | Import individually. Never import the entire library. |
-| Fonts | Sora + Inter | — | Via Google Fonts. `font-heading` = Sora. `font-body` = Inter. |
-| Sanitization | DOMPurify | Latest | Via `SafeHtml` component. Never use `dangerouslySetInnerHTML` directly. |
-| Image CDN | Cloudinary | — | `nairobidevops` account. Full URLs in data files. |
-| Server state | TanStack React Query | v5 | Installed and configured. Use for all CMS/API calls. Do NOT remove. |
-| Env validation | Custom | — | `src/config/validateEnv.ts`. Runs at app boot in `main.tsx`. |
+| Layer          | Technology           | Version | Notes                                                                   |
+| -------------- | -------------------- | ------- | ----------------------------------------------------------------------- |
+| Framework      | React                | 18.x    | Functional components + hooks only. No class components.                |
+| Language       | TypeScript           | 5.x     | Strict mode. No `any`. No type assertions unless unavoidable.           |
+| Build Tool     | Vite                 | 5.x     | Dev server at `http://localhost:5173`                                   |
+| Styling        | Tailwind CSS         | 3.x     | Utility-first. Semantic tokens only. No raw color values.               |
+| UI Components  | shadcn/ui            | Latest  | Built on Radix UI. Generated into `src/components/ui/`.                 |
+| Animations     | Framer Motion        | Latest  | `fadeUp` variant pattern. Respect `prefers-reduced-motion`.             |
+| Routing        | React Router DOM     | v6      | Client-side SPA routing. `<Link>` and `useNavigate` only.               |
+| Icons          | Lucide React         | Latest  | Import individually. Never import the entire library.                   |
+| Fonts          | Sora + Inter         | —       | Via Google Fonts. `font-heading` = Sora. `font-body` = Inter.           |
+| Sanitization   | DOMPurify            | Latest  | Via `SafeHtml` component. Never use `dangerouslySetInnerHTML` directly. |
+| Image CDN      | Cloudinary           | —       | `nairobidevops` account. Full URLs in data files.                       |
+| Server state   | TanStack React Query | v5      | Installed and configured. Use for all CMS/API calls. Do NOT remove.     |
+| Env validation | Custom               | —       | `src/config/validateEnv.ts`. Runs at app boot in `main.tsx`.            |
 
 ### What is NOT in this project
 
@@ -160,20 +160,22 @@ devopssummit.africa-v3/
 
 ## 4. Routing — All Routes
 
-| Route | Component | Notes |
-|---|---|---|
-| `/` | `Index.tsx` | Landing page — homepage sections |
-| `/about` | `AboutUs.tsx` | Mission, values, community, timeline |
-| `/schedule` | `Schedule.tsx` | Two-day programme |
-| `/sponsorship` | `Sponsorship.tsx` | Sponsor tiers and inquiry |
-| `/past-summits` | `PastSummits.tsx` | Year-tabbed past editions |
-| `/code-of-conduct` | `CodeOfConduct.tsx` | Static text page |
-| `/privacy-policy` | `PrivacyPolicy.tsx` | Static text page |
-| `/faqs` | `FAQs.tsx` | Accordion by category |
-| `*` | `NotFound.tsx` | 404 fallback |
+| Route              | Component           | Notes                                |
+| ------------------ | ------------------- | ------------------------------------ |
+| `/`                | `Index.tsx`         | Landing page — homepage sections     |
+| `/about`           | `AboutUs.tsx`       | Mission, values, community, timeline |
+| `/schedule`        | `Schedule.tsx`      | Two-day programme                    |
+| `/sponsorship`     | `Sponsorship.tsx`   | Sponsor tiers and inquiry            |
+| `/past-summits`    | `PastSummits.tsx`   | Year-tabbed past editions            |
+| `/code-of-conduct` | `CodeOfConduct.tsx` | Static text page                     |
+| `/privacy-policy`  | `PrivacyPolicy.tsx` | Static text page                     |
+| `/faqs`            | `FAQs.tsx`          | Accordion by category                |
+| `*`                | `NotFound.tsx`      | 404 fallback                         |
 
 ### Navbar navigation modes
+
 The `Navbar` component operates in two modes:
+
 - **On `/`** — hash-based scroll: `#speakers`, `#tickets`, `#schedule`, etc.
 - **On all other routes** — React Router `<Link>` navigation
 
@@ -187,18 +189,18 @@ When linking from a non-home page to a homepage section, navigate to `/#section-
 
 All design tokens are HSL-based CSS variables defined in `src/index.css`. Always use Tailwind semantic tokens — never raw color values.
 
-| CSS Variable | Tailwind Usage | Purpose |
-|---|---|---|
-| `--background` | `bg-background` / `text-background` | Page background |
-| `--foreground` | `text-foreground` | Primary text |
-| `--primary` | `bg-primary` / `text-primary` | Brand blue (`217 91% 60%`) |
-| `--secondary` | `bg-secondary` / `text-secondary` | Accent cyan (`199 89% 60%`) |
-| `--muted` | `bg-muted` | Subtle backgrounds |
-| `--muted-foreground` | `text-muted-foreground` | Secondary / subdued text |
-| `--dark-bg` | `bg-dark-bg` | Dark section backgrounds (`222 47% 11%`) |
-| `--card-dark` | `bg-card-dark` | Dark card backgrounds |
-| `--destructive` | `bg-destructive` / `text-destructive` | Error and warning states |
-| `--border` | `border-border` | Borders |
+| CSS Variable         | Tailwind Usage                        | Purpose                                  |
+| -------------------- | ------------------------------------- | ---------------------------------------- |
+| `--background`       | `bg-background` / `text-background`   | Page background                          |
+| `--foreground`       | `text-foreground`                     | Primary text                             |
+| `--primary`          | `bg-primary` / `text-primary`         | Brand blue (`217 91% 60%`)               |
+| `--secondary`        | `bg-secondary` / `text-secondary`     | Accent cyan (`199 89% 60%`)              |
+| `--muted`            | `bg-muted`                            | Subtle backgrounds                       |
+| `--muted-foreground` | `text-muted-foreground`               | Secondary / subdued text                 |
+| `--dark-bg`          | `bg-dark-bg`                          | Dark section backgrounds (`222 47% 11%`) |
+| `--card-dark`        | `bg-card-dark`                        | Dark card backgrounds                    |
+| `--destructive`      | `bg-destructive` / `text-destructive` | Error and warning states                 |
+| `--border`           | `border-border`                       | Borders                                  |
 
 ```tsx
 // ✅ Always correct
@@ -237,11 +239,11 @@ All design tokens are HSL-based CSS variables defined in `src/index.css`. Always
 
 Always test and implement at all three:
 
-| Breakpoint | Width | Tailwind prefix |
-|---|---|---|
-| Mobile | 375px | (default, no prefix) |
-| Tablet | 768px | `md:` |
-| Desktop | 1280px | `lg:` or `xl:` |
+| Breakpoint | Width  | Tailwind prefix      |
+| ---------- | ------ | -------------------- |
+| Mobile     | 375px  | (default, no prefix) |
+| Tablet     | 768px  | `md:`                |
+| Desktop    | 1280px | `lg:` or `xl:`       |
 
 ---
 
@@ -273,10 +275,7 @@ export default function MyPage() {
       <main>
         <section className="section-padding py-16">
           <div className="container mx-auto">
-            <SectionHeader
-              title="Section Title"
-              subtitle="Supporting description here"
-            />
+            <SectionHeader title="Section Title" subtitle="Supporting description here" />
             <motion.div
               variants={stagger}
               initial="hidden"
@@ -321,7 +320,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 <SectionHeader
   title="Our Speakers"
   subtitle="Meet the practitioners shaping Africa's DevOps future"
-/>
+/>;
 ```
 
 ### Rendering CMS / dynamic HTML — always use SafeHtml
@@ -462,14 +461,14 @@ imageUrl: undefined;        // ❌ — use null
 
 ### File naming conventions
 
-| Type | Convention | Example |
-|---|---|---|
-| Components | PascalCase | `SpeakerCard.tsx` |
-| Pages | PascalCase | `Schedule.tsx` |
-| Hooks | camelCase, `use` prefix | `useScrollPosition.ts` |
-| Utilities | camelCase | `formatDate.ts` |
-| Data files | camelCase | `speakers.ts` |
-| Type files | camelCase | `index.ts` |
+| Type       | Convention              | Example                |
+| ---------- | ----------------------- | ---------------------- |
+| Components | PascalCase              | `SpeakerCard.tsx`      |
+| Pages      | PascalCase              | `Schedule.tsx`         |
+| Hooks      | camelCase, `use` prefix | `useScrollPosition.ts` |
+| Utilities  | camelCase               | `formatDate.ts`        |
+| Data files | camelCase               | `speakers.ts`          |
+| Type files | camelCase               | `index.ts`             |
 
 ---
 
@@ -488,11 +487,11 @@ export interface Speaker {
   name: string;
   designation: string | null;
   company?: string | null;
-  imageUrl: HttpUrl | string | null;  // ⚠️ should be HttpUrl | null — string is redundant
-  eventRole?: string | null;           // current year speakers only
-  topic?: string | null;               // past summit speakers only
-  videoUrl?: HttpUrl | null;           // past summit speakers only
-  slidesUrl?: HttpUrl | null;          // past summit speakers only
+  imageUrl: HttpUrl | string | null; // ⚠️ should be HttpUrl | null — string is redundant
+  eventRole?: string | null; // current year speakers only
+  topic?: string | null; // past summit speakers only
+  videoUrl?: HttpUrl | null; // past summit speakers only
+  slidesUrl?: HttpUrl | null; // past summit speakers only
   isKeynote?: boolean;
   // Planned additions (not yet in interface):
   // twitter?: string | null;          // format: "@handle"
@@ -514,7 +513,7 @@ export interface TeamMember {
   name: string;
   role: string;
   imageUrl: string;
-  linkedinUrl?: HttpUrl | null;  // ⚠️ stores full URL — inconsistent with planned speaker handle format
+  linkedinUrl?: HttpUrl | null; // ⚠️ stores full URL — inconsistent with planned speaker handle format
 }
 
 export interface Sponsor {
@@ -532,7 +531,7 @@ export interface Stat {
 
 export interface Benefit {
   id: EntityId;
-  icon: string;       // ⚠️ Lucide icon name — loosely typed string, no validation
+  icon: string; // ⚠️ Lucide icon name — loosely typed string, no validation
   title: string;
   description: string;
 }
@@ -549,7 +548,7 @@ export interface SponsorTestimonial {
   id: EntityId;
   quote: string;
   name: string;
-  role: string;      // job title only, not company
+  role: string; // job title only, not company
   company: string;
   image?: string;
   verified?: boolean; // ⚠️ all current entries are false — do not display unverified testimonials
@@ -563,18 +562,18 @@ export interface SponsorTestimonial {
 export interface SummitHighlight {
   title: string;
   description: string;
-  icon: string;        // Lucide icon name
+  icon: string; // Lucide icon name
 }
 
 export interface PastSummit {
   year: number;
   theme: string;
   themeDescription: string;
-  date: string;        // "Month D–D, YYYY"
+  date: string; // "Month D–D, YYYY"
   venue: string;
   location: string;
-  attendees: string;   // "500+"
-  countries: string;   // "9+"
+  attendees: string; // "500+"
+  countries: string; // "9+"
   reportUrl: string;
   videoUrl: string;
   highlights: SummitHighlight[];
@@ -582,14 +581,14 @@ export interface PastSummit {
 
 export interface GrowthMetric {
   label: string;
-  values: { year: string; value: number }[];  // ⚠️ year is string here — should be number
+  values: { year: string; value: number }[]; // ⚠️ year is string here — should be number
 }
 
 // src/data/faqs.ts — should be moved to src/types/index.ts
 export interface FAQItem {
   question: string;
   answer: string;
-  category: string;   // must match one of faqCategories exactly
+  category: string; // must match one of faqCategories exactly
 }
 ```
 
@@ -621,8 +620,8 @@ export interface Session {
   title: string;
   speakerId: EntityId | EntityId[] | null;
   day: 1 | 2;
-  startTime: string;        // "09:00" 24hr format
-  endTime: string;          // "09:45"
+  startTime: string; // "09:00" 24hr format
+  endTime: string; // "09:45"
   format: SessionFormat;
   track: SessionTrack | null;
   room: string | null;
@@ -640,9 +639,15 @@ export interface Session {
 ```ts
 // Record<number, T[]> — keyed by summit year
 export const speakers: Record<number, Speaker[]> = {
-  2026: [ /* current year */ ],
-  2025: [ /* past edition */ ],
-  2024: [ /* past edition */ ],
+  2026: [
+    /* current year */
+  ],
+  2025: [
+    /* past edition */
+  ],
+  2024: [
+    /* past edition */
+  ],
 };
 
 // When adding a new year: add to the TOP of the record
@@ -671,9 +676,9 @@ https://images.unsplash.com/photo-[ID]?w=400&h=400&fit=crop
 ### Social handle format (planned — not yet in interface)
 
 ```ts
-twitter: "@handle"       // not "https://twitter.com/handle"
-linkedin: "in/handle"    // not "https://linkedin.com/in/handle"
-github: "@handle"        // not "https://github.com/handle"
+twitter: "@handle"; // not "https://twitter.com/handle"
+linkedin: "in/handle"; // not "https://linkedin.com/in/handle"
+github: "@handle"; // not "https://github.com/handle"
 ```
 
 ### Null discipline in data files
@@ -691,12 +696,12 @@ videoUrl: null,    // ✅
 
 ```ts
 // Valid categories — case-sensitive, must match faqCategories array exactly
-"General"
-"Tickets & Registration"
-"Speakers & Content"
-"Venue & Travel"
-"Sponsorship"
-"Community"
+"General";
+"Tickets & Registration";
+"Speakers & Content";
+"Venue & Travel";
+"Sponsorship";
+"Community";
 ```
 
 ---
@@ -705,19 +710,19 @@ videoUrl: null,    // ✅
 
 These are real, documented issues. Do NOT "fix" them unless the fix has been discussed and approved — some require coordinated changes across multiple files.
 
-| # | Issue | Severity | Status |
-|---|---|---|---|
-| 1 | `Speaker` interface overloaded — current and past speakers share one type with incompatible field sets | 🔴 High | Open |
-| 2 | `Speaker.imageUrl: HttpUrl \| string \| null` — `string` makes `HttpUrl` validation pointless | 🔴 High | Open |
-| 3 | `Sponsor` has no `websiteUrl` — logos can't link to sponsor websites | 🔴 High | Open |
-| 4 | `Session` type is entirely missing — schedule page has no typed data model | 🔴 High | Open |
-| 5 | `Sponsor.id` resets to `1` each year — not globally unique | 🟡 Medium | Open |
-| 6 | `PastSummit`, `SummitHighlight`, `GrowthMetric`, `FAQItem` defined locally — should be in `src/types/index.ts` | 🟡 Medium | Open |
-| 7 | `icon` fields in `Benefit` and `SummitHighlight` are loose strings — Lucide icon names not validated | 🟡 Medium | Open |
-| 8 | `GrowthMetric.year` is `string` — everything else uses `number` for years | 🟡 Medium | Open |
-| 9 | `TeamMember.linkedinUrl` is a full URL — inconsistent with planned speaker handle format | 🟡 Medium | Open |
-| 10 | `PastSummit` has no `testimonials` field — `Testimonial` interface exists but is unused | 🟢 Low | Open |
-| 11 | All 8 `SponsorTestimonial` entries have `verified: false` — unverified quotes should not display | 🟢 Low | Open |
+| #   | Issue                                                                                                          | Severity  | Status |
+| --- | -------------------------------------------------------------------------------------------------------------- | --------- | ------ |
+| 1   | `Speaker` interface overloaded — current and past speakers share one type with incompatible field sets         | 🔴 High   | Open   |
+| 2   | `Speaker.imageUrl: HttpUrl \| string \| null` — `string` makes `HttpUrl` validation pointless                  | 🔴 High   | Open   |
+| 3   | `Sponsor` has no `websiteUrl` — logos can't link to sponsor websites                                           | 🔴 High   | Open   |
+| 4   | `Session` type is entirely missing — schedule page has no typed data model                                     | 🔴 High   | Open   |
+| 5   | `Sponsor.id` resets to `1` each year — not globally unique                                                     | 🟡 Medium | Open   |
+| 6   | `PastSummit`, `SummitHighlight`, `GrowthMetric`, `FAQItem` defined locally — should be in `src/types/index.ts` | 🟡 Medium | Open   |
+| 7   | `icon` fields in `Benefit` and `SummitHighlight` are loose strings — Lucide icon names not validated           | 🟡 Medium | Open   |
+| 8   | `GrowthMetric.year` is `string` — everything else uses `number` for years                                      | 🟡 Medium | Open   |
+| 9   | `TeamMember.linkedinUrl` is a full URL — inconsistent with planned speaker handle format                       | 🟡 Medium | Open   |
+| 10  | `PastSummit` has no `testimonials` field — `Testimonial` interface exists but is unused                        | 🟢 Low    | Open   |
+| 11  | All 8 `SponsorTestimonial` entries have `verified: false` — unverified quotes should not display               | 🟢 Low    | Open   |
 
 **When generating code that touches any of these areas:** Do not silently "fix" the issue as part of an unrelated change. Note the issue in a code comment and flag it in the PR.
 
@@ -736,7 +741,7 @@ const url = Env.CMS_API_URL;
 const url = import.meta.env.VITE_CMS_API_URL;
 ```
 
-### Never add secrets to VITE_ prefixed variables
+### Never add secrets to VITE\_ prefixed variables
 
 ```
 # ✅ Safe — public configuration, visible in browser bundle
@@ -808,7 +813,7 @@ const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
 // ✅ React Query for server/async state (CMS, APIs)
 const { data: speakers, isLoading } = useQuery({
-  queryKey: ['speakers', year],
+  queryKey: ["speakers", year],
   queryFn: () => fetchSpeakers(year),
 });
 
@@ -828,6 +833,7 @@ const { data: speakers, isLoading } = useQuery({
 - **No preview environments** — changes go to production after merge
 
 This means:
+
 - No server-side rendering code
 - No API routes or serverless functions
 - No dynamic `import.meta.env` reading at runtime
@@ -845,6 +851,7 @@ npm run test:watch    # run in watch mode
 > **Important:** The testing framework is not yet fully documented. Before generating test files, confirm what framework is in use (`src/test/` setup file). Do not assume Jest — it may be Vitest.
 
 When writing tests:
+
 - Unit test utility functions in `src/lib/`
 - Component tests for critical UI: `SafeHtml`, `SpeakerCard`, navigation
 - Do not generate E2E tests — out of scope for current MVP phase
@@ -853,16 +860,16 @@ When writing tests:
 
 ## 16. Available npm Scripts
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Start dev server at `http://localhost:5173` |
-| `npm run build` | Production build → `dist/` |
-| `npm run build:dev` | Dev build with source maps |
-| `npm run preview` | Serve `dist/` locally |
-| `npm run lint` | Run ESLint |
-| `npm run typecheck` | TypeScript check without emit |
-| `npm run test` | Run tests once |
-| `npm run test:watch` | Run tests in watch mode |
+| Command              | What it does                                |
+| -------------------- | ------------------------------------------- |
+| `npm run dev`        | Start dev server at `http://localhost:5173` |
+| `npm run build`      | Production build → `dist/`                  |
+| `npm run build:dev`  | Dev build with source maps                  |
+| `npm run preview`    | Serve `dist/` locally                       |
+| `npm run lint`       | Run ESLint                                  |
+| `npm run typecheck`  | TypeScript check without emit               |
+| `npm run test`       | Run tests once                              |
+| `npm run test:watch` | Run tests in watch mode                     |
 
 **Before suggesting any PR is ready:** `npm run build` AND `npm run lint` must pass with zero errors.
 
@@ -873,6 +880,7 @@ When writing tests:
 When generating or editing content in `src/data/`, use this as a quick field reference:
 
 ### Speaker (current year — 2026)
+
 ```ts
 {
   id: "2026-s9",              // unique, format: "YEAR-TYPE#"
@@ -886,6 +894,7 @@ When generating or editing content in `src/data/`, use this as a quick field ref
 ```
 
 ### Speaker (past summit)
+
 ```ts
 {
   id: "2025-18",             // sequential number
@@ -901,6 +910,7 @@ When generating or editing content in `src/data/`, use this as a quick field ref
 ```
 
 ### Sponsor
+
 ```ts
 {
   id: 2,                     // numeric, sequential within year
@@ -911,6 +921,7 @@ When generating or editing content in `src/data/`, use this as a quick field ref
 ```
 
 ### FAQItem
+
 ```ts
 {
   category: "General",       // must match faqCategories exactly
@@ -925,15 +936,15 @@ When generating or editing content in `src/data/`, use this as a quick field ref
 
 When suggesting changes that touch architecture, schemas, or content — reference the relevant doc:
 
-| Document | What's in it |
-|---|---|
-| `PRD.md` | Full product requirements, pages, features, open TODOs |
-| `CONTRIBUTING.md` | Branch strategy, PR process, full code standards |
-| `SECURITY.md` | Vulnerability reporting, env var rules, XSS prevention, CSP |
-| `CHANGELOG.md` | History of meaningful changes |
-| `docs/ARCHITECTURE.md` | System design, ADRs, deployment, build process |
-| `docs/CMS_SCHEMA.md` | All content type schemas, known data issues, CMS migration plan |
-| `docs/CONTENT_GUIDE.md` | How to edit data files — written for non-developers |
+| Document                | What's in it                                                    |
+| ----------------------- | --------------------------------------------------------------- |
+| `PRD.md`                | Full product requirements, pages, features, open TODOs          |
+| `CONTRIBUTING.md`       | Branch strategy, PR process, full code standards                |
+| `SECURITY.md`           | Vulnerability reporting, env var rules, XSS prevention, CSP     |
+| `CHANGELOG.md`          | History of meaningful changes                                   |
+| `docs/ARCHITECTURE.md`  | System design, ADRs, deployment, build process                  |
+| `docs/CMS_SCHEMA.md`    | All content type schemas, known data issues, CMS migration plan |
+| `docs/CONTENT_GUIDE.md` | How to edit data files — written for non-developers             |
 
 ---
 

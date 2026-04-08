@@ -1,6 +1,6 @@
 import * as React from "react";
 import { sanitizeUrl } from "../utils/sanitize";
-import { AnchorHTMLAttributes } from "react";
+import { type AnchorHTMLAttributes } from "react";
 
 interface SafeLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
@@ -17,7 +17,7 @@ export const SafeLink = ({ href, children, ...props }: SafeLinkProps) => {
     try {
       if (!safeHref.startsWith("http")) return false;
       const url = new URL(safeHref);
-      return url.origin !== window.location.origin;
+      return url.origin !== globalThis.location.origin;
     } catch {
       return false;
     }

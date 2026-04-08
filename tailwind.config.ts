@@ -2,7 +2,7 @@ import tailwindcssAnimate from "tailwindcss-animate";
 import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ["class"],
+  darkMode: "class",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -67,6 +67,7 @@ export default {
         "brand-orange": "hsl(var(--brand-orange))",
         "brand-purple": "hsl(var(--brand-purple))",
         "brand-blue": "hsl(var(--brand-blue))",
+        "pill-bg": "hsl(var(--pill-bg))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

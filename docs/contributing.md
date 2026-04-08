@@ -1,399 +1,211 @@
-# Contributing to Africa DevOps Summit
+# Contributing to Africa DevOps Summit Hub
 
-First off — thank you. This project is built by the African DevOps community, for the African DevOps community. Whether you're fixing a typo, improving a component, updating speaker content, or building a new feature, your contribution matters.
+First off, thank you for considering contributing to the Africa DevOps Summit Hub! It's people like you that make this open-source community such a great place to learn, inspire, and create.
 
-This guide covers everything you need to go from "I want to help" to "my PR is merged."
+This document serves as a comprehensive guide for all contributors, helping ensure our codebase remains clean, maintainable, and highly collaborative.
 
----
+## Project Mindset
 
-## Table of Contents
+Before diving in, please keep our core philosophy in mind:
 
-- [Ways to Contribute](#ways-to-contribute)
-- [Prerequisites](#prerequisites)
-- [Local Setup](#local-setup)
-- [Environment Variables](#environment-variables)
-- [Available Scripts](#available-scripts)
-- [Development Workflow](#development-workflow)
-- [Branching Strategy](#branching-strategy)
-- [Commit Conventions](#commit-conventions)
-- [Pull Request Process](#pull-request-process)
-- [Code Style & Conventions](#code-style--conventions)
-- [Working with shadcn/ui](#working-with-shadcnui)
-- [Content Contributions](#content-contributions)
-- [Code Review Expectations](#code-review-expectations)
-- [What Not to Do](#what-not-to-do)
-- [Getting Help](#getting-help)
-
----
-
-## Ways to Contribute
-
-You don't need to write code to contribute. Here are all the ways you can help:
-
-| Type | How |
-|---|---|
-| 🐛 **Report a bug** | [Open a bug report issue](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=bug_report.md) |
-| 💡 **Suggest a feature** | [Open a feature request issue](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=feature_request.md) |
-| 💬 **Ask a question or discuss an idea** | [Start a GitHub Discussion](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions) |
-| 🛠️ **Fix a bug or build a feature** | Clone the repo, make your changes, open a PR (see below) |
-| 📝 **Improve documentation** | Edit any `.md` file and open a PR |
-| 🎨 **Improve UI / design** | Open an issue first to discuss, then submit a PR with screenshots |
-| 📣 **Update event content** | Speaker bios, schedule, photos — see [Content Contributions](#content-contributions) |
-
-**Not sure where to start?** Browse [open issues](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues) or [start a discussion](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions) — the team is happy to help you find something that matches your skills and interest.
-
----
-
-## Prerequisites
-
-Make sure you have the following installed before starting:
-
-- **Node.js ≥ 24.x** — required. We recommend managing versions with [nvm](https://github.com/nvm-sh/nvm):
-
-  ```sh
-  nvm install 24
-  nvm use 24
-  node --version  # should print v24.x.x or higher
-  ```
-
-- **npm** — comes bundled with Node.js
-- **Git**
-- A code editor — [VS Code](https://code.visualstudio.com/) is recommended. Install the following extensions for the best experience:
-  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-  - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) *(if used)*
-
----
-
-## Local Setup
-
-Since this is a community project, contributors work from a local clone. You do not need to fork the repository unless you do not have push access.
-
-```sh
-# 1. Clone the repository
-git clone git@github.com:NaiDevOpsCom/devopssummit.africa-v3.git
-cd devopssummit.africa-v3
-
-# 2. Install dependencies
-npm install
-
-# 3. Set up environment variables (see next section)
-cp .env.example .env.local
-
-# 4. Start the development server
-npm run dev
-```
-
-The app will be available at **http://localhost:5173**
-
-> ⚠️ If port 5173 is in use, Vite will automatically try the next available port. Check your terminal output for the actual URL.
-
----
-
-## Environment Variables
-
-All environment variables are documented in `.env.example`. Copy it to `.env.local` and fill in the values:
-
-```sh
-cp .env.example .env.local
-```
-
-**Rules:**
-- **Never commit `.env.local`** — it is gitignored
-- Always keep `.env.example` up to date when you add a new variable
-- Variables must be prefixed with `VITE_` to be accessible in the app
-- This is a static frontend app — all env vars are baked in at build time and visible in the browser bundle. **Do not store secrets in `VITE_` variables.**
-
----
-
-## Available Scripts
-
-| Command | Description |
-|---|---|
-| `npm run dev` | Start local dev server with hot module replacement at `http://localhost:5173` |
-| `npm run build` | Production build — output goes to `dist/` |
-| `npm run build:dev` | Development build (with source maps) |
-| `npm run preview` | Preview the production build locally before deploying |
-| `npm run lint` | Run ESLint across the codebase |
-| `npm run typecheck` | TypeScript type checking without emitting files |
-| `npm run test` | Run tests once *(if tests exist for the area you're working on)* |
-| `npm run test:watch` | Run tests in watch mode |
-
-> 💡 Always run `npm run build` and `npm run lint` before opening a PR to catch errors early.
-
----
-
-## Development Workflow
-
-1. **Check open issues or discussions** — see if the work you want to do is already being tracked. If not, open an issue or discussion to let the team know what you're planning.
-
-2. **Create a branch** from `main` using the naming convention below
-
-3. **Make your changes** — follow the existing code patterns and design system conventions in this guide
-
-4. **Test in the browser** — check your changes across mobile, tablet, and desktop breakpoints
-
-5. **Run the build** — `npm run build` must pass with zero errors
-
-6. **Lint your code** — `npm run lint` must pass with no new warnings
-
-7. **Commit** using [Conventional Commits](#commit-conventions) format
-
-8. **Push** your branch and open a Pull Request against `main`
+- **Clean, Maintainable, Scalable Code:** We prioritize readability and long-term maintainability over clever but complex solutions.
+- **Respect Existing Conventions:** Follow the established architecture and patterns you see in the codebase.
+- **Purposeful Refactoring:** Avoid unnecessary refactoring unless strictly required for a bug fix or approved architectural update.
 
 ---
 
 ## Branching Strategy
 
-Branch directly off `main`:
+To keep our deployments stable, we employ a strict pull request and branching process based on two protected branches:
 
-| Branch pattern | Use for |
-|---|---|
-| `feat/<short-description>` | New features or enhancements |
-| `fix/<short-description>` | Bug fixes |
-| `docs/<short-description>` | Documentation-only changes |
-| `style/<short-description>` | UI/visual changes with no logic impact |
-| `refactor/<short-description>` | Code restructuring with no behaviour change |
-| `content/<short-description>` | Content updates (speakers, schedule, copy) |
+- **`main`**: The production branch. It contains only stable, production-ready code. **Never commit directly or open PRs to this branch (except for hotfixes).**
+- **`staging`**: The development/integration branch. All new features and bug fixes land here first.
 
-**Examples:**
+### Visual Workflow
+
+```text
+main           ────o────────────────────────────────────o────o────
+                   │                                    ^    │
+                   │ (Periodic release)                 │    │
+staging        ────o────o──────────────o──────────o─────┼────o────
+                        │              ^          │     │    ^
+                        v              │          v     │    │
+feature/* or fix/*      └──o───o───o───┘          │     │    │
+                                                  │     │    │
+hotfix/* (Urgent)                                 └──o──┴────┘
 ```
-feat/speaker-search-filter
-fix/mobile-navbar-overlap
-docs/update-cms-schema
-content/add-2026-speakers
-```
 
-Keep branch names lowercase, hyphen-separated, and descriptive but brief.
+- Features branch off `staging` and merge back into `staging`.
+- Hotfixes branch off `main` and merge into BOTH `main` and `staging` to ensure fixes aren't lost in upcoming releases.
+- Maintainers handle promoting `staging` to `main`.
+
+### Naming Conventions
+
+Use descriptive branch names with the following prefixes:
+
+- `feat/<name>` for new features or enhancements (e.g., `feat/speaker-cards`)
+- `fix/<name>` for bug fixes (e.g., `fix/navbar-mobile-menu`)
+- `chore/<name>` for tooling, config, or dependency updates (e.g., `chore/update-vite`)
+- `hotfix/<name>` for urgent production fixes branching from `main` (e.g., `hotfix/broken-payment-link`)
 
 ---
 
-## Commit Conventions
+## Mandatory Pre-Work Requirement
 
-This project follows [Conventional Commits](https://www.conventionalcommits.org/). This keeps the git history readable and makes changelogs easier to generate.
+Before making any changes or writing a single line of code, contributors **MUST**:
 
-**Format:**
-```
-<type>: <short present-tense description>
-```
+1. **Read and Understand the Docs:** Review the project documentation (such as `.agents/CONTEXT.md` and architecture docs).
+2. **Analyze the Project Structure:** Understand the folder layout, core components, and general architecture.
+3. **Identify Affected Files:** Trace exactly which files, components, and state will be impacted by your changes.
+4. **Ensure Consistency:** Verify that your proposed approach aligns with existing patterns. (If in doubt, open an issue to discuss it first!)
 
-**Types:**
-
-| Type | When to use |
-|---|---|
-| `feat` | Adding a new feature or page section |
-| `fix` | Fixing a bug |
-| `docs` | Documentation changes only |
-| `style` | Visual/UI changes that don't affect logic |
-| `refactor` | Code restructuring — no behaviour change |
-| `content` | Updating event content (speakers, schedule, etc.) |
-| `chore` | Dependency updates, config changes, build tweaks |
-
-**Examples:**
-```
-feat: add speaker video links to past summits page
-fix: correct navbar active state on /past-summits route
-docs: update CMS schema documentation
-style: adjust hero section spacing on mobile
-refactor: extract MetricCard into shared component
-content: add 2026 keynote speaker profiles
-chore: upgrade tailwind to v4
-```
-
-Keep the description short (under 72 characters) and in the present tense.
+_Note: These mandatory pre-work steps primarily apply to code changes. Minor documentation edits or typo fixes may be exempt from the full process._
 
 ---
 
-## Pull Request Process
+## Local Setup & Prerequisites
 
-1. **Title** — use the same format as your commit message (e.g. `feat: add sponsor tier comparison table`)
+**Node.js**: Version **^20.19.0** or **>=22.12.0** is required.
+We recommend using [nvm](https://github.com/nvm-sh/nvm):
 
-2. **Description** — fill in the PR template:
-   - What changed and why
-   - Link to the related issue or discussion (e.g. `Closes #42`)
-   - Screenshots or screen recordings for any UI changes (before and after)
-   - Notes on how you tested the change
+```bash
+nvm install 22
+nvm use 22
+```
 
-3. **Self-review** — read through your own diff before requesting review. Catch typos, leftover debug code, and console logs yourself first.
+**Installation**:
 
-4. **Request a reviewer** — tag at least one core maintainer for review
+```bash
+git clone git@github.com:NaiDevOpsCom/devopssummit.africa-v3.git
+cd devopssummit.africa-v3
+npm install
+```
 
-5. **Respond to feedback** — address comments or explain your reasoning. PRs are a conversation, not a gate.
+### Environment Variables
 
-6. **Merge** — a maintainer will squash and merge once approved
+- Copy the example environment file: `cp .env.example .env.local`
+- **Never commit `.env.local`**. Ensure your `.gitignore` includes `.env.local`.
+- **Note**: This is a static frontend app — all env vars are baked in at build time and visible in the browser bundle. Do not store secrets in `VITE_` variables.
 
-> ⚠️ PRs that break the build (`npm run build`), introduce TypeScript errors, or have unresolved ESLint warnings will not be merged until fixed.
+### Available Scripts
+
+- `npm run dev`: Start the local development server at `http://localhost:5173`
+- `npm run build`: Build the production-ready site into `dist/`
+- `npm run lint`: Run ESLint across the codebase
+- `npm run typecheck`: Run TypeScript type checking without emitting files
+
+---
+
+## Development Workflow
+
+1. **Sync with Upstream:**
+   Always pull the latest changes from `staging` before starting new work.
+
+   ```bash
+   git checkout staging
+   git pull origin staging
+   ```
+
+2. **Create Your Branch:**
+
+   ```bash
+   git checkout -b feat/your-feature-name
+   ```
+
+3. **Develop and Commit:**
+   Make your changes following the code quality standards. Write clear, descriptive commit messages.
+
+4. **Open a Pull Request:**
+   Push your branch and open a PR targeting the **`staging`** branch (NOT `main`).
 
 ---
 
 ## Code Style & Conventions
 
-### TypeScript
+This project uses React, Vite, and TypeScript. All contributions must adhere to the following standards:
 
-- Avoid `any` — define proper types and interfaces in `src/types/`
-- Use **plain function declarations** for components, not `React.FC`:
-  ```tsx
-  // ✅ Preferred
-  export default function SpeakerCard({ name, bio }: SpeakerCardProps) { ... }
+### TypeScript & React
 
-  // ❌ Avoid
-  const SpeakerCard: React.FC<SpeakerCardProps> = ({ name, bio }) => { ... }
-  ```
-- Export prop types as named interfaces alongside the component file
+- **TypeScript Best Practices:** Utilize strict typing. Avoid the use of `any` wherever possible. Define explicit interfaces for your data.
+- **Component Architecture:** Ensure components are reusable, modular, small, and focused on a single responsibility. Use plain function declarations for components (not `React.FC`).
+- **File Naming:** Use PascalCase for components (`Navbar.tsx`), camelCase for hooks and utilities (`useMobile.ts`, `cn.ts`).
 
-### Components
+### Styling (Tailwind CSS)
 
-- Functional components with hooks only — no class components
-- One component per file; filename matches the component name (PascalCase)
-- Keep components small and focused — if a component exceeds ~150 lines, consider splitting it
-- Every page wraps content with `<Navbar />` and `<Footer />`
-- Use `<SectionHeader />` for consistent section titles across pages
-
-### Styling
-
-- **Tailwind only** — no inline styles, no external `.css` files (except `src/styles/globals.css`)
-- Use semantic Tailwind tokens, not raw values:
-  ```tsx
-  // ✅ Correct — uses design tokens
-  <p className="text-foreground bg-primary">...</p>
-
-  // ❌ Wrong — hardcoded color
-  <p className="text-gray-900 bg-orange-500">...</p>
-  ```
-- Do not use arbitrary Tailwind values (e.g. `w-[347px]`) — add custom tokens to `tailwind.config.ts` instead
-- Responsive design is required — always test at mobile (`375px`), tablet (`768px`), and desktop (`1280px`) widths
-
-### Animations
-
-- Use **Framer Motion** for animations — use consistent `fadeUp` variants defined in `src/lib/animations.ts`
-- Keep animations subtle and purposeful — they should enhance UX, not distract
-- Always respect `prefers-reduced-motion` — Framer Motion handles this via `useReducedMotion()`
-
-### Data & Content
-
-- Store all static data in `src/data/` as typed `.ts` files
-- All data exports must have TypeScript types defined in `src/types/`
-- Do not hardcode event-specific strings (dates, venue, names) directly in component JSX — reference them from `src/data/`
+- Follow utility-first styling with Tailwind CSS.
+- Use semantic CSS variables defined in our design system (e.g., `bg-primary`, `text-foreground`). Avoid hardcoding hex colors.
 
 ### Imports
 
-- Use the `@/` path alias for all imports — no relative `../../../` chains:
-  ```ts
-  // ✅ Correct
-  import { SpeakerCard } from "@/components/shared/SpeakerCard"
+- Always use the `@/` alias for absolute imports within the `src` directory (e.g., `import { cn } from "@/lib/utils";`).
 
-  // ❌ Avoid
-  import { SpeakerCard } from "../../../components/shared/SpeakerCard"
+### shadcn/ui Components
+
+- **Warning:** Do not manually edit or create files inside `src/components/ui/`. These are generated code.
+- To add or update a component, always use the CLI:
+  ```bash
+  npx shadcn@latest add [component-name]
   ```
 
-### File Naming
+---
 
-| Type | Convention | Example |
-|---|---|---|
-| Components | PascalCase | `SpeakerCard.tsx` |
-| Pages | PascalCase | `Schedule.tsx` |
-| Hooks | camelCase with `use` prefix | `useScrollPosition.ts` |
-| Utilities | camelCase | `formatDate.ts` |
-| Data files | camelCase | `speakers.ts` |
-| Type files | camelCase | `speaker.types.ts` |
+## Testing & Validation
+
+All contributors are responsible for validating their code before opening a PR:
+
+- **Build Check:** Ensure the application builds successfully without errors.
+  ```bash
+  npm run build
+  ```
+- **Linting:** Run the linter and fix all identified issues before submitting.
+  ```bash
+  npm run lint
+  ```
+- **Manual QA:** Manually test affected features in the browser to ensure the UI and UX remain intact.
 
 ---
 
-## Working with shadcn/ui
+## Pull Request Guidelines
 
-shadcn/ui components are generated into `src/components/ui/`. **Do not manually edit files in this directory** — they will be overwritten when the component is updated via the CLI.
+To expedite the review process, ensure your PR meets these criteria:
 
-To add a new shadcn/ui component:
-
-```sh
-npx shadcn@latest add <component-name>
-
-# Examples:
-npx shadcn@latest add dialog
-npx shadcn@latest add data-table
-```
-
-To update an existing component:
-
-```sh
-npx shadcn@latest add <component-name> --overwrite
-```
-
-Custom wrappers or compositions built on top of shadcn primitives belong in `src/components/shared/`, not `src/components/ui/`.
+- **Target the Right Branch:** Remember, target `staging` (unless it's a hotfix).
+- **Clear Title & Description:** Clearly explain _what_ was changed and _why_.
+- **Reference Issues:** Link any related bug or feature tracking issues (e.g., `Closes #42`).
+- **Include Visuals:** For UI changes, attach screenshots or a screen recording showing the before and after.
+- **Keep It Focused:** Limit your PR to a single concern or feature. Smaller PRs are reviewed and merged much faster!
 
 ---
 
-## Content Contributions
+## CI/CD Awareness
 
-Not all contributions require code changes. If you're an organizer, volunteer, or community member updating event content:
+Please be aware that opening a PR will trigger automated pipeline checks:
 
-### What counts as a content contribution
-
-- Speaker profiles (name, bio, photo, talk title, social links)
-- Session and schedule updates
-- Sponsor logos and descriptions
-- Past summit photos, recaps, and testimonials
-- Copy corrections (typos, outdated information)
-
-### How to contribute content
-
-**For CMS-managed content** *(speakers, schedule, sponsors, past summits):*
-> `TODO: Document CMS access and update process once CMS is confirmed.`
-
-**For static content** *(FAQs, Code of Conduct, ticket tiers, etc.):*
-1. Edit the relevant file in `src/data/`
-2. Follow the existing TypeScript structure and types
-3. Open a PR with the label `content`
-
-**For images:**
-- Use WebP format where possible
-- Keep file sizes under 200KB — compress using [Squoosh](https://squoosh.app/) or [TinyPNG](https://tinypng.com/)
-- Use descriptive, kebab-case filenames: `amina-njoroge-speaker-2026.webp`
-- Place images in the appropriate subfolder under `public/assets/`
+- Automated tests, linting, and build validation will run.
+- **Your PR must pass all CI/CD checks before it can be merged.**
+- If a check fails, review the logs, push a fix to your branch, and the checks will run again.
 
 ---
 
-## Code Review Expectations
+## Hotfix Workflow (For Critical Production Bugs)
 
-When your PR is reviewed, reviewers will check for:
+If you are addressing an urgent bug currently in production:
 
-- ✅ Build passes (`npm run build` — no errors)
-- ✅ No TypeScript errors (`npm run typecheck`)
-- ✅ No new ESLint warnings (`npm run lint`)
-- ✅ Tailwind semantic tokens used — no hardcoded colors
-- ✅ Components are small, typed, and focused
-- ✅ Responsive layout tested on mobile, tablet, and desktop
-- ✅ Accessibility basics preserved (alt text, aria-labels, semantic HTML, keyboard navigation)
-- ✅ No leftover `console.log`, commented-out code, or debug artifacts
-- ✅ `.env.example` updated if new env variables were added
+1. Ensure your local `main` branch is up to date:
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+2. Create your hotfix branch directly off `main`:
+   ```bash
+   git checkout -b hotfix/describe-the-bug
+   ```
+3. Fix the issue, and test it thoroughly to ensure no regressions.
+4. Open ONE PR targeting `main` with the prefix `[HOTFIX]` in the title for immediate production deployment.  
+   Once merged, maintainers will cherry-pick changes into `staging`.
 
----
-
-## What Not to Do
-
-To keep the codebase healthy, please avoid:
-
-- ❌ **Editing `src/components/ui/` directly** — use the shadcn CLI; manual edits get overwritten
-- ❌ **Committing `.env.local`** — it's gitignored for a reason
-- ❌ **Pushing directly to `main`** — all changes go through PRs
-- ❌ **Using `any` in TypeScript** — define the type properly
-- ❌ **Hardcoding colors, font sizes, or spacing** outside of `tailwind.config.ts`
-- ❌ **Adding large uncompressed images** to `public/` — optimise before committing
-- ❌ **Mixing multiple unrelated changes in one PR** — keep PRs focused
+_(Note: There is no automation for this dual-merge; the backporting is a manual step performed by maintainers.)_
 
 ---
 
-## Getting Help
-
-Stuck? Not sure where to start? Here's how to get help:
-
-- 💬 **GitHub Discussions** — [Ask a question or share an idea](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions)
-- 🐛 **GitHub Issues** — [Report a bug or request a feature](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues)
-- 📧 **Email the team** — `TODO: hello@devopssummit.africa`
-- 💬 **Community chat** — `TODO: Link to Discord / Slack / WhatsApp`
-
-We're a friendly community — no question is too small. We'd rather you ask than get blocked.
-
----
-
-*Thank you for contributing to the Africa DevOps Summit. Let's build something the continent is proud of. 🌍*
+Thank you for contributing! Your efforts help make this project better for everyone.

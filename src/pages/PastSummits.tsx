@@ -31,7 +31,7 @@ import { growthMetrics, type PastSummit } from "@/data/summitData";
 import { summitGallery, summitTestimonials } from "@/data/summitExperience";
 import { sponsors as allSponsors } from "@/data/sponsors";
 import { speakers as centralSpeakers } from "@/data/speakers";
-import { Speaker } from "@/types";
+import { type Speaker } from "@/types";
 import SummitGallery from "@/components/SummitGallery";
 import { summitsArray, getSummitCounts } from "@/utils/summitUtils";
 import { SafeLink } from "@/components/SafeLink";

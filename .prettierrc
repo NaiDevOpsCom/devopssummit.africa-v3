@@ -5,7 +5,9 @@
   "trailingComma": "all",
   "printWidth": 100,
   "bracketSpacing": true,
+  "bracketSameLine": false,
   "arrowParens": "always",
   "endOfLine": "lf",
-  "jsxSingleQuote": false
+  "jsxSingleQuote": false,
+  "embeddedLanguageFormatting": "auto"
 }

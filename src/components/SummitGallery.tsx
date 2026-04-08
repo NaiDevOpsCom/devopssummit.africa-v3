@@ -1,11 +1,10 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
+import { FixedSizeGrid as Grid, type GridChildComponentProps } from "react-window";
 import { AutoSizer } from "react-virtualized-auto-sizer";
 import { useGalleryImages } from "@/hooks/useGalleryImages";
 import { useLazyImage } from "@/hooks/useLazyImage";
-import { GALLERY_YEAR_MAP } from "@/lib/imagekit.paths";
 import { summitGallery as fallbackGallery } from "@/data/summitExperience";
 import { IS_DEVELOPMENT } from "@/config/env";
 
@@ -16,8 +15,9 @@ const SHUFFLE_SEED = Math.random();
  * Deterministic PRNG (Mulberry32)
  */
 function createPRNG(seed: number) {
+  let s = seed;
   return function () {
-    let t = (seed += 0x6d2b79f5);
+    let t = (s += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
@@ -85,7 +85,7 @@ const GalleryThumb: React.FC<GalleryThumbProps> = ({ src, index, total, onClick,
       {isVisible && !hasError && (
         <img
           src={src}
-          alt={`Summit photo ${index + 1}`}
+          alt={`Summit ${index + 1} of ${total}`}
           onLoad={onLoad}
           onError={onError}
           className={`w-full h-full object-cover transition-all duration-300
@@ -178,7 +178,7 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
           </p>
         )}
 
-        <div role="region" aria-label={`${year} Summit Gallery Preview`}>
+        <section aria-label={`${year} Summit Gallery Preview`}>
           {images.length === 0 ? (
             <p className="text-center text-muted-foreground py-16">
               No photos available for {year} yet.
@@ -212,7 +212,7 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
               )}
             </>
           )}
-        </div>
+        </section>
 
         {/* Preview Lightbox */}
         <Dialog open={lightboxIndex !== null} onOpenChange={handleOpenChange}>
@@ -222,8 +222,8 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
           >
             <DialogHeader className="sr-only">
               <DialogTitle>
-                Preview Photo {lightboxIndex !== null ? lightboxIndex + 1 : ""} of{" "}
-                {previewImages.length}
+                Preview
+                {lightboxIndex !== null ? `${lightboxIndex + 1} of ${previewImages.length}` : ""}
               </DialogTitle>
             </DialogHeader>
 
@@ -231,7 +231,7 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
               <>
                 <img
                   src={previewImages[lightboxIndex]}
-                  alt={`Summit photo ${lightboxIndex + 1} enlarged`}
+                  alt={`Summit ${lightboxIndex + 1} of ${previewImages.length}, enlarged`}
                   className="w-full h-auto"
                 />
 
@@ -278,13 +278,7 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
               <div className="h-full w-full">
                 {images.length > 0 && (
                   <AutoSizer
-                    renderProp={({
-                      height,
-                      width,
-                    }: {
-                      height: number | undefined;
-                      width: number | undefined;
-                    }) => {
+                    renderProp={({ height, width }: { height?: number; width?: number }) => {
                       const containerWidth = width || 1000;
                       const containerHeight = height || 600;
                       const cols = Math.max(2, Math.floor(containerWidth / 180));
@@ -343,7 +337,9 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
         {/* Full Gallery Lightbox */}
         <Dialog
           open={fullGalleryIndex !== null}
-          onOpenChange={(open) => !open && setFullGalleryIndex(null)}
+          onOpenChange={(open) => {
+            if (!open) setFullGalleryIndex(null);
+          }}
         >
           <DialogContent
             className="max-w-5xl p-0 overflow-hidden bg-foreground/95 z-[60]"
@@ -351,8 +347,8 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
           >
             <DialogHeader className="sr-only">
               <DialogTitle>
-                Gallery Photo {fullGalleryIndex !== null ? fullGalleryIndex + 1 : ""} of{" "}
-                {images.length}
+                Gallery
+                {fullGalleryIndex !== null ? `${fullGalleryIndex + 1} of ${images.length}` : ""}
               </DialogTitle>
             </DialogHeader>
 
@@ -360,7 +356,7 @@ const SummitGallery: React.FC<SummitGalleryProps> = ({ year }) => {
               <>
                 <img
                   src={images[fullGalleryIndex]}
-                  alt={`Full gallery photo ${fullGalleryIndex + 1}`}
+                  alt={`Gallery ${fullGalleryIndex + 1} of ${images.length}, enlarged`}
                   className="w-full h-auto"
                 />
 

@@ -8,7 +8,7 @@
  * Throws an error immediately if the variable is missing or empty.
  * For non-critical/optional variables, use optionalEnv().
  */
-const requireEnv = (key: keyof ImportMetaEnv, description: string): string => {
+export const requireEnv = (key: keyof ImportMetaEnv, description: string): string => {
   const value = import.meta.env[key];
   if (value === undefined || value === null || (typeof value === "string" && value.trim() === "")) {
     // Only throw for critical variables that the app cannot function without

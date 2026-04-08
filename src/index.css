@@ -11,13 +11,15 @@ html {
   :root {
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
+    --card: 199 88% 58%;
+    /* 0 0% 100%; */
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
     --primary: 223 100% 66%;
     --primary-foreground: 210 40% 98%;
     --secondary: 199 89% 60%;
+    --secondary-alt: 210 100% 50%;
     --secondary-foreground: 222 47% 11%;
     --muted: 210 40% 96%;
     --muted-foreground: 215 20% 65%;
@@ -31,6 +33,7 @@ html {
     --brand-blue: var(--ring);
     --brand-orange: 25 95% 53%;
     --brand-purple: 270 95% 65%;
+    --pill-bg: 201 99% 49%;
     --radius: 0.75rem;
     --dark-bg: 222 47% 11%;
     --card-dark: 217 33% 17%;
@@ -50,6 +53,8 @@ html {
     --color-text-primary: hsl(var(--foreground));
     --color-text-inverse: hsl(var(--primary-foreground));
     --color-border-muted: hsl(var(--border));
+    --text-on-gradient: #ffffff;
+    --text-on-gradient-muted: rgba(255, 255, 255, 0.6);
   }
 }
 
@@ -95,6 +100,135 @@ html {
   }
   .animate-delay-400 {
     animation-delay: 0.4s;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────
+   Marquee component — intentionally outside @layer so its
+   specificity beats Tailwind utility classes.
+   ─────────────────────────────────────────────────────────── */
+
+.marquee-container {
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  padding: 0.75rem 0;
+}
+
+/* ── Variant backgrounds ─────────────────────────────────── */
+.marquee-primary {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+}
+
+.marquee-secondary {
+  background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-alt)) 100%);
+}
+
+.marquee-accent {
+  background: linear-gradient(135deg, hsl(var(--brand-orange)) 0%, hsl(var(--brand-purple)) 100%);
+}
+
+/* ── Edge fade mask ──────────────────────────────────────── */
+.marquee-with-fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+/* ── Track — continuous scroll via width: max-content ──── */
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  will-change: transform;
+}
+
+/* ── Item ────────────────────────────────────────────────── */
+.marquee-item {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-family: var(--font-heading, "Sora", sans-serif);
+  font-weight: 800;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-on-gradient, #ffffff);
+  padding: 0.375rem 0;
+  white-space: nowrap;
+}
+
+/* Decorator dot between items */
+.marquee-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-on-gradient-muted, rgba(255, 255, 255, 0.6));
+  flex-shrink: 0;
+  margin-right: 1.5rem;
+}
+
+/* ── Responsive sizing ───────────────────────────────────── */
+@media (min-width: 768px) {
+  .marquee-container {
+    padding: 1rem 0;
+  }
+  .marquee-item {
+    font-size: 1.25rem;
+    gap: 2.5rem;
+    letter-spacing: 0.1em;
+  }
+  .marquee-dot {
+    width: 8px;
+    height: 8px;
+    margin-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .marquee-item {
+    font-size: 1.5rem;
+  }
+}
+
+/* ── Skew / tilt ─────────────────────────────────────────── */
+.marquee-skewed {
+  transform: skewY(-2deg);
+}
+
+/* ── Hover pause ─────────────────────────────────────────── */
+.marquee-pause-on-hover:hover .marquee-track {
+  animation-play-state: paused !important;
+}
+
+/* ── Keyframes — translate by 33.333% because items are tripled ── */
+@keyframes marquee-scroll-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  from {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
   }
 }
 

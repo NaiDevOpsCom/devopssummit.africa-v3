@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
@@ -23,7 +23,7 @@ import Footer from "@/components/layout/Footer";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Speaker } from "@/types";
+import { type Speaker } from "@/types";
 import { speakers } from "@/data/speakers";
 
 /* ------------------------------------------------------------------ */
