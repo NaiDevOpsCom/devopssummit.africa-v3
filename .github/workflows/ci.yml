@@ -179,14 +179,14 @@ jobs:
           fi
 
   # ── Security ───────────────────────────────────────────────
-# ── Security ───────────────────────────────────────────────
+  # ── Security ───────────────────────────────────────────────
   security:
     name: 🔐 Security Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # Full history required for secret scanning
+          fetch-depth: 0 # Full history required for secret scanning
 
       - uses: actions/setup-node@v4
         with:
