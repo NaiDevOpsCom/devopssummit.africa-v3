@@ -11,7 +11,7 @@ updates:
       timezone: "UTC"
 
     open-pull-requests-limit: 10
-    target-branch: "main"
+    target-branch: "staging"
 
     # ✅ ONLY allow direct dependencies (reduces random breakage)
     allow:
