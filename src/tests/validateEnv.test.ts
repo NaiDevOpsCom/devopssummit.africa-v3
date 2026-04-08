@@ -6,18 +6,18 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 // so we don't get stale module state
 const buildTestToken = (...parts: string[]) => parts.join("");
 
-// ⚠ INTENTIONAL OBFUSCATION: buildFromCharCodes and testPrefixes use numeric char codes
+// ⚠ INTENTIONAL OBFUSCATION: buildFromCodePoint and testPrefixes use numeric char codes
 // to construct secret-like prefixes (stripe: "sk_live_", aws: "AKIA", github: "ghp_")
 // This avoids triggering GitHub secret scanning, pre-commit hooks, and other secret
 // detection tools in test fixtures while still exercising validateEnv's security checks.
 // MAINTAINERS: Do NOT replace these with plaintext strings (e.g., "sk_live_", "AKIA", "ghp_").
 // The numeric encoding is essential for preventing CI/CD pipeline failures.
-const buildFromCharCodes = (...codes: number[]) => String.fromCharCode(...codes);
+const buildFromCodePoints = (...codes: number[]) => String.fromCodePoint(...codes);
 
 const testPrefixes = {
-  stripe: buildFromCharCodes(115, 107, 95, 108, 105, 118, 101, 95), // "sk_live_"
-  aws: buildFromCharCodes(65, 75, 73, 65), // "AKIA"
-  github: buildFromCharCodes(103, 104, 112, 95), // "ghp_"
+  stripe: buildFromCodePoints(115, 107, 95, 108, 105, 118, 101, 95), // "sk_live_"
+  aws: buildFromCodePoints(65, 75, 73, 65), // "AKIA"
+  github: buildFromCodePoints(103, 104, 112, 95), // "ghp_"
 };
 
 const requiredEnv = {

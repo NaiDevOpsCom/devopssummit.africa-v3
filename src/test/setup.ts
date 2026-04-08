@@ -11,7 +11,7 @@ afterEach(() => {
 
 // ── matchMedia ───────────────────────────────────────────────────────────────
 // jsdom doesn't implement matchMedia — required by next-themes + use-mobile hook
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(globalThis, "matchMedia", {
   writable: true,
   value: (query: string) => ({
     matches: false,
@@ -27,7 +27,7 @@ Object.defineProperty(window, "matchMedia", {
 
 // ── ResizeObserver ───────────────────────────────────────────────────────────
 // Required by radix-ui components (ScrollArea, NavigationMenu, etc.)
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
+globalThis.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
@@ -35,7 +35,7 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
 
 // ── IntersectionObserver ─────────────────────────────────────────────────────
 // Required by lazy loading, useDynamicBackground
-global.IntersectionObserver = vi.fn().mockImplementation(() => ({
+globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
