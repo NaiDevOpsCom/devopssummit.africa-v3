@@ -5,7 +5,7 @@ import { summitDetails } from "@/data/summitData";
 
 const _parsedDate = Date.parse(summitDetails.datetime);
 /** Falls back to `null` if datetime is missing or malformed, disabling the countdown and showing a fallback message. */
-const EVENT_DATE = isNaN(_parsedDate) ? null : _parsedDate;
+const EVENT_DATE = Number.isNaN(_parsedDate) ? null : _parsedDate;
 
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -75,7 +75,7 @@ const ParticleCanvas: React.FC = React.memo(() => {
           const q = particles[j];
           const dx = p.x - q.x;
           const dy = p.y - q.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const dist = Math.hypot(dx * dx + dy * dy);
           if (dist < maxDist) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);

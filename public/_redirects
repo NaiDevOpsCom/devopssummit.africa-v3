@@ -1,0 +1,9 @@
+# ── SPA routing — React Router needs this ─────────────────────
+# Without this, direct navigation to /about returns a 404
+# because Cloudflare looks for an actual file at that path
+/*    /index.html    200
+
+# ── Common redirects ──────────────────────────────────────────
+# Uncomment as needed when you add these pages
+# /speakers    /schedule    301
+# /register    /tickets     301

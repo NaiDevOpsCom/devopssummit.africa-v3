@@ -179,13 +179,14 @@ jobs:
           fi
 
   # ── Security ───────────────────────────────────────────────
+  # ── Security ───────────────────────────────────────────────
   security:
     name: 🔐 Security Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Full history required for secret scanning
 
       - uses: actions/setup-node@v4
         with:
@@ -195,15 +196,48 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # ── Dependency vulnerability audit ──────────────────────
+      # Fails CI on high/critical severity vulnerabilities
+      # Run 'npm audit fix' locally to resolve fixable issues
+      # Remove --omit=dev to also scan devDependencies (recommended)
       - name: Audit npm dependencies
-        continue-on-error: true
-        run: |
-          echo "=== npm audit ==="
-          npm audit --audit-level=high --omit=dev
-          # Reports: vulnerability name, severity, affected package, fix available
+        run: npm audit --audit-level=high
 
+      # ── Secret leak detection ────────────────────────────────
+      # Scans full git history for accidentally committed secrets:
+      # API keys, tokens, private keys, connection strings
       - name: Scan for committed secrets
+<<<<<<< dependabot/github_actions/staging/gitleaks/gitleaks-action-ff98106e4c7b2bc287b24eaf42907196329070c7
         uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
+=======
+        uses: gitleaks/gitleaks-action@v2
+>>>>>>> staging
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+      # ── Required Cloudflare Pages files ──────────────────────
+      # These must exist in public/ or CF Pages serves without
+      # security headers and SPA routing breaks on direct URLs
+      - name: Validate public/_headers exists
+        run: |
+          if [ ! -f "public/_headers" ]; then
+            echo "❌ public/_headers is missing"
+            echo "   Security headers will NOT be served by Cloudflare Pages"
+            echo "   Create public/_headers — see docs/security-headers.md"
+            exit 1
+          fi
+          echo "✅ public/_headers present"
+          echo "--- Contents preview ---"
+          head -20 public/_headers
+
+      - name: Validate public/_redirects exists
+        run: |
+          if [ ! -f "public/_redirects" ]; then
+            echo "❌ public/_redirects is missing"
+            echo "   Direct navigation to /about, /schedule etc. will return 404"
+            echo "   Create public/_redirects with: /*    /index.html    200"
+            exit 1
+          fi
+          echo "✅ public/_redirects present"
+          cat public/_redirects
