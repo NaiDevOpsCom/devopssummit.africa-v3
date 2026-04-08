@@ -84,8 +84,9 @@ jobs:
         # Fix locally with: npm run format
 
   # ── Tests ──────────────────────────────────────────────────
+  # ── Unit & Integration Tests ──────────────────────────────────────
   test:
-    name: 🧪 Vitest Tests
+    name: 🧪 Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -95,22 +96,41 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+      - name: Run unit tests with coverage
+        run: npx vitest run --coverage --reporter=verbose --reporter=github-actions
+        env:
+          # Provide stub values so env validation doesn't fail
+          VITE_IMAGEKIT_URL_ENDPOINT: https://ik.imagekit.io/test
+          VITE_IMAGEKIT_PUBLIC_KEY: test_public_key
+          VITE_APP_NAME: Africa DevOps Summit Test
 
-      - name: Run tests with coverage
-        run: npx vitest run --coverage --reporter=verbose
-        # verbose reporter shows each test name + pass/fail + duration
-        # coverage fails if thresholds in vitest.config.ts aren't met
-
-      - name: Upload test coverage
+      - name: Upload coverage report
         uses: actions/upload-artifact@v4
+        if: always() # Upload even if tests fail — useful for debugging
         with:
-          name: test-coverage
+          name: coverage-report
           path: coverage/
+          retention-days: 7
+
+  # ── Storybook Tests (separate — needs browser) ────────────────────
+  # Only runs on PRs to main, not on every push to staging
+  # Uncomment when Storybook stories are fully set up
+  # storybook-tests:
+  #   name: 📚 Storybook Tests
+  #   runs-on: ubuntu-latest
+  #   if: github.base_ref == 'main'
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ env.NODE_VERSION }}
+  #         cache: "npm"
+  #     - run: npm ci
+  #     - run: npx playwright install chromium --with-deps
+  #     - run: npm run build-storybook -- --quiet
+  #     - run: npx vitest run --project=storybook
 
   # ── Build Verification ─────────────────────────────────────
   build-check:

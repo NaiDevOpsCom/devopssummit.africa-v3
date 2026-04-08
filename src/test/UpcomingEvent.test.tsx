@@ -4,15 +4,35 @@ import UpcomingEvent from "@/components/landing/UpcomingEvent";
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
 
-vi.mock("framer-motion", () => ({
-  motion: {
-    div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-      <div {...props}>{children}</div>
-    ),
-  },
-  useReducedMotion: () => false,
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}));
+vi.mock("framer-motion", () => {
+  const filterProps = (props: any) => {
+    const {
+      initial: _initial,
+      animate: _animate,
+      exit: _exit,
+      transition: _transition,
+      whileInView: _whileInView,
+      whileHover: _whileHover,
+      whileTap: _whileTap,
+      viewport: _viewport,
+      variants: _variants,
+      layoutId: _layoutId,
+      layout: _layout,
+      ...validProps
+    } = props;
+    return validProps;
+  };
+
+  return {
+    motion: {
+      div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+        <div {...filterProps(props)}>{children}</div>
+      ),
+    },
+    useReducedMotion: () => false,
+    AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  };
+});
 
 describe("UpcomingEvent", () => {
   it("renders the correct event date", () => {

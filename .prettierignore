@@ -22,3 +22,5 @@ public/**/*.{png,jpg,jpeg,gif,svg,ico,woff,woff2,ttf,eot}
 
 # Type declaration files
 dist/**/*.d.ts
+
+src/data/gallery.generated.json
