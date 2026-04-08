@@ -95,9 +95,9 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^5.1.1",
     "@eslint/js": "^10.0.1",
-    "@storybook/addon-a11y": "^10.3.4",
+    "@storybook/addon-a11y": "^10.3.5",
     "@storybook/addon-docs": "^10.3.3",
-    "@storybook/addon-onboarding": "^10.3.4",
+    "@storybook/addon-onboarding": "^10.3.5",
     "@storybook/addon-vitest": "^10.3.3",
     "@storybook/react-vite": "^10.3.4",
     "@tailwindcss/typography": "^0.5.16",
@@ -121,7 +121,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
-    "eslint-plugin-storybook": "^10.3.4",
+    "eslint-plugin-storybook": "^10.3.5",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
     "jsdom": "^29.0.0",
@@ -131,7 +131,7 @@
     "playwright": "^1.59.1",
     "prettier": "^3.8.1",
     "rollup-plugin-visualizer": "^7.0.1",
-    "storybook": "^10.2.19",
+    "storybook": "^10.3.5",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
@@ -139,6 +139,6 @@
     "vite": "^8.0.3",
     "vite-plugin-compression2": "^2.5.3",
     "vite-plugin-pwa": "^1.2.0",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.3"
   }
 }
