@@ -10,32 +10,6 @@ import { speakers } from "@/data/speakers";
 
 const CURRENT_YEAR = 2026;
 
-interface ApplySpeakerButtonProps {
-  readonly variant?: "primary" | "secondary";
-}
-
-/** Shared CTA that appears in both the empty-state and below the carousel. */
-function ApplySpeakerButton({ variant = "primary" }: ApplySpeakerButtonProps) {
-  const borderClass = variant === "primary" ? "border-white" : "border-white/70";
-  return (
-    <Button
-      asChild
-      size="lg"
-      className={`group px-10 py-4 rounded-full border-2 ${borderClass} bg-transparent text-white font-bold text-base hover:bg-white hover:text-primary transition-all`}
-    >
-      <a
-        href="https://talks.nairobidevops.org/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2"
-      >
-        Apply to speak
-        <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-      </a>
-    </Button>
-  );
-}
-
 const Speakers: React.FC = () => {
   const currentYearSpeakers = useMemo(() => speakers[CURRENT_YEAR] || [], []);
 
@@ -108,8 +82,8 @@ const Speakers: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <SectionHeader
           title="Featured Speakers"
-          pill="Innovators Transforming Africa’s Tech Future"
-          subtitle="Meet the experts shaping Africa’s DevOps and cloud future — sharing real-world insights, lessons, and bold ideas."
+          pill="Meet Our Speakers"
+          subtitle="Hear from experienced DevOps practitioners, cloud experts, security leaders, and innovators who are building and scaling systems used by millions across Africa and beyond."
           light
         />
 
@@ -120,10 +94,9 @@ const Speakers: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           {currentYearSpeakers.length === 0 ? (
-            <div className="py-20 text-center text-white/70 flex flex-col items-center">
+            <div className="py-20 text-center text-white/70">
               <p className="text-lg">No speakers announced yet for {CURRENT_YEAR}.</p>
-              <p className="mt-2 text-sm mb-8">Check back soon for updates!</p>
-              <ApplySpeakerButton variant="primary" />
+              <p className="mt-2 text-sm">Check back soon for updates!</p>
             </div>
           ) : (
             <>
@@ -162,23 +135,17 @@ const Speakers: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="flex flex-col sm:flex-row gap-4 justify-center mt-4 w-full"
                 >
                   <Button
                     asChild
                     size="lg"
-                    className="group px-10 py-4 rounded-full bg-white text-primary border-2 border-white font-bold text-base hover:bg-white/90 transition-all"
+                    className="group px-10 py-4 rounded-full border-2 border-white text-white font-bold text-base hover:bg-white hover:text-primary transition-all"
                   >
-                    <Link
-                      to="/schedule#speakers"
-                      className="flex items-center justify-center gap-2"
-                    >
+                    <Link to="/schedule#speakers">
                       View More Speakers
                       <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   </Button>
-
-                  <ApplySpeakerButton variant="secondary" />
                 </motion.div>
               </div>
             </>

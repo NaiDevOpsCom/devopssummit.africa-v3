@@ -1,15 +1,13 @@
 import { useMemo } from "react";
 
-type GalleryImagesByYear = Record<string, string[]>;
-
-// Generated at build time by scripts/fetch-gallery.ts.
-// import.meta.glob keeps the import optional without using top-level await.
-const galleryModules = import.meta.glob<{ default: GalleryImagesByYear }>(
-  "../data/gallery.generated.json",
-  { eager: true },
-);
-const generated =
-  galleryModules["../data/gallery.generated.json"]?.default ?? ({} satisfies GalleryImagesByYear);
+// Generated at build time by scripts/fetch-gallery.ts
+// Falls back to empty object if file doesn't exist yet
+let generated: Record<string, string[]> = {};
+try {
+  generated = (await import("../data/gallery.generated.json")).default;
+} catch {
+  // File doesn't exist yet — run `npm run fetch-gallery` to generate it
+}
 
 export function useGalleryImages(
   year: string,

@@ -1,7 +1,6 @@
 ---
 description: Ensure new features meet performance and quality standards
 ---
-
 # Optimization and Quality Workflow
 
 Use this workflow when implementing new components or modifying existing ones to ensure they meet the project's high standards.

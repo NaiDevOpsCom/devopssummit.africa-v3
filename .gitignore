@@ -16,13 +16,6 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-coverage
-playwright-report
-test-results
-.nyc_output
-.scannerwork
-.eslintcache
-*.tsbuildinfo
 src/data/gallery.generated.json
 *.local
 

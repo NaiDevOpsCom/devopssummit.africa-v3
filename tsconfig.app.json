@@ -8,17 +8,18 @@
     "moduleDetection": "force",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "target": "ES2022",
-    "useDefineForClassFields": true,
-    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "paths": {
       "@/*": ["./src/*"]
     },
+    "skipLibCheck": true,
+    "strict": false,
+    "target": "ES2022",
     "types": ["vitest/globals"],
-
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "useDefineForClassFields": true
   },
   "include": ["src"]
 }

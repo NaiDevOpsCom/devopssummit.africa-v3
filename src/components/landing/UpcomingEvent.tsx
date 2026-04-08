@@ -3,7 +3,6 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Calendar, Video } from "lucide-react";
 import { SafeLink } from "@/components/SafeLink";
-import { summitDetails } from "@/data/summitData";
 
 const BACKGROUND_IMAGES = [
   "https://ik.imagekit.io/nairobidevops/ads2025/IMG_6554.JPG",
@@ -24,34 +23,37 @@ const UpcomingEvent: React.FC = () => {
       return img;
     });
     return () => {
-      for (const img of preloaders) {
+      preloaders.forEach((img) => {
         img.src = "";
-      }
+      });
     };
-  }, []);
-
-  const nextImage = React.useCallback(() => {
-    setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length);
   }, []);
 
   React.useEffect(() => {
-    let interval: ReturnType<typeof setInterval> | null = null;
-
-    const manageInterval = () => {
-      if (interval) clearInterval(interval);
+    const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        interval = setInterval(nextImage, 5000);
+        // Resume when tab becomes visible
+        const interval = setInterval(() => {
+          setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length);
+        }, 5000);
+        return () => clearInterval(interval);
       }
     };
 
-    manageInterval();
-    document.addEventListener("visibilitychange", manageInterval);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    const interval = setInterval(() => {
+      // Only update if document is visible
+      if (document.visibilityState === "visible") {
+        setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length);
+      }
+    }, 5000); // Cycle every 5 seconds
 
     return () => {
-      if (interval) clearInterval(interval);
-      document.removeEventListener("visibilitychange", manageInterval);
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [nextImage]);
+  }, []);
 
   return (
     <section id="upcoming" className="relative py-20 md:py-28 bg-dark-bg overflow-hidden">
@@ -114,13 +116,13 @@ const UpcomingEvent: React.FC = () => {
 
           <div className="flex flex-wrap justify-center gap-6 mb-12 text-sm md:text-base font-semibold text-gray-200">
             <SafeLink
-              href={summitDetails.mapLink}
+              href="https://www.google.com/maps/place/Nairobi,+Kenya"
               className="flex items-center gap-2 hover:text-primary transition-colors bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10"
             >
-              <MapPin className="w-5 h-5 text-primary" /> {summitDetails.location}
+              <MapPin className="w-5 h-5 text-primary" /> Nairobi, Kenya
             </SafeLink>
             <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-              <Calendar className="w-5 h-5 text-primary" /> {summitDetails.date}
+              <Calendar className="w-5 h-5 text-primary" /> November 20–21, 2026
             </div>
             <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
               <Video className="w-5 h-5 text-primary" /> In-Person

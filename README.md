@@ -56,13 +56,13 @@ This is a **frontend-only** React + Vite + TypeScript application. There is no b
 
 ## Tech Stack
 
-| Technology                                    | Purpose                            |
-| --------------------------------------------- | ---------------------------------- |
-| [React 18+](https://react.dev/)               | UI component framework             |
-| [Vite](https://vitejs.dev/)                   | Build tool and development server  |
-| [TypeScript](https://www.typescriptlang.org/) | Strictly typed JavaScript          |
-| [Tailwind CSS](https://tailwindcss.com/)      | Utility-first styling              |
-| [shadcn/ui](https://ui.shadcn.com/)           | Accessible UI component primitives |
+| Technology | Purpose |
+|---|---|
+| [React 18+](https://react.dev/) | UI component framework |
+| [Vite](https://vitejs.dev/) | Build tool and development server |
+| [TypeScript](https://www.typescriptlang.org/) | Strictly typed JavaScript |
+| [Tailwind CSS](https://tailwindcss.com/) | Utility-first styling |
+| [shadcn/ui](https://ui.shadcn.com/) | Accessible UI component primitives |
 
 ---
 
@@ -101,17 +101,17 @@ devopssummit.africa-v3/
 
 Make sure you have the following installed before proceeding.
 
-**Node.js** — version **^20.19.0** or **>=22.12.0** is required.
+**Node.js** — version **24 or higher** is required.
 
 We recommend managing Node versions with [nvm](https://github.com/nvm-sh/nvm):
 
 ```sh
 # Install the required Node version
-nvm install 22
-nvm use 22
+nvm install 24
+nvm use 24
 
 # Verify
-node --version   # should print v22.x.x or higher
+node --version   # should print v24.x.x or higher
 npm --version
 ```
 
@@ -161,13 +161,13 @@ Refer to `.env.example` for the full list of variables and descriptions. **Never
 
 ### Available Scripts
 
-| Command             | Description                                                   |
-| ------------------- | ------------------------------------------------------------- |
-| `npm run dev`       | Start the local development server at `http://localhost:5173` |
-| `npm run build`     | Build the production-ready site into `dist/`                  |
-| `npm run preview`   | Preview the production build locally before deploying         |
-| `npm run lint`      | Run ESLint across the codebase                                |
-| `npm run typecheck` | Run TypeScript type checking without emitting files           |
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the local development server at `http://localhost:5173` |
+| `npm run build` | Build the production-ready site into `dist/` |
+| `npm run preview` | Preview the production build locally before deploying |
+| `npm run lint` | Run ESLint across the codebase |
+| `npm run typecheck` | Run TypeScript type checking without emitting files |
 
 > 💡 Always run `npm run build` and verify it passes with no errors before opening a pull request.
 
@@ -187,10 +187,10 @@ Contributions are what make this project — and the African DevOps community �
 
 ### Quick contribution steps
 
-1. Clone the repo and create a branch off `staging` using the naming convention: `feat/your-feature-name`
+1. Clone the repo and create a branch off `main` using the naming convention: `feat/your-feature-name`
 2. Make your changes — follow the code standards in [CONTRIBUTING.md](./CONTRIBUTING.md)
 3. Run `npm run build` and `npm run lint` — both must pass
-4. Open a pull request against `staging` with a clear description and screenshots for any UI changes
+4. Open a pull request against `main` with a clear description and screenshots for any UI changes
 
 Not sure what to work on? [Browse open issues](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues) or [start a discussion](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions) — the team is happy to point you in the right direction.
 
@@ -202,15 +202,15 @@ Please read [**CONTRIBUTING.md**](./CONTRIBUTING.md) for the full guide includin
 
 ## Documentation
 
-| Document                                           | Description                                                    |
-| -------------------------------------------------- | -------------------------------------------------------------- |
-| [`PRD.md`](./PRD.md)                               | Full product requirements, architecture, pages, and open TODOs |
-| [`CONTRIBUTING.md`](./CONTRIBUTING.md)             | How to contribute, branch strategy, code standards, PR process |
-| [`CHANGELOG.md`](./CHANGELOG.md)                   | History of meaningful changes per release                      |
-| [`SECURITY.md`](./SECURITY.md)                     | How to report security vulnerabilities                         |
-| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)   | Key technical decisions and why they were made                 |
-| [`docs/CMS_SCHEMA.md`](./docs/CMS_SCHEMA.md)       | CMS content types, fields, and validation rules                |
-| [`docs/CONTENT_GUIDE.md`](./docs/CONTENT_GUIDE.md) | Guide for non-developer contributors updating content          |
+| Document | Description |
+|---|---|
+| [`PRD.md`](./PRD.md) | Full product requirements, architecture, pages, and open TODOs |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | How to contribute, branch strategy, code standards, PR process |
+| [`CHANGELOG.md`](./CHANGELOG.md) | History of meaningful changes per release |
+| [`SECURITY.md`](./SECURITY.md) | How to report security vulnerabilities |
+| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | Key technical decisions and why they were made |
+| [`docs/CMS_SCHEMA.md`](./docs/CMS_SCHEMA.md) | CMS content types, fields, and validation rules |
+| [`docs/CONTENT_GUIDE.md`](./docs/CONTENT_GUIDE.md) | Guide for non-developer contributors updating content |
 
 > Some of these documents are works in progress. See the [open TODO items in PRD.md](./PRD.md#12-open-questions--todos).
 
@@ -221,9 +221,9 @@ Please read [**CONTRIBUTING.md**](./CONTRIBUTING.md) for the full guide includin
 The Africa DevOps Summit is organised by the **Nairobi DevOps Community** — a grassroots community of DevOps practitioners across Africa.
 
 - 🌐 Website: [devopssummit.africa](https://devopssummit.africa)
-- 🐦 Twitter / X: [`@AfDevOpsSummit`](https://x.com/AfDevOpsSummit)
-- 💼 LinkedIn: [`Africa DevOps Summit`](https://www.linkedin.com/company/africa-devops-summit/)
-- 💬 Community chat: [`Nairobi DevOps Community`](https://www.nairobidevops.com/community)
+- 🐦 Twitter / X: [`TODO: @handle`](https://twitter.com/TODO)
+- 💼 LinkedIn: [`TODO: LinkedIn page`](https://linkedin.com/TODO)
+- 💬 Community chat: `TODO: Link to Discord / Slack / WhatsApp community`
 - 📧 General enquiries: `TODO: hello@devopssummit.africa`
 
 ---

@@ -38,22 +38,22 @@ The application is deployed as a compiled static bundle to **cPanel shared hosti
 
 ## Technology Stack
 
-| Layer             | Technology                     | Version | Notes                                |
-| ----------------- | ------------------------------ | ------- | ------------------------------------ |
-| Framework         | React                          | 18.x    | UI component model                   |
-| Language          | TypeScript                     | 5.x     | Strict mode enabled                  |
-| Build Tool        | Vite                           | 5.x     | Dev server + production bundler      |
-| Styling           | Tailwind CSS                   | 3.x     | Utility-first; tokens in `index.css` |
-| UI Components     | shadcn/ui                      | Latest  | Built on Radix UI primitives         |
-| Animations        | Framer Motion                  | Latest  | Page and scroll animations           |
-| Routing           | React Router DOM               | v6      | Client-side SPA routing              |
-| Icons             | Lucide React                   | Latest  | Icon library                         |
-| Fonts             | Sora (headings) + Inter (body) | —       | Loaded via Google Fonts              |
-| HTML Sanitization | DOMPurify                      | Latest  | XSS prevention for CMS content       |
-| Image Hosting     | ImageKit                       | —       | CDN for gallery and speaker photos   |
-| Env Validation    | Custom (`validateEnv.ts`)      | —       | Runtime startup validation           |
-| Data Fetching     | TanStack React Query           | v5      | Installed; available for CMS/API use |
-| Env Loading       | dotenv + Vite                  | —       | Scripts (dotenv) + runtime (Vite)    |
+| Layer | Technology | Version | Notes |
+|---|---|---|---|
+| Framework | React | 18.x | UI component model |
+| Language | TypeScript | 5.x | Strict mode enabled |
+| Build Tool | Vite | 5.x | Dev server + production bundler |
+| Styling | Tailwind CSS | 3.x | Utility-first; tokens in `index.css` |
+| UI Components | shadcn/ui | Latest | Built on Radix UI primitives |
+| Animations | Framer Motion | Latest | Page and scroll animations |
+| Routing | React Router DOM | v6 | Client-side SPA routing |
+| Icons | Lucide React | Latest | Icon library |
+| Fonts | Sora (headings) + Inter (body) | — | Loaded via Google Fonts |
+| HTML Sanitization | DOMPurify | Latest | XSS prevention for CMS content |
+| Image Hosting | ImageKit | — | CDN for gallery and speaker photos |
+| Env Validation | Custom (`validateEnv.ts`) | — | Runtime startup validation |
+| Data Fetching | TanStack React Query | v5 | Installed; available for CMS/API use |
+| Env Loading | dotenv + Vite | — | Scripts (dotenv) + runtime (Vite) |
 
 ---
 
@@ -177,17 +177,17 @@ src/
 
 All routing is handled client-side by React Router DOM v6. The `.htaccess` on cPanel redirects all server paths to `index.html`, allowing React Router to take over.
 
-| Route              | Page Component  | Description                |
-| ------------------ | --------------- | -------------------------- |
-| `/`                | `Index`         | Landing page               |
-| `/about`           | `AboutUs`       | About the summit           |
-| `/schedule`        | `Schedule`      | Event programme            |
-| `/sponsorship`     | `Sponsorship`   | Sponsor information        |
-| `/past-summits`    | `PastSummits`   | Past editions showcase     |
-| `/code-of-conduct` | `CodeOfConduct` | Community standards        |
-| `/privacy-policy`  | `PrivacyPolicy` | Privacy policy             |
-| `/faqs`            | `FAQs`          | Frequently asked questions |
-| `*`                | `NotFound`      | 404 fallback               |
+| Route | Page Component | Description |
+|---|---|---|
+| `/` | `Index` | Landing page |
+| `/about` | `AboutUs` | About the summit |
+| `/schedule` | `Schedule` | Event programme |
+| `/sponsorship` | `Sponsorship` | Sponsor information |
+| `/past-summits` | `PastSummits` | Past editions showcase |
+| `/code-of-conduct` | `CodeOfConduct` | Community standards |
+| `/privacy-policy` | `PrivacyPolicy` | Privacy policy |
+| `/faqs` | `FAQs` | Frequently asked questions |
+| `*` | `NotFound` | 404 fallback |
 
 ### Navbar navigation behaviour
 
@@ -206,34 +206,34 @@ When the user is on a non-home page and clicks a hash link, the Navbar navigates
 
 All design tokens are defined as CSS custom properties in `src/index.css` under `:root`. Use these via Tailwind semantic tokens — never hardcode color values in components.
 
-| CSS Variable         | Tailwind Token                    | Purpose                                  |
-| -------------------- | --------------------------------- | ---------------------------------------- |
-| `--background`       | `bg-background`                   | Page background                          |
-| `--foreground`       | `text-foreground`                 | Primary text                             |
-| `--primary`          | `bg-primary` / `text-primary`     | Brand blue (`217 91% 60%`)               |
-| `--secondary`        | `bg-secondary` / `text-secondary` | Accent cyan (`199 89% 60%`)              |
-| `--muted`            | `bg-muted`                        | Subtle backgrounds                       |
-| `--muted-foreground` | `text-muted-foreground`           | Secondary / subdued text                 |
-| `--dark-bg`          | `bg-dark-bg`                      | Dark section backgrounds (`222 47% 11%`) |
-| `--card-dark`        | `bg-card-dark`                    | Dark card backgrounds                    |
-| `--destructive`      | `bg-destructive`                  | Error and warning states                 |
-| `--border`           | `border-border`                   | Border color                             |
+| CSS Variable | Tailwind Token | Purpose |
+|---|---|---|
+| `--background` | `bg-background` | Page background |
+| `--foreground` | `text-foreground` | Primary text |
+| `--primary` | `bg-primary` / `text-primary` | Brand blue (`217 91% 60%`) |
+| `--secondary` | `bg-secondary` / `text-secondary` | Accent cyan (`199 89% 60%`) |
+| `--muted` | `bg-muted` | Subtle backgrounds |
+| `--muted-foreground` | `text-muted-foreground` | Secondary / subdued text |
+| `--dark-bg` | `bg-dark-bg` | Dark section backgrounds (`222 47% 11%`) |
+| `--card-dark` | `bg-card-dark` | Dark card backgrounds |
+| `--destructive` | `bg-destructive` | Error and warning states |
+| `--border` | `border-border` | Border color |
 
 ### Typography
 
-| Role     | Font      | Weight  | Class          |
-| -------- | --------- | ------- | -------------- |
-| Headings | **Sora**  | 600–800 | `font-heading` |
-| Body     | **Inter** | 400–600 | `font-body`    |
+| Role | Font | Weight | Class |
+|---|---|---|---|
+| Headings | **Sora** | 600–800 | `font-heading` |
+| Body | **Inter** | 400–600 | `font-body` |
 
 Both fonts are loaded via Google Fonts in `index.html`. The `font-heading` and `font-body` Tailwind utilities are defined in `tailwind.config.ts`.
 
 ### Utility Classes
 
-| Class             | Purpose                                                    |
-| ----------------- | ---------------------------------------------------------- |
+| Class | Purpose |
+|---|---|
 | `section-padding` | Responsive horizontal padding applied to all page sections |
-| `text-gradient`   | Primary-to-secondary gradient text effect for headings     |
+| `text-gradient` | Primary-to-secondary gradient text effect for headings |
 
 ### Component Patterns
 
@@ -268,11 +268,11 @@ export default function MyPage() {
 
 This application uses **no global state library**. State is local to each component using React's built-in hooks.
 
-| State type         | Approach                   | Examples                                               |
-| ------------------ | -------------------------- | ------------------------------------------------------ |
-| UI state           | `useState`                 | Tab selection, lightbox open/close, mobile menu toggle |
-| Server/async state | TanStack React Query       | CMS data fetching (see note below)                     |
-| Form state         | `useState` or uncontrolled | Contact forms                                          |
+| State type | Approach | Examples |
+|---|---|---|
+| UI state | `useState` | Tab selection, lightbox open/close, mobile menu toggle |
+| Server/async state | TanStack React Query | CMS data fetching (see note below) |
+| Form state | `useState` or uncontrolled | Contact forms |
 
 ### React Query
 
@@ -290,13 +290,13 @@ The site uses a **hybrid content model**:
 
 Used for content that is tightly coupled to UI logic or changes infrequently:
 
-| File          | Content                                        |
-| ------------- | ---------------------------------------------- |
-| `tickets.ts`  | Ticket tiers, pricing, benefits per tier       |
-| `benefits.ts` | Attendance benefit items                       |
-| `faqs.ts`     | FAQ questions and answers, grouped by category |
-| `team.ts`     | Organising team members                        |
-| `stats.ts`    | Summit metrics and statistics                  |
+| File | Content |
+|---|---|
+| `tickets.ts` | Ticket tiers, pricing, benefits per tier |
+| `benefits.ts` | Attendance benefit items |
+| `faqs.ts` | FAQ questions and answers, grouped by category |
+| `team.ts` | Organising team members |
+| `stats.ts` | Summit metrics and statistics |
 
 All static data exports must be typed via interfaces defined in `src/types/index.ts`.
 
@@ -304,13 +304,13 @@ All static data exports must be typed via interfaces defined in `src/types/index
 
 Used for content that changes per edition and should be editable without a code deployment:
 
-| Content              | Notes                                                     |
-| -------------------- | --------------------------------------------------------- |
-| Speaker profiles     | Name, bio, photo (ImageKit URL), talk title, social links |
-| Conference schedule  | Sessions, tracks, rooms, times                            |
-| Sponsor profiles     | Logo (ImageKit URL), tier, website                        |
-| Past summit data     | Recaps, highlights, testimonials, photo gallery           |
-| Blog / announcements | Future — not yet implemented                              |
+| Content | Notes |
+|---|---|
+| Speaker profiles | Name, bio, photo (ImageKit URL), talk title, social links |
+| Conference schedule | Sessions, tracks, rooms, times |
+| Sponsor profiles | Logo (ImageKit URL), tier, website |
+| Past summit data | Recaps, highlights, testimonials, photo gallery |
+| Blog / announcements | Future — not yet implemented |
 
 > `TODO: Document CMS provider, API client setup, and data fetching patterns once CMS is confirmed.`
 
@@ -344,7 +344,6 @@ const apiUrl = import.meta.env.VITE_CMS_API_URL;
 ### Startup validation (`src/config/validateEnv.ts`)
 
 `validateEnv()` is called in `main.tsx` before the React app mounts. It checks:
-
 - Required variables are present
 - URL formats are valid
 - No `VITE_` prefixed variables contain secret-looking values
@@ -409,12 +408,12 @@ Test files live in `src/test/`. The testing setup uses:
 
 ### Current testing expectations
 
-| Area                   | Status       | Notes                                                |
-| ---------------------- | ------------ | ---------------------------------------------------- |
-| Unit tests (utilities) | `TODO`       | `src/lib/utils.ts` helpers should be unit tested     |
-| Component tests        | `TODO`       | Critical UI components (SafeHtml, SpeakerCard, etc.) |
-| Integration tests      | `TODO`       | Key user flows (navigation, tab switching, lightbox) |
-| E2E tests              | Not in scope | Out of scope for the current MVP phase               |
+| Area | Status | Notes |
+|---|---|---|
+| Unit tests (utilities) | `TODO` | `src/lib/utils.ts` helpers should be unit tested |
+| Component tests | `TODO` | Critical UI components (SafeHtml, SpeakerCard, etc.) |
+| Integration tests | `TODO` | Key user flows (navigation, tab switching, lightbox) |
+| E2E tests | Not in scope | Out of scope for the current MVP phase |
 
 Contributors adding new utility functions or components are encouraged (not yet required) to add tests alongside them. The `npm run test` and `npm run test:watch` scripts are available.
 
@@ -424,26 +423,26 @@ Contributors adding new utility functions or components are encouraged (not yet 
 
 ### Active
 
-| Service         | Purpose                                                  | Auth method                                                               |
-| --------------- | -------------------------------------------------------- | ------------------------------------------------------------------------- |
-| **ImageKit**    | Image CDN for speaker photos, sponsor logos, and gallery | `IMAGEKIT_PRIVATE_KEY` (build-time), `VITE_IMAGEKIT_PUBLIC_KEY` (runtime) |
-| **CMS** _(TBD)_ | Dynamic content for speakers, schedule, sponsors         | `TODO: confirm provider and auth`                                         |
+| Service | Purpose | Auth method |
+|---|---|---|
+| **ImageKit** | Image CDN for speaker photos, sponsor logos, and gallery | `IMAGEKIT_PRIVATE_KEY` (build-time), `VITE_IMAGEKIT_PUBLIC_KEY` (runtime) |
+| **CMS** *(TBD)* | Dynamic content for speakers, schedule, sponsors | `TODO: confirm provider and auth` |
 
 ### Planned
 
-| Service                    | Purpose                         | Notes                                                |
-| -------------------------- | ------------------------------- | ---------------------------------------------------- |
-| **Stripe**                 | Online ticket purchasing        | Future roadmap — not in current scope                |
-| **Mailchimp / ConvertKit** | Newsletter sign-up              | Short-term roadmap                                   |
-| **Google Calendar API**    | Add-to-calendar for sessions    | Medium-term roadmap                                  |
-| **YouTube embed**          | Past summit recap videos        | Can be done without API key via iframe               |
-| **Analytics**              | Traffic and conversion tracking | `TODO: confirm provider — GA4, Plausible, or Fathom` |
+| Service | Purpose | Notes |
+|---|---|---|
+| **Stripe** | Online ticket purchasing | Future roadmap — not in current scope |
+| **Mailchimp / ConvertKit** | Newsletter sign-up | Short-term roadmap |
+| **Google Calendar API** | Add-to-calendar for sessions | Medium-term roadmap |
+| **YouTube embed** | Past summit recap videos | Can be done without API key via iframe |
+| **Analytics** | Traffic and conversion tracking | `TODO: confirm provider — GA4, Plausible, or Fathom` |
 
 ---
 
 ## Architecture Decision Records (ADRs)
 
-ADRs document _why_ key decisions were made, so future contributors don't unknowingly reverse them or repeat the same debates.
+ADRs document *why* key decisions were made, so future contributors don't unknowingly reverse them or repeat the same debates.
 
 ---
 
@@ -454,14 +453,12 @@ ADRs document _why_ key decisions were made, so future contributors don't unknow
 **Context:** The site is a marketing/conference website with no user authentication, no personalised content, and no server-side logic requirements.
 
 **Reasons:**
-
 - Simpler deployment — output is a flat `dist/` folder uploadable to any static/shared host
 - cPanel shared hosting does not support Node.js server processes needed for SSR
 - The team is familiar with React + Vite; introducing Next.js would add framework overhead without meaningful benefit at current scale
 - SEO requirements are moderate — the site can be crawled adequately as an SPA; full SSR is not required
 
 **Trade-offs accepted:**
-
 - First-load performance is slightly worse than SSG (no pre-rendered HTML)
 - SEO is marginally less optimal than SSR — acceptable for a conference site
 
@@ -476,13 +473,11 @@ ADRs document _why_ key decisions were made, so future contributors don't unknow
 **Context:** The project is community-run with limited budget. cPanel hosting is already available through the organising team.
 
 **Reasons:**
-
 - Zero additional hosting cost
 - Sufficient for a static SPA with moderate traffic
 - No build preview environments, serverless functions, or edge network needed at this stage
 
 **Trade-offs accepted:**
-
 - No automatic preview deployments per PR
 - No built-in environment variable management (vars must be baked in at build time)
 - FTP-based deployment is manual unless a CI/CD pipeline is set up
@@ -499,13 +494,11 @@ ADRs document _why_ key decisions were made, so future contributors don't unknow
 **Context:** Some content (FAQs, ticket tiers, team bios) rarely changes and is tightly coupled to component logic. Other content (speakers, schedule, sponsors) changes every year and should be editable by non-developers.
 
 **Reasons:**
-
 - Static files for stable content keeps the build simple and avoids unnecessary API calls
 - CMS for dynamic content empowers organizers to update speaker profiles and schedules without a code deployment
 - Keeps developer experience fast — no CMS dependency for local development of static sections
 
 **Trade-offs accepted:**
-
 - Two content update paths (code PR vs CMS dashboard) can confuse new contributors — mitigated by clear documentation
 - CMS content requires an internet connection during development if not cached
 
@@ -518,13 +511,11 @@ ADRs document _why_ key decisions were made, so future contributors don't unknow
 **Context:** The application has minimal shared state — a few UI toggles (mobile menu, lightbox, tabs). There is no complex async state, no cross-page shared data, and no user session.
 
 **Reasons:**
-
 - No meaningful complexity that justifies a global state library
 - Keeps the bundle smaller
 - Reduces the learning curve for new contributors
 
 **Trade-offs accepted:**
-
 - If the app grows to include user authentication or a personalised schedule, local state will become insufficient — revisit at that point
 
 ---
@@ -536,7 +527,6 @@ ADRs document _why_ key decisions were made, so future contributors don't unknow
 **Context:** CMS integration is confirmed as part of the roadmap but not yet implemented. Static data files are used in the interim.
 
 **Reasons:**
-
 - Installing now avoids a larger refactor when CMS integration lands
 - React Query is the established standard for server state in React applications
 - `QueryClientProvider` is already in the app tree — adding queries requires only writing the query hooks
@@ -545,4 +535,4 @@ ADRs document _why_ key decisions were made, so future contributors don't unknow
 
 ---
 
-_This document should be updated whenever a significant architectural change is made. Include a new ADR for any decision that would otherwise be debated by future contributors._
+*This document should be updated whenever a significant architectural change is made. Include a new ADR for any decision that would otherwise be debated by future contributors.*

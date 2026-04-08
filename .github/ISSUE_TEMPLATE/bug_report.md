@@ -6,7 +6,7 @@ labels: bug
 assignees: ""
 ---
 
-<!--
+<!-- 
   Thanks for taking the time to report this!
   Fill in as much detail as you can — it helps us reproduce and fix the issue faster.
   Delete any sections that are not relevant.
@@ -30,20 +30,20 @@ assignees: ""
 
 ## Screenshots or screen recording
 
-<!--
+<!-- 
   For UI bugs, a screenshot or screen recording is extremely helpful.
   Drag and drop images directly into this text box, or paste a Loom / CleanShot link.
 -->
 
 ## Environment
 
-|                  |                                                       |
-| ---------------- | ----------------------------------------------------- |
-| **Page / Route** | e.g. `/`, `/schedule`, `/past-summits`                |
-| **Browser**      | e.g. Chrome 123, Safari 17, Firefox 124               |
-| **Device**       | e.g. MacBook Pro, iPhone 14, Samsung Galaxy S23       |
-| **Viewport**     | e.g. Mobile (375px), Tablet (768px), Desktop (1440px) |
-| **OS**           | e.g. macOS 14, Windows 11, iOS 17, Android 14         |
+| | |
+|---|---|
+| **Page / Route** | e.g. `/`, `/schedule`, `/past-summits` |
+| **Browser** | e.g. Chrome 123, Safari 17, Firefox 124 |
+| **Device** | e.g. MacBook Pro, iPhone 14, Samsung Galaxy S23 |
+| **Viewport** | e.g. Mobile (375px), Tablet (768px), Desktop (1440px) |
+| **OS** | e.g. macOS 14, Windows 11, iOS 17, Android 14 |
 
 ## Which area does this affect?
 

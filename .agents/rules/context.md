@@ -25,21 +25,21 @@ The **Africa DevOps Summit** website (`devopssummit.africa`) is Africa's premier
 
 ## 2. Tech Stack — Exactly This, Nothing Else
 
-| Layer          | Technology           | Version | Notes                                                                                           |
-| -------------- | -------------------- | ------- | ----------------------------------------------------------------------------------------------- |
-| Framework      | React                | 18.x    | Functional components + hooks only. No class components.                                        |
-| Language       | TypeScript           | 5.x     | Strict mode. No `any`. No type assertions unless unavoidable.                                   |
-| Build Tool     | Vite                 | 8.x     | Dev server at `http://localhost:5173`                                                           |
-| Styling        | Tailwind CSS         | 4.x     | Utility-first. Semantic tokens only. No raw color values.                                       |
-| UI Components  | shadcn/ui            | Latest  | Built on Radix UI. Generated into `src/components/ui/`.                                         |
-| Animations     | Framer Motion        | Latest  | `fadeUp` variant pattern. Respect `prefers-reduced-motion`.                                     |
-| Routing        | React Router DOM     | v7      | Client-side SPA routing. `<Link>` and `useNavigate` only. Imports come from `react-router-dom`. |
-| Icons          | Lucide React         | Latest  | Import individually. Never import the entire library.                                           |
-| Fonts          | Sora + Inter         | —       | Via Google Fonts. `font-heading` = Sora. `font-body` = Inter.                                   |
-| Sanitization   | DOMPurify            | Latest  | Via `SafeHtml` component. Never use `dangerouslySetInnerHTML` directly.                         |
-| Image CDN      | Cloudinary           | —       | `nairobidevops` account. Full URLs in data files.                                               |
-| Server state   | TanStack React Query | v5      | Installed and configured. Use for all CMS/API calls. Do NOT remove.                             |
-| Env validation | Custom               | —       | `src/config/validateEnv.ts`. Runs at app boot in `main.tsx`.                                    |
+| Layer | Technology | Version | Notes |
+|---|---|---|---|
+| Framework | React | 18.x | Functional components + hooks only. No class components. |
+| Language | TypeScript | 5.x | Strict mode. No `any`. No type assertions unless unavoidable. |
+| Build Tool | Vite | 8.x | Dev server at `http://localhost:5173` |
+| Styling | Tailwind CSS | 4.x | Utility-first. Semantic tokens only. No raw color values. |
+| UI Components | shadcn/ui | Latest | Built on Radix UI. Generated into `src/components/ui/`. |
+| Animations | Framer Motion | Latest | `fadeUp` variant pattern. Respect `prefers-reduced-motion`. |
+| Routing | React Router DOM | v7 | Client-side SPA routing. `<Link>` and `useNavigate` only. Imports come from `react-router-dom`. |
+| Icons | Lucide React | Latest | Import individually. Never import the entire library. |
+| Fonts | Sora + Inter | — | Via Google Fonts. `font-heading` = Sora. `font-body` = Inter. |
+| Sanitization | DOMPurify | Latest | Via `SafeHtml` component. Never use `dangerouslySetInnerHTML` directly. |
+| Image CDN | Cloudinary | — | `nairobidevops` account. Full URLs in data files. |
+| Server state | TanStack React Query | v5 | Installed and configured. Use for all CMS/API calls. Do NOT remove. |
+| Env validation | Custom | — | `src/config/validateEnv.ts`. Runs at app boot in `main.tsx`. |
 
 ### What is NOT in this project
 
@@ -59,11 +59,10 @@ Do not suggest, install, or reference any of the following — they are not used
 
 ## 3. Full Project Context
 
-This file is truncated to adhere to system limits.
+This file is truncated to adhere to system limits. 
 
 **For full project details, you are REQUIRED to read `.agents/CONTEXT.md` using your `view_file` tool.**
 It includes:
-
 1. Complete Project Structure.
 2. Routing Maps.
 3. Design System & CSS Variables.

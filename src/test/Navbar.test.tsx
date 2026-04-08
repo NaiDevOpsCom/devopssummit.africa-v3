@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Navbar from "@/components/layout/Navbar";
 import { MemoryRouter } from "react-router-dom";

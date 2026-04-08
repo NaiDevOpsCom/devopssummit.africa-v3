@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loading from "@/components/ui/Loading";
-import ScrollToTop from "@/components/ScrollToTop";
 
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
@@ -45,7 +44,6 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop />
         <ErrorBoundary>
           <Routes>
             <Route path="/" element={<LazyRoute component={Index} />} />
