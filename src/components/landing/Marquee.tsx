@@ -42,7 +42,7 @@ export function Marquee({
   withFade = true,
   skew = false,
   variant = "primary",
-}: MarqueeProps) {
+}: Readonly<MarqueeProps>) {
   const shouldReduceMotion = useReducedMotion();
 
   const normalizedSpeed = Math.max(1, Number(speed) || 30);
