@@ -75,7 +75,7 @@ const ParticleCanvas: React.FC = React.memo(() => {
           const q = particles[j];
           const dx = p.x - q.x;
           const dy = p.y - q.y;
-          const dist = Math.hypot(dx * dx + dy * dy);
+          const dist = Math.hypot(dx, dy);
           if (dist < maxDist) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
