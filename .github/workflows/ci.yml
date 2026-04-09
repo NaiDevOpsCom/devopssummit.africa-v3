@@ -159,6 +159,13 @@ jobs:
         # This avoids re-running typecheck/lint (already done above)
         # and skips prebuild:bundle if SKIP_GALLERY_FETCH is handled in script
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: dist/
+          retention-days: 1
+
       - name: Report bundle size
         run: |
           if [ -d dist ]; then
@@ -207,7 +214,7 @@ jobs:
       # Scans full git history for accidentally committed secrets:
       # API keys, tokens, private keys, connection strings
       - name: Scan for committed secrets
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
@@ -237,3 +244,118 @@ jobs:
           fi
           echo "✅ public/_redirects present"
           cat public/_redirects
+
+  # ── Bundle Size Budget ─────────────────────────────────────
+  # Runs after build-check — uses the same dist output
+  bundle-budget:
+    name: 📦 Bundle Size Budget
+    runs-on: ubuntu-latest
+    needs: [build-check]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: dist/
+
+      - name: Check bundle budgets
+        run: |
+          echo "=== Bundle Budget Report ==="
+
+          # ── Main JS bundle (gzip) — budget: 150KB ──────────
+          # After chunking, main index bundle should drop from 116KB gzip
+          MAIN_JS=$(find dist/assets -name "vendor-react-*.js" | head -1)
+          if [ -n "$MAIN_JS" ]; then
+            SIZE=$(wc -c < "$MAIN_JS")
+            SIZE_KB=$((SIZE / 1024))
+            echo "vendor-react: ${SIZE_KB}KB"
+            
+            MAX_KB=${MAX_REACT_KB:-150}
+            if [ "$SIZE_KB" -gt "$MAX_KB" ]; then
+              echo "❌ vendor-react exceeds ${MAX_KB}KB budget (${SIZE_KB}KB)"
+              exit 1
+            fi
+          fi
+
+          # ── Total JS (uncompressed) — budget: 1200KB ────────
+          TOTAL_JS=$(find dist/assets -name "*.js" ! -name "*.gz" ! -name "*.br" \
+            -exec wc -c {} + | tail -1 | awk '{print $1}')
+          TOTAL_JS=${TOTAL_JS:-0}
+          TOTAL_JS_KB=$((TOTAL_JS / 1024))
+          echo "Total JS (uncompressed): ${TOTAL_JS_KB}KB"
+
+          if [ "$TOTAL_JS_KB" -gt 1200 ]; then
+            echo "❌ Total JS exceeds 1200KB budget (${TOTAL_JS_KB}KB)"
+            exit 1
+          fi
+
+          # ── CSS — budget: 150KB uncompressed ─────────────────
+          TOTAL_CSS=$(find dist/assets -name "*.css" ! -name "*.gz" ! -name "*.br" \
+            -exec wc -c {} + | tail -1 | awk '{print $1}')
+          TOTAL_CSS=${TOTAL_CSS:-0}
+          TOTAL_CSS_KB=$((TOTAL_CSS / 1024))
+          echo "Total CSS (uncompressed): ${TOTAL_CSS_KB}KB"
+
+          if [ "$TOTAL_CSS_KB" -gt 150 ]; then
+            echo "⚠️  CSS exceeds 150KB (${TOTAL_CSS_KB}KB) — review Tailwind purge"
+          fi
+
+          # ── Single chunk limit — no chunk over 400KB ──────────
+          OVERSIZED=$(find dist/assets -name "*.js" ! -name "*.gz" ! -name "*.br" \
+            -size +400k)
+          if [ -n "$OVERSIZED" ]; then
+            echo "❌ Oversized chunks found:"
+            echo "$OVERSIZED"
+            exit 1
+          fi
+
+          echo "✅ All budgets passed"
+
+  # ── Lighthouse CI ─────────────────────────────────────────
+  # Runs on PRs to main only — too slow for every push
+  lighthouse:
+    name: 🔦 Lighthouse CI
+    runs-on: ubuntu-latest
+    needs: [build-check]
+    if: github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'staging')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Download web-build for Lighthouse
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: dist/
+
+      - name: Run Lighthouse CI
+        run: npx lhci autorun --config=lighthouserc.ci.cjs
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          # Without LHCI_GITHUB_APP_TOKEN, results still upload to
+          # temporary-public-storage and URL is printed in CI logs
+          # Install the GitHub App for PR status checks:
+          # https://github.com/apps/lighthouse-ci
+
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 14

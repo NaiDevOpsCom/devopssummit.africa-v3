@@ -18,6 +18,9 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:ci": "eslint . --ext .ts,.tsx --max-warnings=0 --format=stylish",
     "lint:fix": "eslint . --fix --ext .ts,.tsx",
+    "lighthouse": "node ./scripts/run-lighthouse.mjs autorun --config=lighthouserc.cjs",
+    "lighthouse:collect": "node ./scripts/run-lighthouse.mjs collect --config=lighthouserc.cjs",
+    "lighthouse:report": "node ./scripts/run-lighthouse.mjs open",
     "format": "prettier --write . --ignore-path .prettierignore",
     "format:check": "prettier --check . --ignore-path .prettierignore --log-level=warn",
     "preview": "vite preview",
@@ -95,6 +98,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^5.1.1",
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
     "@storybook/addon-a11y": "^10.3.5",
     "@storybook/addon-docs": "^10.3.3",
     "@storybook/addon-onboarding": "^10.3.5",
