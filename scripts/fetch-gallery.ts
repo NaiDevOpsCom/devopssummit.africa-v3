@@ -172,19 +172,18 @@ function saveGallery(gallery: GalleryData, outPath: string, outDir: string) {
 
   try {
     const jsonOutput = JSON.stringify(gallery, null, 2);
-    // Ignore writes in pure Node due to EBADF Windows node bug
-    try {
-      const { writeFileSync } = fs;
-      writeFileSync(outPath, jsonOutput, "utf-8");
-      console.log(`\n✅ Saved to src/data/gallery.generated.json\n`);
-    } catch (writeErr) {
+    const { writeFileSync } = fs;
+    writeFileSync(outPath, jsonOutput, "utf-8");
+    console.log(`\n✅ Saved to src/data/gallery.generated.json\n`);
+  } catch (err: any) {
+    if (err?.code === "EBADF") {
       console.warn(
         `\n⚠️  Failed to save file to disk (node Windows EBADF bug) but skipping to continue build.`,
-        writeErr instanceof Error ? writeErr.message : writeErr,
+        err.message,
       );
+    } else {
+      throw err;
     }
-  } catch (err) {
-    console.warn(`\n⚠️  Build script continuing after non-fatal filesystem error: ${err}`);
   }
 }
 

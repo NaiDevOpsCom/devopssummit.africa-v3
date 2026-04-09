@@ -39,6 +39,10 @@ const ParticleCanvas: React.FC = React.memo(() => {
     let animId: number;
     let particles: { x: number; y: number; vx: number; vy: number; r: number; o: number }[] = [];
 
+    // Helper using Web Crypto API to avoid SonarQube warnings around Math.random()
+    const secureRandom = () =>
+      globalThis.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
+
     const resize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
@@ -50,12 +54,12 @@ const ParticleCanvas: React.FC = React.memo(() => {
       const divisor = window.innerWidth < 768 ? 25000 : 15000;
       const count = Math.min(Math.floor((canvas.width * canvas.height) / divisor), 80);
       particles = Array.from({ length: count }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 1.5 + 0.5,
-        o: Math.random() * 0.4 + 0.1,
+        x: secureRandom() * canvas.width,
+        y: secureRandom() * canvas.height,
+        vx: (secureRandom() - 0.5) * 0.3,
+        vy: (secureRandom() - 0.5) * 0.3,
+        r: secureRandom() * 1.5 + 0.5,
+        o: secureRandom() * 0.4 + 0.1,
       }));
     };
 
