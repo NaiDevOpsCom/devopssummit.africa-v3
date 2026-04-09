@@ -275,9 +275,10 @@ jobs:
           # After chunking, main index bundle should drop from 116KB gzip
           MAIN_JS=$(find dist/assets -name "vendor-react-*.js" | head -1)
           if [ -n "$MAIN_JS" ]; then
-            SIZE=$(wc -c < "$MAIN_JS")
+            # Measure gzip size to match the budget label
+            SIZE=$(gzip -c "$MAIN_JS" | wc -c)
             SIZE_KB=$((SIZE / 1024))
-            echo "vendor-react: ${SIZE_KB}KB"
+            echo "vendor-react (gzip): ${SIZE_KB}KB"
             
             MAX_KB=${MAX_REACT_KB:-150}
             if [ "$SIZE_KB" -gt "$MAX_KB" ]; then

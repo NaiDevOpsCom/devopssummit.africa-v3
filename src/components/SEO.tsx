@@ -15,7 +15,7 @@ export interface SEOProps {
   noIndex?: boolean;
 }
 
-const SEO: React.FC<SEOProps> = ({
+const Seo: React.FC<SEOProps> = ({
   title,
   description,
   keywords,
@@ -55,4 +55,4 @@ const SEO: React.FC<SEOProps> = ({
   );
 };
 
-export default SEO;
+export default Seo;

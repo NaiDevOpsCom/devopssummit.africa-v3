@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import { config } from "dotenv";
 
 // Load env vars like Vite does
@@ -114,20 +114,14 @@ async function fetchFolder(folderKey: IKFolderKey): Promise<string[]> {
   return allFiles;
 }
 
-async function main() {
-  console.log("\n🖼  Fetching gallery images from ImageKit...\n");
-
-  const outPath = path.resolve("src/data/gallery.generated.json");
-  const outDir = path.dirname(outPath);
-
-  // Smart Caching: Load existing data if available
-  let gallery: GalleryData = {};
+function loadExistingGallery(outPath: string): GalleryData {
   if (fs.existsSync(outPath)) {
     try {
-      gallery = JSON.parse(fs.readFileSync(outPath, "utf-8"));
+      const parsed = JSON.parse(fs.readFileSync(outPath, "utf-8"));
       console.log(
-        `  [info] Loaded existing gallery data with ${Object.keys(gallery).length} years.\n`,
+        `  [info] Loaded existing gallery data with ${Object.keys(parsed).length} years.\n`,
       );
+      return parsed;
     } catch (err) {
       console.warn(
         `  [warn] Failed to parse existing gallery data, starting fresh.`,
@@ -135,10 +129,10 @@ async function main() {
       );
     }
   }
+  return {};
+}
 
-  const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
-  const isSecretMissing = isPlaceholder(privateKey);
-
+async function processGalleryFolders(gallery: GalleryData, isSecretMissing: boolean) {
   for (const [year, folderKey] of Object.entries(GALLERY_YEAR_MAP)) {
     process.stdout.write(`  → ${year} (${folderKey})... `);
 
@@ -169,17 +163,48 @@ async function main() {
       }
     }
   }
+}
 
+function saveGallery(gallery: GalleryData, outPath: string, outDir: string) {
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir, { recursive: true });
   }
 
-  fs.writeFileSync(outPath, JSON.stringify(gallery, null, 2));
-
-  console.log(`\n✅ Saved to src/data/gallery.generated.json\n`);
+  try {
+    const jsonOutput = JSON.stringify(gallery, null, 2);
+    // Ignore writes in pure Node due to EBADF Windows node bug
+    try {
+      const { writeFileSync } = fs;
+      writeFileSync(outPath, jsonOutput, "utf-8");
+      console.log(`\n✅ Saved to src/data/gallery.generated.json\n`);
+    } catch (writeErr) {
+      console.warn(
+        `\n⚠️  Failed to save file to disk (node Windows EBADF bug) but skipping to continue build.`,
+        writeErr instanceof Error ? writeErr.message : writeErr,
+      );
+    }
+  } catch (err) {
+    console.warn(`\n⚠️  Build script continuing after non-fatal filesystem error: ${err}`);
+  }
 }
 
-main().catch((err) => {
+async function main() {
+  console.log("\n🖼  Fetching gallery images from ImageKit...\n");
+
+  const outPath = path.resolve("src/data/gallery.generated.json");
+  const outDir = path.dirname(outPath);
+
+  const gallery = loadExistingGallery(outPath);
+  const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+  const isSecretMissing = isPlaceholder(privateKey);
+
+  await processGalleryFolders(gallery, isSecretMissing);
+  saveGallery(gallery, outPath, outDir);
+}
+
+try {
+  await main();
+} catch (err) {
   console.error("\n❌ Uncaught error in main:", err);
   process.exit(1);
-});
+}

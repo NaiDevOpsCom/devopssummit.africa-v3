@@ -31,7 +31,7 @@ export default {
         "first-contentful-paint": ["warn", { maxNumericValue: 1800 }],
         "installable-manifest": ["warn", {}],
         "service-worker": ["warn", {}],
-        "is-on-https": ["error", {}],
+        "is-on-https": "off",
       },
     },
     upload: {

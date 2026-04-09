@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import SEO from "@/components/SEO";
+import Seo from "@/components/SEO";
 import { motion } from "framer-motion";
 import {
   Calendar,
@@ -587,12 +587,18 @@ const SpeakerCard: React.FC<{ speaker: Speaker }> = React.memo(({ speaker }) => 
       className="group text-center relative"
     >
       <div className="relative mx-auto w-28 h-28 md:w-32 md:h-32 rounded-xl overflow-hidden mb-3 ring-2 ring-border group-hover:ring-primary transition-all duration-300">
-        <img
-          src={speaker.imageUrl}
-          alt={speaker.name}
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
+        {speaker.imageUrl ? (
+          <img
+            src={speaker.imageUrl}
+            alt={speaker.name}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full bg-muted flex items-center justify-center">
+            <User className="w-10 h-10 text-muted-foreground" />
+          </div>
+        )}
       </div>
       <p className="font-heading font-bold text-sm text-foreground">{speaker.name}</p>
       <p className="text-xs text-muted-foreground">
@@ -715,7 +721,7 @@ const Schedule: React.FC = () => {
       const element = document.getElementById(id);
       if (element) {
         // Respect prefers-reduced-motion
-        const prefersReducedMotion = window?.matchMedia?.(
+        const prefersReducedMotion = globalThis?.matchMedia?.(
           "(prefers-reduced-motion: reduce)",
         )?.matches;
 
@@ -731,7 +737,7 @@ const Schedule: React.FC = () => {
   return (
     <main>
       <Navbar />
-      <SEO
+      <Seo
         title="Schedule"
         description="Explore the full 2-day programme for Africa DevOps Summit 2026 — keynotes, workshops, panels, and networking sessions."
         keywords="DevOps schedule, conference agenda, Africa DevOps, sessions, workshops, keynotes"

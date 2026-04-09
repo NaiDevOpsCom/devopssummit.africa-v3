@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SEO from "@/components/SEO";
+import Seo from "@/components/SEO";
 import { motion } from "framer-motion";
 import { HelpCircle, Search } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
@@ -204,7 +204,7 @@ const ContactCTA: React.FC = () => (
 /* ------------------------------------------------------------------ */
 const FAQs: React.FC = () => (
   <>
-    <SEO
+    <Seo
       title="FAQs"
       description="Find answers to common questions about the Africa DevOps Summit 2026 — tickets, venue, schedule, speakers, and more."
       keywords="FAQ, frequently asked questions, DevOps conference, tickets, venue, Nairobi"

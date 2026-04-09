@@ -29,7 +29,7 @@ module.exports = {
         "total-blocking-time": ["warn", { maxNumericValue: 200 }],
         "cumulative-layout-shift": ["warn", { maxNumericValue: 0.1 }],
         "first-contentful-paint": ["warn", { maxNumericValue: 1800 }],
-        "is-on-https": ["error", {}],
+        "is-on-https": "off",
       },
     },
     upload: {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SEO from "@/components/SEO";
+import Seo from "@/components/SEO";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -528,7 +528,8 @@ const AVATAR_PALETTE = [
 ];
 
 function avatarColor(name: string) {
-  const idx = [...name].reduce((acc, c) => acc + c.charCodeAt(0), 0) % AVATAR_PALETTE.length;
+  const codeSum = [...name].reduce((acc, c) => acc + (c.codePointAt(0) || 0), 0);
+  const idx = codeSum % AVATAR_PALETTE.length;
   return AVATAR_PALETTE[idx];
 }
 
@@ -737,7 +738,7 @@ const PastSponsors: React.FC = React.memo(() => {
             </p>
           </motion.div>
         ) : (
-          pastSponsorsEntries
+          [...pastSponsorsEntries]
             .sort(([a], [b]) => Number(b) - Number(a))
             .map(([year, sponsors]) => (
               <div key={year} className="mb-12 last:mb-0">
@@ -839,7 +840,7 @@ const Sponsorship: React.FC = () => {
 
   return (
     <main>
-      <SEO
+      <Seo
         title="Sponsorship"
         description="Partner with Africa's leading DevOps conference. Sponsor packages from Community to Platinum — reach 1,000+ engineers and tech leaders."
         keywords="sponsor, DevOps sponsorship, Africa conference, partnership, exhibitor"

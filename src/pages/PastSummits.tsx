@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import SEO from "@/components/SEO";
+import Seo from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Play,
@@ -721,7 +721,7 @@ const PastSummits: React.FC = () => {
 
   return (
     <>
-      <SEO
+      <Seo
         title="Past Summits"
         description="Explore highlights, speakers, and milestones from previous editions of the Africa DevOps Summit."
         keywords="past summits, DevOps history, conference archive, Africa DevOps, speakers"
