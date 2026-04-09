@@ -2,7 +2,8 @@ import { Helmet } from "react-helmet-async";
 
 const SITE_NAME = "Africa DevOps Summit";
 const SITE_URL = "https://africadevopssummit.com";
-const DEFAULT_IMAGE = "https://lovable.dev/opengraph-image-p98pqg.png";
+const DEFAULT_IMAGE =
+  "https://res.cloudinary.com/nairobidevops/image/upload/v1755523755/4_expgn2.svg";
 
 export interface SEOProps {
   title?: string;
@@ -15,7 +16,7 @@ export interface SEOProps {
   noIndex?: boolean;
 }
 
-const SEO: React.FC<SEOProps> = ({
+const Seo: React.FC<SEOProps> = ({
   title,
   description,
   keywords,
@@ -55,4 +56,4 @@ const SEO: React.FC<SEOProps> = ({
   );
 };
 
-export default SEO;
+export default Seo;

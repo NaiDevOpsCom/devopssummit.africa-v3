@@ -24,3 +24,6 @@ public/**/*.{png,jpg,jpeg,gif,svg,ico,woff,woff2,ttf,eot}
 dist/**/*.d.ts
 
 src/data/gallery.generated.json
+
+# Lighthouse CI
+.lighthouseci

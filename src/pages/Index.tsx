@@ -1,11 +1,20 @@
 import React, { lazy, Suspense } from "react";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import SEO from "@/components/SEO";
+import Seo from "@/components/SEO";
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
 import { Marquee } from "@/components/landing/Marquee";
 import Footer from "@/components/layout/Footer";
+
+const ErrorFallback = ({ reset }: { reset: () => void }) => (
+  <div className="py-20 text-center">
+    <p className="text-muted-foreground mb-4">Failed to load sections.</p>
+    <button onClick={reset} className="text-primary hover:underline">
+      Retry Loading
+    </button>
+  </div>
+);
 
 const Index = () => {
   const [resetCounter, setResetCounter] = React.useState(0);
@@ -27,7 +36,7 @@ const Index = () => {
 
   return (
     <main>
-      <SEO
+      <Seo
         description="Join Africa's premier DevOps, Cloud & SRE conference. November 2026, Nairobi, Kenya. In-person + virtual."
         keywords="DevOps, Africa, cloud, SRE, Kubernetes, conference, Nairobi, Kenya, 2026"
         canonicalUrl="/"
@@ -36,17 +45,7 @@ const Index = () => {
       <Navbar />
       <Hero />
       <About />
-      <ErrorBoundary
-        onReset={() => setResetCounter((prev) => prev + 1)}
-        fallback={({ reset }) => (
-          <div className="py-20 text-center">
-            <p className="text-muted-foreground mb-4">Failed to load sections.</p>
-            <button onClick={reset} className="text-primary hover:underline">
-              Retry Loading
-            </button>
-          </div>
-        )}
-      >
+      <ErrorBoundary onReset={() => setResetCounter((prev) => prev + 1)} fallback={ErrorFallback}>
         <div className="space-y-0" key={resetCounter}>
           <Suspense fallback={<div className="min-h-[400px] animate-pulse bg-muted/20" />}>
             <UpcomingEvent />
