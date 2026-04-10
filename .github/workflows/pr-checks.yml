@@ -9,10 +9,6 @@ on:
   pull_request:
     types: [opened, edited, synchronize, reopened, labeled, unlabeled]
 
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
   # ── Semantic PR title + quality enforcement ─────────────────────────
   # Two layers:
@@ -25,6 +21,9 @@ jobs:
   semantic-title:
     name: ✅ PR Title Quality Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - name: Validate Conventional Commits format
         uses: amannn/action-semantic-pull-request@v5
@@ -151,6 +150,9 @@ jobs:
   auto-label:
     name: 🏷️ Auto Label
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/labeler@v5
         with:
@@ -164,6 +166,11 @@ jobs:
   branch-target:
     name: 🌿 Branch Target Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      HEAD_REF: ${{ github.head_ref }}
+      BASE_REF: ${{ github.base_ref }}
     steps:
       - name: Prevent direct PR to main from feature branches
         if: |
@@ -172,10 +179,10 @@ jobs:
         run: |
           echo "❌ Direct PRs to main are only allowed from the staging branch."
           echo ""
-          echo "   Your branch:  ${{ github.head_ref }}"
+          echo "   Your branch:  $HEAD_REF"
           echo "   Target:       main"
           echo ""
-          echo "   Correct flow: ${{ github.head_ref }} → staging → main"
+          echo "   Correct flow: $HEAD_REF → staging → main"
           echo ""
           echo "   Please retarget this PR to staging instead."
           exit 1
@@ -183,4 +190,4 @@ jobs:
       - name: PR target is valid
         run: |
           echo "✅ PR target is valid"
-          echo "   ${{ github.head_ref }} → ${{ github.base_ref }}"
+          echo "   $HEAD_REF → $BASE_REF"
