@@ -26,7 +26,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Validate Conventional Commits format
-        uses: amannn/action-semantic-pull-request@v5
+        uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017 # v5.5.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -154,7 +154,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/labeler@v5
+      - uses: actions/labeler@1375c42337d117070104689b966699ed04183d21 # v5.0.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/labeler.yml
