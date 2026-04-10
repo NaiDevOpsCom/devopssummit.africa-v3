@@ -41,6 +41,7 @@ This document establishes the performance, quality, and resilience standards for
 - **ESLint**: Run `npm run lint` before committing. All errors should be fixed.
 - **Prettier**: Code MUST be formatted according to `.prettierrc`.
 - **Line Endings**: Always use Unix-style (`LF`) line endings.
+- **Global Context**: Prefer `globalThis` over `window` for accessing global properties (e.g., `globalThis.window`, `globalThis.innerWidth`, `globalThis.scrollTo`). In tests, when passing to Testing Library's `fireEvent`, use `(globalThis as unknown as Window)` to satisfy TypeScript.
 
 ## 3. Resilience & UX
 

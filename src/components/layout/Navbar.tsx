@@ -14,7 +14,7 @@ const sectionIds = navLinks.map((l) => l.href.slice(1));
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(() =>
-    typeof window !== "undefined" ? window.scrollY > 20 : false,
+    globalThis.window === undefined ? false : globalThis.window.scrollY > 20,
   );
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -24,11 +24,11 @@ const Navbar: React.FC = () => {
   const isHome = location.pathname === "/";
 
   const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 20);
+    setScrolled(globalThis.window.scrollY > 20);
 
     if (!isHome) return;
 
-    const offset = window.innerHeight * 0.35;
+    const offset = globalThis.window.innerHeight * 0.35;
     for (let i = sectionIds.length - 1; i >= 0; i--) {
       const el = document.getElementById(sectionIds[i]);
       if (el && el.getBoundingClientRect().top <= offset) {
@@ -40,11 +40,11 @@ const Navbar: React.FC = () => {
   }, [isHome]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    globalThis.window.addEventListener("scroll", handleScroll, { passive: true });
     // Use requestAnimationFrame to avoid synchronous setState in effect warning
     const rafId = requestAnimationFrame(() => handleScroll());
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      globalThis.window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(rafId);
     };
   }, [handleScroll]);
@@ -116,16 +116,18 @@ const Navbar: React.FC = () => {
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((l) => {
             const active = isActive(l);
+            const textColor = scrolled ? "text-foreground" : "text-primary-foreground";
+            const afterScale = active
+              ? "after:scale-x-100 after:origin-left"
+              : `after:scale-x-0 ${textColor}`;
+            const activeClass = active ? "text-primary" : "";
+
             return (
               <a
                 key={l.label}
                 href={l.route}
                 onClick={(e) => handleClick(e, l)}
-                className={`text-sm font-medium transition-colors hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:origin-right after:transition-transform hover:after:scale-x-100 hover:after:origin-left ${
-                  active
-                    ? "text-primary after:scale-x-100 after:origin-left"
-                    : `after:scale-x-0 ${scrolled ? "text-foreground" : "text-primary-foreground"}`
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:origin-right after:transition-transform hover:after:scale-x-100 hover:after:origin-left ${activeClass} ${afterScale}`}
               >
                 {l.label}
               </a>

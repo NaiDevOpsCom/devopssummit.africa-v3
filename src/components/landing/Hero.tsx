@@ -51,7 +51,7 @@ const ParticleCanvas: React.FC = React.memo(() => {
     const init = () => {
       resize();
       // Reduce density: higher divisor means fewer particles
-      const divisor = window.innerWidth < 768 ? 25000 : 15000;
+      const divisor = globalThis.window.innerWidth < 768 ? 25000 : 15000;
       const count = Math.min(Math.floor((canvas.width * canvas.height) / divisor), 80);
       particles = Array.from({ length: count }, () => ({
         x: secureRandom() * canvas.width,
@@ -123,10 +123,10 @@ const ParticleCanvas: React.FC = React.memo(() => {
 
     init();
     draw();
-    window.addEventListener("resize", init);
+    globalThis.window.addEventListener("resize", init);
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener("resize", init);
+      globalThis.window.removeEventListener("resize", init);
     };
   }, [shouldReduceMotion]);
 
