@@ -1,0 +1,85 @@
+# .github/release-drafter.yml
+# Automatically drafts release notes from PR titles merged to main.
+# Triggered by the release.yml workflow on every push to main.
+# Docs: https://github.com/release-drafter/release-drafter
+
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+
+# ── Semantic version bump rules ───────────────────────────────────────────────
+# Based on PR labels — labeler.yml sets these automatically
+version-resolver:
+  major:
+    labels: ["breaking-change"]
+  minor:
+    labels: ["feature", "enhancement"]
+  patch:
+    labels:
+      [
+        "bug",
+        "fix",
+        "content",
+        "chore",
+        "refactor",
+        "docs",
+        "documentation",
+        "dependencies",
+        "ci",
+        "performance",
+        "security",
+      ]
+  default: patch
+
+# ── Category groupings in release notes ───────────────────────────────────────
+categories:
+  - title: "🚨 Breaking Changes"
+    labels: ["breaking-change"]
+
+  - title: "✨ New Features"
+    labels: ["feature", "enhancement"]
+
+  - title: "🐛 Bug Fixes"
+    labels: ["bug", "fix"]
+
+  - title: "📝 Content Updates"
+    labels: ["content"]
+
+  - title: "⚡ Performance"
+    labels: ["performance"]
+
+  - title: "🔐 Security"
+    labels: ["security"]
+
+  - title: "♻️ Refactoring"
+    labels: ["refactor"]
+
+  - title: "📖 Documentation"
+    labels: ["docs", "documentation"]
+
+  - title: "🔧 Maintenance"
+    labels: ["chore", "dependencies", "ci"]
+
+# ── Release notes template ─────────────────────────────────────────────────────
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  ---
+
+  **Full changelog:** https://github.com/NaiDevOpsCom/devopssummit.africa-v3/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+# ── PR entry template ─────────────────────────────────────────────────────────
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+
+# ── Exclude bots and auto-generated PRs from release notes ────────────────────
+exclude-contributors:
+  - "dependabot[bot]"
+  - "github-actions[bot]"
+
+# ── Exclude these labels from appearing in release notes ──────────────────────
+exclude-labels:
+  - "skip-changelog"
+  - "duplicate"
+  - "invalid"
+  - "wontfix"

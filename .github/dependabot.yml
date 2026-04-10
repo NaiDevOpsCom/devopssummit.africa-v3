@@ -1,29 +1,26 @@
 version: 2
-
 updates:
+  # ── npm dependencies ─────────────────────────────────────────────────
   - package-ecosystem: "npm"
     directory: "/"
-
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "06:00"
-      timezone: "UTC"
-
+      time: "08:00"
+      timezone: "Africa/Nairobi" # changed from UTC
     open-pull-requests-limit: 10
     target-branch: "staging"
 
-    # ✅ ONLY allow direct dependencies (reduces random breakage)
+    # Only update direct dependencies — reduces random transitive breakage
     allow:
       - dependency-type: "direct"
 
-    # ✅ BLOCK all major updates globally (not just React)
+    # Block all major version bumps globally — review these manually
     ignore:
       - dependency-name: "*"
         update-types:
           - "version-update:semver-major"
 
-    # ✅ Group ONLY safe updates
     groups:
       react-ecosystem:
         patterns:
@@ -40,16 +37,18 @@ updates:
           - "typescript"
           - "ts-*"
           - "@typescript-eslint/*"
+          - "typescript-eslint"
         update-types:
           - "minor"
           - "patch"
 
       testing-suite:
         patterns:
-          - "jest*"
           - "@testing-library/*"
           - "vitest*"
+          - "@vitest/*"
           - "playwright*"
+          - "@playwright/*"
         update-types:
           - "minor"
           - "patch"
@@ -64,11 +63,33 @@ updates:
           - "patch"
 
       build-tooling:
+        # Note: we use "vite" exactly (not "vite*") to avoid overlapping with
+        # "vitest*" in the testing-suite group above.
         patterns:
-          - "vite*"
-          - "webpack*"
+          - "vite"
+          - "@vitejs/*"
           - "rollup*"
           - "esbuild*"
+          - "@tailwindcss/*"
+          - "tailwindcss*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # ── Added: Radix UI — every shadcn component depends on these ────
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # ── Added: Storybook — groups all @storybook/* into one PR ───────
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+          - "@chromatic-com/*"
         update-types:
           - "minor"
           - "patch"
@@ -82,20 +103,17 @@ updates:
       prefix-development: "chore(deps-dev)"
       include: "scope"
 
-  # ── GitHub Actions ───────────────────────────────────────────────────────
+  # ── GitHub Actions ────────────────────────────────────────────────────
   - package-ecosystem: "github-actions"
     directory: "/"
-
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "06:00"
-      timezone: "UTC"
-
+      time: "08:00"
+      timezone: "Africa/Nairobi" # changed from UTC
     open-pull-requests-limit: 5
     target-branch: "staging"
 
-    # ✅ Also block major updates for actions
     ignore:
       - dependency-name: "*"
         update-types:
@@ -111,7 +129,7 @@ updates:
 
     labels:
       - "dependencies"
-      - "ci/cd"
+      - "ci" # changed from "ci/cd" — slash causes label issues
       - "automated"
 
     commit-message:

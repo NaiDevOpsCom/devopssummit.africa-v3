@@ -1,0 +1,26 @@
+# .github/workflows/release.yml
+# Triggers on every push to main.
+# 1. Updates the draft release with PRs merged since last release
+# 2. When you're ready to publish, manually publish the draft in GitHub Releases
+name: Release Drafter
+
+on:
+  push:
+    branches: [main]
+  # Allow manually triggering to regenerate the draft
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  draft-release:
+    name: 📝 Update Release Draft
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

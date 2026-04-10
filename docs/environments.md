@@ -5,12 +5,12 @@
 All deployments share one set of environment variables in the CF dashboard.
 The app detects which environment it's running in from the hostname at runtime.
 
-| Environment | URL                         | Branch  | Auto-detected?                |
-| ----------- | --------------------------- | ------- | ----------------------------- |
-| Production  | devopssummit.africa         | main    | ✅ hostname match             |
-| Staging     | staging.devopssummit.africa | staging | ✅ hostname match             |
-| Preview     | \*.pages.dev                | feat/\* | ✅ .pages.dev suffix          |
-| Local Dev   | localhost:8080              | any     | ✅ VITE_APP_ENV in .env.local |
+| Environment | URL                             | Branch  | Auto-detected?                |
+| ----------- | ------------------------------- | ------- | ----------------------------- |
+| Production  | devopssummit.africa             | main    | ✅ hostname match             |
+| Staging     | staging.devopssummit.africa     | staging | ✅ hostname match             |
+| Preview     | \*.pages.dev                    | feat/\* | ✅ .pages.dev suffix          |
+| Local Dev   | localhost:5173 / localhost:4000 | any     | ✅ VITE_APP_ENV in .env.local |
 
 ## Per-environment behaviour (runtime, not build-time)
 
