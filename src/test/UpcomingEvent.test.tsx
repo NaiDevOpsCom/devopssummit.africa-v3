@@ -93,10 +93,15 @@ describe("UpcomingEvent", () => {
     Object.defineProperty(document, "visibilityState", { value: "visible", configurable: true });
     fireEvent(document, new Event("visibilitychange"));
 
+    const img = document.querySelector("img") as HTMLImageElement;
+    const initialSrc = img.src;
+
     act(() => {
-      vi.advanceTimersByTime(6000);
+      vi.advanceTimersByTime(10000);
     });
 
+    const currentImg = document.querySelector("img") as HTMLImageElement;
+    expect(currentImg.src).not.toBe(initialSrc);
     vi.useRealTimers();
   });
 });

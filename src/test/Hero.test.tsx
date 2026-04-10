@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Hero from "@/components/landing/Hero";
 import React from "react";
@@ -62,6 +62,31 @@ HTMLCanvasElement.prototype.getContext = vi.fn(
 ) as unknown as typeof HTMLCanvasElement.prototype.getContext;
 
 describe("Hero", () => {
+  const originalInnerWidth = globalThis.innerWidth;
+  const originalCrypto = globalThis.crypto;
+  const originalOffsetWidth = Object.getOwnPropertyDescriptor(
+    HTMLCanvasElement.prototype,
+    "offsetWidth",
+  );
+  const originalOffsetHeight = Object.getOwnPropertyDescriptor(
+    HTMLCanvasElement.prototype,
+    "offsetHeight",
+  );
+
+  afterEach(() => {
+    Object.defineProperty(globalThis, "innerWidth", {
+      value: originalInnerWidth,
+      configurable: true,
+    });
+    Object.defineProperty(globalThis, "crypto", { value: originalCrypto, configurable: true });
+    if (originalOffsetWidth) {
+      Object.defineProperty(HTMLCanvasElement.prototype, "offsetWidth", originalOffsetWidth);
+    }
+    if (originalOffsetHeight) {
+      Object.defineProperty(HTMLCanvasElement.prototype, "offsetHeight", originalOffsetHeight);
+    }
+    vi.restoreAllMocks();
+  });
   it("renders the event date badge", () => {
     render(
       <MemoryRouter>
@@ -133,6 +158,7 @@ describe("Hero", () => {
 
     fireEvent.resize(globalThis as unknown as Window);
     vi.runOnlyPendingTimers();
+    expect(HTMLCanvasElement.prototype.getContext).toHaveBeenCalled();
     vi.useRealTimers();
   });
 
