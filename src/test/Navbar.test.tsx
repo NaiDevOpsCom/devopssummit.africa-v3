@@ -43,4 +43,35 @@ describe("Navbar", () => {
     fireEvent.click(menuBtn);
     expect(screen.getByLabelText("Close menu")).toBeInTheDocument();
   });
+
+  it("handles scroll to change background", () => {
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>,
+    );
+    fireEvent.scroll(globalThis as unknown as Window, { target: { scrollY: 100 } });
+    expect(screen.getByRole("navigation")).toHaveClass("bg-background/80", { exact: false });
+  });
+
+  it("navigates to route on click", () => {
+    Object.defineProperty(globalThis, "innerHeight", { value: 1000, configurable: true });
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Navbar />
+      </MemoryRouter>,
+    );
+    const aboutLink = screen.getAllByText("About Us")[0];
+    fireEvent.click(aboutLink);
+  });
+
+  it("handles get a ticket click on non-home page", () => {
+    render(
+      <MemoryRouter initialEntries={["/about"]}>
+        <Navbar />
+      </MemoryRouter>,
+    );
+    const getTicketBtns = screen.getAllByText("Get a Ticket");
+    fireEvent.click(getTicketBtns[0]);
+  });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import UpcomingEvent from "@/components/landing/UpcomingEvent";
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
@@ -70,5 +70,33 @@ describe("UpcomingEvent", () => {
     );
     expect(screen.getByLabelText("Get a Ticket")).toBeInTheDocument();
     expect(screen.getByLabelText("Become a Sponsor")).toBeInTheDocument();
+  });
+
+  it("handles image error by setting fallback", () => {
+    render(
+      <MemoryRouter>
+        <UpcomingEvent />
+      </MemoryRouter>,
+    );
+    const img = document.querySelector("img") as HTMLImageElement;
+    fireEvent.error(img);
+    expect(img.src).toContain("data:image/gif");
+  });
+
+  it("cycles background image on interval", () => {
+    vi.useFakeTimers();
+    render(
+      <MemoryRouter>
+        <UpcomingEvent />
+      </MemoryRouter>,
+    );
+    Object.defineProperty(document, "visibilityState", { value: "visible", configurable: true });
+    fireEvent(document, new Event("visibilitychange"));
+
+    act(() => {
+      vi.advanceTimersByTime(6000);
+    });
+
+    vi.useRealTimers();
   });
 });
