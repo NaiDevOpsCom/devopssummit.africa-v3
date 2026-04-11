@@ -20,10 +20,10 @@ const testPrefixes = {
   github: buildFromCodePoints(103, 104, 112, 95), // "ghp_"
 };
 
-const requiredEnv = {
+const requiredEnv: Record<string, string> = {
   VITE_IMAGEKIT_URL_ENDPOINT: "https://ik.imagekit.io/test",
   VITE_IMAGEKIT_PUBLIC_KEY: "public_abc123",
-} as const;
+};
 
 const resetEnvKeys = [
   "VITE_IMAGEKIT_URL_ENDPOINT",
@@ -60,38 +60,28 @@ describe("validateEnv", () => {
   });
 
   // ── Missing vars ─────────────────────────────────────────────────
-  it("warns (not throws) in dev when IMAGEKIT_URL_ENDPOINT is missing", async () => {
+  it("throws in dev when IMAGEKIT_URL_ENDPOINT is missing", async () => {
     stubRequiredEnv({ VITE_IMAGEKIT_URL_ENDPOINT: "" });
 
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const { validateEnv } = await import("@/config/validateEnv");
 
-    expect(() => validateEnv()).not.toThrow();
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining("VITE_IMAGEKIT_URL_ENDPOINT is missing"),
-    );
+    expect(() => validateEnv()).toThrow(/VITE_IMAGEKIT_URL_ENDPOINT is missing/);
   });
 
-  it("warns when IMAGEKIT_PUBLIC_KEY is missing", async () => {
+  it("throws when IMAGEKIT_PUBLIC_KEY is missing", async () => {
     stubRequiredEnv({ VITE_IMAGEKIT_PUBLIC_KEY: "" });
 
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const { validateEnv } = await import("@/config/validateEnv");
 
-    validateEnv();
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining("VITE_IMAGEKIT_PUBLIC_KEY is missing"),
-    );
+    expect(() => validateEnv()).toThrow(/VITE_IMAGEKIT_PUBLIC_KEY is missing/);
   });
 
-  it("warns when URL endpoint is malformed", async () => {
+  it("throws when URL endpoint is malformed", async () => {
     stubRequiredEnv({ VITE_IMAGEKIT_URL_ENDPOINT: "not-a-valid-url" });
 
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const { validateEnv } = await import("@/config/validateEnv");
 
-    validateEnv();
-    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("not a valid URL"));
+    expect(() => validateEnv()).toThrow(/not a valid URL/);
   });
 
   // ── Security violations — must throw ────────────────────────────

@@ -7,7 +7,7 @@ import * as Env from "./env";
  *
  * Behaviour by environment:
  *   Security violations  → always throw (all environments)
- *   Missing required vars → throw in development, warn in production
+ *   Validation errors    → throw for any missing required vars (all environments)
  *   Missing optional vars → warn only in production where they matter
  */
 
@@ -110,17 +110,8 @@ const reportErrors = (errors: string[]): void => {
   const list = errors.map((e) => "• " + e).join("\n");
   const message = "[Env Validation Failed]\n\n" + list;
 
-  const hasSecurityViolation = errors.some((e) => e.includes("SECURITY:"));
-
-  if (hasSecurityViolation) {
-    throw new Error(message);
-  }
-
-  if (Env.IS_DEVELOPMENT) {
-    console.warn(message);
-  } else {
-    console.error(message);
-  }
+  // Throw for any validation error (not just security ones) to enforce required vars
+  throw new Error(message);
 };
 
 export const validateEnv = (): void => {

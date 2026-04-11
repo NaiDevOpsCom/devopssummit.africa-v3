@@ -1,0 +1,193 @@
+# .github/workflows/pr-checks.yml
+# Runs on every PR opened or updated.
+# 1. Validates PR title follows Conventional Commits format
+# 2. Auto-labels PR based on files changed
+# 3. Checks PR isn't targeting main directly (must go through staging)
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  # ── Semantic PR title + quality enforcement ─────────────────────────
+  # Two layers:
+  # 1. amannn/action-semantic-pull-request — validates type/scope format
+  # 2. Custom step — enforces title quality (length, no vague words)
+  #
+  # Why both? The first catches format errors (missing colon, wrong type).
+  # The second catches passing-but-useless titles like "feat: fix stuff".
+  # Both must pass before a PR can merge.
+  semantic-title:
+    name: ✅ PR Title Quality Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Validate Conventional Commits format
+        uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017 # v5.5.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Allowed commit types — must match your release-drafter categories
+          types: |
+            feat
+            fix
+            chore
+            docs
+            refactor
+            perf
+            test
+            ci
+            content
+            style
+            security
+            revert
+          requireScope: false
+          # Subject must start with a capital letter
+          subjectPattern: ^[A-Z].+$
+          subjectPatternError: |
+            PR title subject must start with a capital letter.
+            ✅ "feat: Add speaker search filter"
+            ❌ "feat: add speaker search filter"
+
+      - name: Validate PR title quality
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "Checking PR title: \"$PR_TITLE\""
+          echo ""
+
+          FAILED=0
+
+          # ── Rule 1: Minimum length ─────────────────────────────
+          # Strips the type prefix (e.g. "feat: ") and checks the subject
+          SUBJECT=$(echo "$PR_TITLE" | sed 's/^[a-z]*([^)]*): //' | sed 's/^[a-z]*: //')
+          SUBJECT_LEN=${#SUBJECT}
+
+          if [ "$SUBJECT_LEN" -lt 10 ]; then
+            echo "❌ FAIL: PR title subject is too short (${SUBJECT_LEN} chars, minimum 10)"
+            echo "   Subject: \"$SUBJECT\""
+            echo "   Add more detail so release notes are meaningful."
+            FAILED=1
+          else
+            echo "✅ Length: ${SUBJECT_LEN} chars — OK"
+          fi
+
+          # ── Rule 2: Maximum length ─────────────────────────────
+          TITLE_LEN=${#PR_TITLE}
+          if [ "$TITLE_LEN" -gt 100 ]; then
+            echo "❌ FAIL: PR title is too long (${TITLE_LEN} chars, maximum 100)"
+            echo "   Keep it concise — move detail to the PR description."
+            FAILED=1
+          else
+            echo "✅ Max length: ${TITLE_LEN} chars — OK"
+          fi
+
+          # ── Rule 3: No vague filler words ─────────────────────
+          # These titles pass format checks but are useless in release notes
+          VAGUE_PATTERNS="^(feat|fix|chore|docs|refactor|perf|test|ci|content|style|security|revert)(\([^)]+\))?: (Fix|Update|Change|Edit|Modify|Tweak|Misc|Stuff|Things|WIP|wip|Test|Testing|Work|More|Some|Various|Minor|Major|Changes|Updates|Fixes|Improvements|Cleanup|Refactor)(\b.*)?$"
+
+          if echo "$PR_TITLE" | grep -qiE "$VAGUE_PATTERNS"; then
+            echo "❌ FAIL: PR title is too vague"
+            echo "   Title: \"$PR_TITLE\""
+            echo ""
+            echo "   Vague titles produce useless release notes."
+            echo "   Describe WHAT changed, not just that something changed."
+            echo ""
+            echo "   ❌ 'fix: Fix bug'"
+            echo "   ✅ 'fix: Correct countdown timer on mobile viewports'"
+            echo ""
+            echo "   ❌ 'feat: Update'"
+            echo "   ✅ 'feat: Add session calendar export to Schedule page'"
+            FAILED=1
+          else
+            echo "✅ No vague words detected — OK"
+          fi
+
+          # ── Rule 4: No WIP titles ──────────────────────────────
+          if echo "$PR_TITLE" | grep -qiE "\bWIP\b|\[WIP\]|\bDRAFT\b|\[DRAFT\]"; then
+            echo "❌ FAIL: PR title contains WIP or DRAFT marker"
+            echo "   Mark as a Draft PR in GitHub instead of putting it in the title."
+            FAILED=1
+          else
+            echo "✅ No WIP/Draft marker — OK"
+          fi
+
+          # ── Rule 5: No issue numbers in title ─────────────────
+          # Issue refs belong in the PR body (Closes #123), not the title
+          # They pollute release notes: "feat: Add feature (#123)" looks messy
+          if echo "$PR_TITLE" | grep -qE "#[0-9]+"; then
+            echo "⚠️  WARNING: PR title contains an issue number"
+            echo "   Issue refs belong in the PR body (Closes #123), not the title."
+            echo "   Release notes read better without numbers in the title."
+            # Warning only — not a hard failure
+          fi
+
+          # ── Result ────────────────────────────────────────────
+          echo ""
+          if [ "$FAILED" -eq 1 ]; then
+            echo "─────────────────────────────────────────────"
+            echo "PR title validation failed. Please update your PR title."
+            echo ""
+            echo "Format:  <type>: <Subject starting with capital>"
+            echo "Example: feat: Add speaker search filter to Schedule page"
+            echo "Example: fix: Correct mobile navbar z-index overlap with hero"
+            echo "Example: content: Update 2026 speaker lineup with 3 new profiles"
+            echo "─────────────────────────────────────────────"
+            exit 1
+          fi
+
+          echo "─────────────────────────────────────────────"
+          echo "✅ PR title passed all quality checks"
+          echo "   This title will appear in release notes as:"
+          echo "   - $PR_TITLE"
+          echo "─────────────────────────────────────────────"
+
+  # ── Auto-label by changed files ─────────────────────────────────────
+  # Reads .github/labeler.yml to determine which labels to apply
+  auto-label:
+    name: 🏷️ Auto Label
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9 # v5.0.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+          sync-labels: true # Remove labels if files no longer match
+
+  # ── Branch target guard ─────────────────────────────────────────────
+  # Prevents PRs from feature branches going directly to main
+  # All feature work must go through staging first
+  branch-target:
+    name: 🌿 Branch Target Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      HEAD_REF: ${{ github.head_ref }}
+      BASE_REF: ${{ github.base_ref }}
+    steps:
+      - name: Prevent direct PR to main from feature branches
+        if: |
+          github.base_ref == 'main' &&
+          github.head_ref != 'staging'
+        run: |
+          echo "❌ Direct PRs to main are only allowed from the staging branch."
+          echo ""
+          echo "   Your branch:  $HEAD_REF"
+          echo "   Target:       main"
+          echo ""
+          echo "   Correct flow: $HEAD_REF → staging → main"
+          echo ""
+          echo "   Please retarget this PR to staging instead."
+          exit 1
+
+      - name: PR target is valid
+        run: |
+          echo "✅ PR target is valid"
+          echo "   $HEAD_REF → $BASE_REF"
