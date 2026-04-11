@@ -1,209 +1,136 @@
-# Security Policy
+# Security
 
-## Reporting a Vulnerability
+This project is a static frontend application, so most security work here is about protecting the client bundle, public configuration, external integrations, and content rendering.
 
-If you discover a security vulnerability in this project, **please do not open a public GitHub issue.**
+## Reporting A Vulnerability
 
-Report it privately by emailing: **`TODO: security@devopssummit.africa`**
+Please do not open a public issue for security problems.
 
-Include as much detail as possible:
+Use one of these private paths:
 
-- A description of the vulnerability and its potential impact
-- Steps to reproduce the issue
-- Any relevant screenshots, URLs, or proof-of-concept code
+- the repository's private vulnerability reporting flow, if enabled
+- a direct maintainer contact channel
+- the project security address once provisioned
 
-### What to expect after reporting
+Current placeholder contact in project docs: `security@devopssummit.africa`
 
-| Timeframe             | What happens                                                            |
-| --------------------- | ----------------------------------------------------------------------- |
-| **Within 48 hours**   | We acknowledge receipt of your report                                   |
-| **Within 7 days**     | We assess severity and share our initial findings with you              |
-| **Within 30 days**    | We aim to ship a fix for confirmed vulnerabilities                      |
-| **After fix is live** | We'll notify you and, with your permission, credit you in the changelog |
+When reporting, include:
 
-We treat all reports seriously. If you follow responsible disclosure practices, we will too.
+- what the issue is
+- how to reproduce it
+- the likely impact
+- any screenshots or proof of concept that help confirm the issue
 
----
+## Current Security Controls
+
+### Public env validation
+
+`src/config/validateEnv.ts` runs at startup and protects against:
+
+- missing required public variables
+- malformed environment values
+- secret-looking values accidentally placed in `VITE_` variables
+
+This is especially important because `VITE_` variables are bundled into the browser build.
+
+### Safe HTML rendering
+
+Use `SafeHtml` when rendering HTML content from outside the component source. It sanitizes content with DOMPurify before rendering.
+
+Do not use raw `dangerouslySetInnerHTML` for content pulled from data or integrations.
+
+### Safe links
+
+Use safe link handling for untrusted URLs. `SafeLink` sanitizes the URL and applies `rel="noopener noreferrer"` for external targets.
+
+### Security headers
+
+The project includes `public/_headers` with edge/security headers for static hosting platforms that support them. That file currently covers:
+
+- CSP
+- HSTS
+- clickjacking protection
+- MIME sniffing protection
+- referrer policy
+- permissions policy
+- cross-origin policies
+
+If you add a new third-party domain for scripts, frames, images, or network calls, update `public/_headers` in the same PR.
+
+### Secret and dependency scanning
+
+CI runs:
+
+- `npm audit --audit-level=high`
+- Gitleaks against repository history
+
+If you add a dependency or external integration, assume the security jobs need to keep passing without special exemptions.
 
 ## Scope
 
 ### In scope
 
-- The Africa DevOps Summit website (`devopssummit.africa` and subdomains)
-- This GitHub repository and its codebase
-- Environment variable handling and configuration
-- Client-side data handling and rendering
+- the static application code in this repository
+- public environment handling
+- content rendering and sanitization
+- build-time scripts, including gallery sync
+- deployed site behavior on official domains and preview environments
 
 ### Out of scope
 
-The following are **not** in scope for this security policy:
+- vulnerabilities in third-party vendor platforms themselves
+- denial-of-service attacks
+- social engineering against maintainers
+- issues in dependencies that belong upstream unless this repo exposes them through configuration or usage
 
-- Third-party services (CMS provider, ticketing platform, image hosting) — report those to the respective vendor
-- Social engineering attacks targeting the team
-- Denial of service attacks
-- Issues in dependencies — report those upstream via `npm audit` or the package maintainer
+## Contributor Rules
 
----
+- never commit `.env.local`
+- never put secrets in `VITE_` variables
+- centralize new env access in `src/config/env.ts`
+- validate required runtime values in `src/config/validateEnv.ts`
+- sanitize raw HTML before rendering
+- review CSP and allowed origins when adding third-party services
 
-## Attack Surface Overview
+## Local Security Checklist
 
-This is a **frontend-only static SPA** with no backend server. Understanding the architecture helps scope what's actually at risk:
-
-| Layer                 | Detail                                                                                      |
-| --------------------- | ------------------------------------------------------------------------------------------- |
-| **Server-side**       | None — no backend, no database, no API server owned by this project                         |
-| **Client-side**       | React SPA served as static files from cPanel shared hosting                                 |
-| **Data storage**      | No user accounts, no server-side sessions, no cookies set by this app                       |
-| **External services** | CMS (read-only public API), image hosting (ImageKit), ticketing (external redirect)         |
-| **User input**        | Contact/inquiry forms POST to third-party services — no data is processed server-side by us |
-
-The primary client-side risks are **XSS** and **sensitive data exposure via environment variables**, both of which are addressed below.
-
----
-
-## Security Implementation
-
-### 1. Environment Variable Security
-
-#### Centralized Configuration (`src/config/env.ts`)
-
-All environment variables are accessed through a single `Env` constant in `src/config/env.ts`. **Direct use of `import.meta.env` outside this file is prohibited.**
-
-- Variables are strictly typed in `vite-env.d.ts`
-- Helper functions (`requireEnv`, `optionalEnv`) ensure predictable, validated access
-- `VITE_` prefixed variables are bundled into the client bundle and are **publicly visible** — treat them as public configuration, never as secrets
-
-#### Runtime Validation (`src/config/validateEnv.ts`)
-
-The app runs a validation check at startup (`main.tsx`):
-
-- **Presence check** — confirms all required variables (e.g. ImageKit endpoints) are present
-- **Format validation** — validates URL structure and other format requirements
-- **Secret detection** — scans all `VITE_` prefixed variables for patterns that look like secrets (Stripe `sk_`, SendGrid `SG.`, AWS keys, GitHub tokens, etc.) and raises an error if found
-- **Failure behaviour** — in development, violations throw immediately; in production, they surface as console errors
-
-#### Build-Time Safety
-
-- The `fetch-gallery.ts` script uses a graceful skip mechanism — if `IMAGEKIT_PRIVATE_KEY` is absent, it falls back to cached/placeholder data rather than failing the build or leaking the key
-- `.env.local` is gitignored and must never be committed
-- `.env.example` documents all required variables with dummy values and must be kept up to date
-
-#### Rules for contributors
-
-```
-# ✅ Safe — public configuration
-VITE_CMS_API_URL=https://api.example.com
-VITE_IMAGEKIT_PUBLIC_KEY=public_abc123
-
-# ❌ Never do this — private keys must not have VITE_ prefix
-VITE_IMAGEKIT_PRIVATE_KEY=private_xyz789   # will be exposed in the browser bundle
-
-# ✅ Correct — private keys without VITE_ prefix are build-time only
-IMAGEKIT_PRIVATE_KEY=private_xyz789
-```
-
----
-
-### 2. XSS (Cross-Site Scripting) Prevention
-
-#### Sanitization Strategy
-
-Dynamic HTML from the CMS or external sources is sanitized using [DOMPurify](https://github.com/cure53/DOMPurify) before rendering. Our configuration:
-
-- Strips dangerous tags: `<script>`, `<iframe>`, `<object>`, `<embed>`
-- Strips dangerous attributes: `onerror`, `onload`, `onclick`, and all other event handlers
-- Preserves safe structural elements: `<a>`, `<b>`, `<i>`, `<p>`, `<ul>`, `<li>`, etc.
-
-#### SafeHtml Component
-
-The `SafeHtml` component is the **only approved way** to render raw HTML strings in this codebase. It applies DOMPurify before injecting content into the DOM.
-
-```tsx
-// ✅ Correct — sanitized rendering
-<SafeHtml content={speaker.bio} />
-
-// ❌ Never do this — bypasses sanitization
-<div dangerouslySetInnerHTML={{ __html: speaker.bio }} />
-```
-
-All components that render dynamic content from CMS fields (descriptions, bios, testimonials) **must** use `SafeHtml`. This is enforced in code review.
-
----
-
-### 3. External Link Safety
-
-All external links must include `rel="noopener noreferrer"` to prevent reverse tabnapping attacks:
-
-```tsx
-// ✅ Correct
-<a href="https://external.com" target="_blank" rel="noopener noreferrer">
-  Link
-</a>
-
-// ❌ Missing rel attribute — security risk
-<a href="https://external.com" target="_blank">Link</a>
-```
-
----
-
-### 4. Content Security Policy (CSP)
-
-A Content Security Policy restricts which resources the browser can load, significantly reducing XSS impact.
-
-For cPanel hosting, add the following to your `.htaccess` file and adjust the `connect-src` and `img-src` directives to match your actual CMS and image hosting domains:
-
-```apache
-<IfModule mod_headers.c>
-  Header set Content-Security-Policy "\
-    default-src 'self'; \
-    script-src 'self'; \
-    style-src 'self' 'unsafe-inline'; \
-    img-src 'self' data: https://ik.imagekit.io; \
-    font-src 'self'; \
-    connect-src 'self' https://TODO_CMS_API_DOMAIN; \
-    frame-src 'none'; \
-    object-src 'none'; \
-    base-uri 'self'; \
-    form-action 'self'; \
-  "
-</IfModule>
-```
-
-> `TODO: Confirm and finalise CSP directives once all third-party domains (CMS, ticketing, analytics) are confirmed. Test in report-only mode first using `Content-Security-Policy-Report-Only`  before enforcing.`
-
----
-
-### 5. Dependency Management
-
-Run the following regularly and before major releases:
+Before merging a security-sensitive change:
 
 ```sh
-# Check for known vulnerabilities
-npm audit
-
-# Auto-fix non-breaking vulnerabilities
-npm audit fix
-
-# Review and update outdated packages
-npx npm-check-updates
+npm run lint
+npm run test
+npm run build
 ```
 
-Dependency updates should be done in a dedicated PR with the `chore` commit prefix. All PRs that update dependencies should verify `npm run build` still passes.
+Also verify:
 
----
+- no secret values were added to tracked files
+- no new external domain is missing from `public/_headers`
+- raw HTML and untrusted links still pass through safe wrappers
 
-## Severity Reference
+## Common Risk Areas In This Repo
 
-Use this guide when assessing or reporting a vulnerability:
+### Environment leaks
 
-| Severity          | Description                                   | Examples                                                       |
-| ----------------- | --------------------------------------------- | -------------------------------------------------------------- |
-| **Critical**      | Direct data exposure or remote code execution | Private key exposed in bundle, full XSS with data exfiltration |
-| **High**          | Significant impact, likely exploitable        | Stored XSS, CSP bypass, sensitive config exposed               |
-| **Medium**        | Moderate impact or requires user interaction  | Reflected XSS, open redirect, clickjacking                     |
-| **Low**           | Minimal impact, unlikely to be exploited      | Missing security headers, verbose error messages               |
-| **Informational** | Best practice improvement, no direct impact   | Missing `rel` attribute, suboptimal CSP directive              |
+The biggest recurring risk in a Vite app is exposing secrets by prefixing them with `VITE_`. Treat every `VITE_` variable as public.
 
----
+### Third-party content and URLs
 
-_This policy was last reviewed: March 2026_
+Speaker bios, sponsor links, or future CMS content can introduce unsafe HTML or unsafe URLs if they bypass the existing wrappers.
+
+### Static hosting misconfiguration
+
+The app depends on route rewrites and security headers. If the deployment target changes, verify that:
+
+- SPA rewrites still work
+- `_headers` or equivalent host-level security headers are still applied
+- service worker and manifest files remain reachable
+
+## Related Files
+
+- `src/config/env.ts`
+- `src/config/validateEnv.ts`
+- `src/components/SafeHtml.tsx`
+- `src/components/SafeLink.tsx`
+- `public/_headers`
+- `public/_redirects`

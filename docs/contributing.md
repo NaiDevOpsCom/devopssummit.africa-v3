@@ -1,211 +1,177 @@
-# Contributing to Africa DevOps Summit Hub
+# Contributing
 
-First off, thank you for considering contributing to the Africa DevOps Summit Hub! It's people like you that make this open-source community such a great place to learn, inspire, and create.
+Thanks for helping improve the Africa DevOps Summit website. This guide covers the day-to-day workflow for code, content, and documentation contributions.
 
-This document serves as a comprehensive guide for all contributors, helping ensure our codebase remains clean, maintainable, and highly collaborative.
+## Ground Rules
 
-## Project Mindset
+- Prefer small, focused pull requests
+- Follow existing patterns before introducing new abstractions
+- Keep accessibility, responsiveness, and readability in scope for UI work
+- Do not commit secrets or rely on undocumented environment variables
+- If a change affects docs, update the relevant docs in the same PR
 
-Before diving in, please keep our core philosophy in mind:
+## Branch Strategy
 
-- **Clean, Maintainable, Scalable Code:** We prioritize readability and long-term maintainability over clever but complex solutions.
-- **Respect Existing Conventions:** Follow the established architecture and patterns you see in the codebase.
-- **Purposeful Refactoring:** Avoid unnecessary refactoring unless strictly required for a bug fix or approved architectural update.
+The repository uses two long-lived branches:
 
----
+- `main`: production-ready releases
+- `staging`: active integration branch
 
-## Branching Strategy
+Use these branch prefixes:
 
-To keep our deployments stable, we employ a strict pull request and branching process based on two protected branches:
+- `feat/<name>` for new features
+- `fix/<name>` for bug fixes
+- `chore/<name>` for tooling or dependency work
+- `docs/<name>` for documentation-only work
+- `content/<name>` for summit copy or data updates
+- `hotfix/<name>` for urgent fixes starting from `main`
 
-- **`main`**: The production branch. It contains only stable, production-ready code. **Never commit directly or open PRs to this branch (except for hotfixes).**
-- **`staging`**: The development/integration branch. All new features and bug fixes land here first.
+Normal work should branch from `staging` and open a pull request back into `staging`.
 
-### Visual Workflow
+## Local Setup
 
-```text
-main           ────o────────────────────────────────────o────o────
-                   │                                    ^    │
-                   │ (Periodic release)                 │    │
-staging        ────o────o──────────────o──────────o─────┼────o────
-                        │              ^          │     │    ^
-                        v              │          v     │    │
-feature/* or fix/*      └──o───o───o───┘          │     │    │
-                                                  │     │    │
-hotfix/* (Urgent)                                 └──o──┴────┘
-```
+### Prerequisites
 
-- Features branch off `staging` and merge back into `staging`.
-- Hotfixes branch off `main` and merge into BOTH `main` and `staging` to ensure fixes aren't lost in upcoming releases.
-- Maintainers handle promoting `staging` to `main`.
+- Node.js `^20.19.0 || >=22.12.0`
+- npm
 
-### Naming Conventions
+### Install
 
-Use descriptive branch names with the following prefixes:
-
-- `feat/<name>` for new features or enhancements (e.g., `feat/speaker-cards`)
-- `fix/<name>` for bug fixes (e.g., `fix/navbar-mobile-menu`)
-- `chore/<name>` for tooling, config, or dependency updates (e.g., `chore/update-vite`)
-- `hotfix/<name>` for urgent production fixes branching from `main` (e.g., `hotfix/broken-payment-link`)
-
----
-
-## Mandatory Pre-Work Requirement
-
-Before making any changes or writing a single line of code, contributors **MUST**:
-
-1. **Read and Understand the Docs:** Review the project documentation (such as `.agents/CONTEXT.md` and architecture docs).
-2. **Analyze the Project Structure:** Understand the folder layout, core components, and general architecture.
-3. **Identify Affected Files:** Trace exactly which files, components, and state will be impacted by your changes.
-4. **Ensure Consistency:** Verify that your proposed approach aligns with existing patterns. (If in doubt, open an issue to discuss it first!)
-
-_Note: These mandatory pre-work steps primarily apply to code changes. Minor documentation edits or typo fixes may be exempt from the full process._
-
----
-
-## Local Setup & Prerequisites
-
-**Node.js**: Version **^20.19.0** or **>=22.12.0** is required.
-We recommend using [nvm](https://github.com/nvm-sh/nvm):
-
-```bash
-nvm install 22
-nvm use 22
-```
-
-**Installation**:
-
-```bash
+```sh
 git clone git@github.com:NaiDevOpsCom/devopssummit.africa-v3.git
 cd devopssummit.africa-v3
-npm install
+git checkout staging
+npm ci
+cp .env.example .env.local
 ```
 
-### Environment Variables
+Then start the app:
 
-- Copy the example environment file: `cp .env.example .env.local`
-- **Never commit `.env.local`**. Ensure your `.gitignore` includes `.env.local`.
-- **Note**: This is a static frontend app — all env vars are baked in at build time and visible in the browser bundle. Do not store secrets in `VITE_` variables.
+```sh
+npm run dev
+```
 
-### Available Scripts
+The dev server runs on `http://localhost:8080`.
 
-- `npm run dev`: Start the local development server at `http://localhost:5173`
-- `npm run build`: Build the production-ready site into `dist/`
-- `npm run lint`: Run ESLint across the codebase
-- `npm run typecheck`: Run TypeScript type checking without emitting files
+## Where To Make Changes
 
----
+| Change type                | Start here                                                 |
+| -------------------------- | ---------------------------------------------------------- |
+| New route or page behavior | `src/pages` and `src/App.tsx`                              |
+| Shared UI                  | `src/components/ui`                                        |
+| Homepage sections          | `src/components/landing`                                   |
+| Navbar or footer           | `src/components/layout`                                    |
+| Summit content             | `src/data`                                                 |
+| Environment variables      | `src/config/env.ts` and `src/config/validateEnv.ts`        |
+| ImageKit gallery sync      | `scripts/fetch-gallery.ts` and `src/lib/imagekit.paths.ts` |
+| Documentation              | `README.md` and `docs/`                                    |
 
 ## Development Workflow
 
-1. **Sync with Upstream:**
-   Always pull the latest changes from `staging` before starting new work.
+1. Sync `staging`
 
-   ```bash
-   git checkout staging
-   git pull origin staging
-   ```
+```sh
+git checkout staging
+git pull origin staging
+```
 
-2. **Create Your Branch:**
+2. Create a branch
 
-   ```bash
-   git checkout -b feat/your-feature-name
-   ```
+```sh
+git checkout -b feat/your-change
+```
 
-3. **Develop and Commit:**
-   Make your changes following the code quality standards. Write clear, descriptive commit messages.
+3. Make the change
 
-4. **Open a Pull Request:**
-   Push your branch and open a PR targeting the **`staging`** branch (NOT `main`).
+4. Run the relevant checks
 
----
+```sh
+npm run typecheck
+npm run lint
+npm run test
+npm run build
+```
 
-## Code Style & Conventions
+5. Push and open a PR against `staging`
 
-This project uses React, Vite, and TypeScript. All contributions must adhere to the following standards:
+## Testing Expectations
 
-### TypeScript & React
+At minimum, contributors should validate the work they touched.
 
-- **TypeScript Best Practices:** Utilize strict typing. Avoid the use of `any` wherever possible. Define explicit interfaces for your data.
-- **Component Architecture:** Ensure components are reusable, modular, small, and focused on a single responsibility. Use plain function declarations for components (not `React.FC`).
-- **File Naming:** Use PascalCase for components (`Navbar.tsx`), camelCase for hooks and utilities (`useMobile.ts`, `cn.ts`).
+### For code changes
 
-### Styling (Tailwind CSS)
+- `npm run typecheck`
+- `npm run lint`
+- `npm run test`
+- `npm run build`
 
-- Follow utility-first styling with Tailwind CSS.
-- Use semantic CSS variables defined in our design system (e.g., `bg-primary`, `text-foreground`). Avoid hardcoding hex colors.
+### For UI-heavy changes
 
-### Imports
+- run the app locally
+- verify the affected pages on mobile and desktop widths
+- include screenshots or a short recording in the PR
 
-- Always use the `@/` alias for absolute imports within the `src` directory (e.g., `import { cn } from "@/lib/utils";`).
+### For documentation-only changes
 
-### shadcn/ui Components
+- keep links, commands, and branch names accurate
+- run Prettier if formatting changed substantially
 
-- **Warning:** Do not manually edit or create files inside `src/components/ui/`. These are generated code.
-- To add or update a component, always use the CLI:
-  ```bash
-  npx shadcn@latest add [component-name]
-  ```
+See [testing.md](./testing.md) for the full test and CI matrix.
 
----
+## Code Style
 
-## Testing & Validation
+### TypeScript and React
 
-All contributors are responsible for validating their code before opening a PR:
+- prefer explicit types over `any`
+- use function components and hooks
+- use the `@/` path alias for imports inside `src`
+- keep components focused and composable
 
-- **Build Check:** Ensure the application builds successfully without errors.
-  ```bash
-  npm run build
-  ```
-- **Linting:** Run the linter and fix all identified issues before submitting.
-  ```bash
-  npm run lint
-  ```
-- **Manual QA:** Manually test affected features in the browser to ensure the UI and UX remain intact.
+### Styling
 
----
+- use Tailwind utilities and existing tokens
+- prefer semantic tokens and shared patterns over one-off values
+- preserve accessibility when customizing interactive components
 
-## Pull Request Guidelines
+### Data and config
 
-To expedite the review process, ensure your PR meets these criteria:
+- keep summit content in `src/data`
+- keep environment access centralized in `src/config/env.ts`
+- do not place secrets in `VITE_` variables
 
-- **Target the Right Branch:** Remember, target `staging` (unless it's a hotfix).
-- **Clear Title & Description:** Clearly explain _what_ was changed and _why_.
-- **Reference Issues:** Link any related bug or feature tracking issues (e.g., `Closes #42`).
-- **Include Visuals:** For UI changes, attach screenshots or a screen recording showing the before and after.
-- **Keep It Focused:** Limit your PR to a single concern or feature. Smaller PRs are reviewed and merged much faster!
+### Safety wrappers
 
----
+- use `SafeHtml` for raw HTML
+- use safe link handling for untrusted URLs
 
-## CI/CD Awareness
+## Pull Request Checklist
 
-Please be aware that opening a PR will trigger automated pipeline checks:
+Before requesting review, make sure the PR:
 
-- Automated tests, linting, and build validation will run.
-- **Your PR must pass all CI/CD checks before it can be merged.**
-- If a check fails, review the logs, push a fix to your branch, and the checks will run again.
+- targets the correct branch
+- explains what changed and why
+- includes screenshots for visible UI changes
+- updates docs if behavior, setup, or architecture changed
+- does not include unrelated refactors
 
----
+## Content And Documentation Changes
 
-## Hotfix Workflow (For Critical Production Bugs)
+If you are editing summit copy, speaker data, sponsor data, or FAQs, start with [CONTENT_GUIDE.md](./CONTENT_GUIDE.md).
 
-If you are addressing an urgent bug currently in production:
+If you are improving docs, keep the following aligned:
 
-1. Ensure your local `main` branch is up to date:
-   ```bash
-   git checkout main
-   git pull origin main
-   ```
-2. Create your hotfix branch directly off `main`:
-   ```bash
-   git checkout -b hotfix/describe-the-bug
-   ```
-3. Fix the issue, and test it thoroughly to ensure no regressions.
-4. Open ONE PR targeting `main` with the prefix `[HOTFIX]` in the title for immediate production deployment.  
-   Once merged, maintainers will cherry-pick changes into `staging`.
+- `README.md`
+- `docs/architecture.md`
+- `docs/contributing.md`
+- `docs/testing.md`
+- `docs/environments.md`
 
-_(Note: There is no automation for this dual-merge; the backporting is a manual step performed by maintainers.)_
+## Hotfix Flow
 
----
+For urgent production fixes:
 
-Thank you for contributing! Your efforts help make this project better for everyone.
+1. branch from `main`
+2. open a PR into `main`
+3. coordinate with maintainers to bring the fix back into `staging`
+
+Keep hotfix PRs tightly scoped.

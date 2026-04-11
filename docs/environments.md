@@ -1,30 +1,112 @@
-# Environments — Africa DevOps Summit
+# Environments
 
-## CF Free Plan Setup
+This project uses a mix of build-time and runtime environment handling.
 
-All deployments share one set of environment variables in the CF dashboard.
-The app detects which environment it's running in from the hostname at runtime.
+## How Environment Detection Works
 
-| Environment | URL                             | Branch  | Auto-detected?                |
-| ----------- | ------------------------------- | ------- | ----------------------------- |
-| Production  | devopssummit.africa             | main    | ✅ hostname match             |
-| Staging     | staging.devopssummit.africa     | staging | ✅ hostname match             |
-| Preview     | \*.pages.dev                    | feat/\* | ✅ .pages.dev suffix          |
-| Local Dev   | localhost:5173 / localhost:4000 | any     | ✅ VITE_APP_ENV in .env.local |
+The app resolves its runtime environment in `src/config/env.ts` using:
 
-## Per-environment behaviour (runtime, not build-time)
+1. Vite test mode
+2. the current browser hostname
+3. `VITE_APP_ENV` as a local override
+4. Vite's `PROD` flag as a final fallback
 
-| Feature           | Production            | Staging | Preview | Local  |
-| ----------------- | --------------------- | ------- | ------- | ------ |
-| PostHog recording | ✅ 20% sample         | ✅ 100% | ✅ 100% | ❌ off |
-| Devtools          | ❌                    | ✅      | ✅      | ✅     |
-| Debug images      | ❌                    | ✅      | ✅      | ✅     |
-| Console logs      | ❌ stripped by ESLint | ✅      | ✅      | ✅     |
+That means one build can still behave differently depending on where it is hosted, as long as the hostnames match the expected environment rules.
 
-## Adding a new environment variable
+## Runtime Environments
 
-1. Add to `.env.example` with description
-2. Add to `src/config/env.ts` with `optionalEnv()` or `requireEnv()`
-3. If required at runtime, validate in `src/config/validateEnv.ts`
-4. Set real value in CF Pages dashboard
-5. Add to `.env.local` locally
+| Environment   | Trigger                                                                     | Notes                             |
+| ------------- | --------------------------------------------------------------------------- | --------------------------------- |
+| `production`  | `devopssummit.africa` or `www.devopssummit.africa`                          | Main public site                  |
+| `staging`     | `staging.devopssummit.africa` or `devopssummit-africa-v3-staging.pages.dev` | Shared pre-production environment |
+| `preview`     | any `*.pages.dev` hostname not matched above                                | Feature preview environments      |
+| `development` | local fallback or `VITE_APP_ENV=development`                                | Local development                 |
+
+## Local Development
+
+### Defaults
+
+- Vite dev server host: `::`
+- Vite dev server port: `8080`
+- HMR overlay: disabled
+
+### Typical setup
+
+```sh
+cp .env.example .env.local
+npm run dev
+```
+
+## Variable Reference
+
+### Required public variables
+
+These must exist for the app to start successfully:
+
+| Variable                     | Purpose                                  |
+| ---------------------------- | ---------------------------------------- |
+| `VITE_IMAGEKIT_URL_ENDPOINT` | Public ImageKit delivery endpoint        |
+| `VITE_IMAGEKIT_PUBLIC_KEY`   | Public ImageKit key used by the frontend |
+
+### Optional public variables
+
+| Variable                      | Purpose                                  |
+| ----------------------------- | ---------------------------------------- |
+| `VITE_APP_ENV`                | Local override for environment detection |
+| `VITE_APP_NAME`               | Human-readable app name                  |
+| `VITE_APP_VERSION`            | Release/version metadata                 |
+| `VITE_PUBLIC_POSTHOG_KEY`     | PostHog project key                      |
+| `VITE_PUBLIC_POSTHOG_TOKEN`   | Legacy alias supported by the code       |
+| `VITE_PUBLIC_POSTHOG_HOST`    | PostHog API host                         |
+| `VITE_API_BASE_URL`           | Future API base URL                      |
+| `VITE_STRIPE_PUBLISHABLE_KEY` | Future Stripe integration                |
+| `VITE_SENTRY_DSN`             | Future Sentry integration                |
+| `VITE_ENABLE_DEVTOOLS`        | Enables non-production debug tools       |
+| `VITE_DEBUG_IMAGES`           | Enables non-production image debugging   |
+
+### Build-time only variables
+
+| Variable               | Purpose                                              |
+| ---------------------- | ---------------------------------------------------- |
+| `IMAGEKIT_PRIVATE_KEY` | Used by `scripts/fetch-gallery.ts` to query ImageKit |
+| `SKIP_GALLERY_FETCH`   | Skips gallery sync during CI or special builds       |
+
+Never prefix secrets with `VITE_`.
+
+## Validation Rules
+
+`src/config/validateEnv.ts` enforces:
+
+- presence of required ImageKit variables
+- valid `VITE_APP_ENV` values
+- warnings for missing production-only observability metadata
+- detection of secret-looking values inside `VITE_` variables
+
+If validation fails, the app throws at startup.
+
+## Environment-Specific Behavior
+
+| Behavior                                | Production | Staging | Preview | Development |
+| --------------------------------------- | ---------- | ------- | ------- | ----------- |
+| PostHog enabled when configured         | Yes        | Yes     | Yes     | Yes         |
+| Devtools via `VITE_ENABLE_DEVTOOLS`     | No         | Yes     | Yes     | Yes         |
+| Image debugging via `VITE_DEBUG_IMAGES` | No         | Yes     | Yes     | Yes         |
+
+The code enforces these feature flags by combining the environment with each variable, so non-production tools do not leak into production accidentally.
+
+## Adding A New Variable
+
+1. Add the variable to `.env.example`
+2. Add access in `src/config/env.ts`
+3. Add validation in `src/config/validateEnv.ts` if it is required or security-sensitive
+4. Document it in this file if contributors need to know about it
+5. Set it in the host or CI system as needed
+
+## CI Notes
+
+GitHub Actions supplies stub values for some jobs so tests and builds can run without production secrets. For example:
+
+- ImageKit values are stubbed for tests
+- gallery sync is skipped for build verification using `SKIP_GALLERY_FETCH=true`
+
+If you introduce a new required variable, update CI at the same time.
