@@ -1,0 +1,25 @@
+# Community Configuration
+# https://help.github.com/en/github/building-a-strong-community/about-community-profiles-for-your-repository
+
+version: 2
+upstream:
+  organization: NaiDevOpsCom
+  repository: devopssummit.africa-v3
+issues:
+  assignees:
+    - NaiDevOpsCom
+  branchProtectionUpdatingWorkflows:
+    - ci
+    - pr-checks
+    - release
+contributing:
+  groupedContributingFile: docs/contributing.md
+  contributingFile: docs/CONTRIBUTING.md
+  security:
+    $value: docs/security.md
+    protected: true
+codeOfConduct:
+  name: Contributor Covenant
+  path: docs/code-of-conduct.md
+license:
+  path: LICENSE

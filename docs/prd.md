@@ -1,5 +1,9 @@
 # Product Requirements Document
 
+- **Version**: 0.1
+- **Last-updated**: 2026-04-11
+- **Status**: Draft
+
 This PRD summarizes what the Africa DevOps Summit website is for, what it currently ships, and where the product is expected to evolve next.
 
 ## Product Overview
@@ -58,7 +62,7 @@ The app currently includes:
 - `/faqs`
 - `/code-of-conduct`
 - `/privacy-policy`
-- `*` not found fallback
+- `*` (The `*` route is a wildcard not-found fallback that handles any unmatched paths and renders the 404 page)
 
 ### Key homepage sections
 
@@ -79,13 +83,11 @@ The app currently includes:
 - image gallery
 - growth metrics
 
-## Content Strategy
-
 The site currently uses a hybrid content model:
 
-- static TypeScript content in `src/data`
-- generated gallery data from ImageKit
-- future CMS-friendly architecture through React Query and typed data boundaries
+- static TypeScript content in `src/data` (implemented)
+- generated gallery data from ImageKit (implemented)
+- future CMS-friendly architecture through React Query and typed data boundaries (planned roadmap)
 
 This keeps the current editing workflow simple while leaving room for later CMS adoption.
 
@@ -99,11 +101,9 @@ This keeps the current editing workflow simple while leaving room for later CMS 
 
 ## Non-Functional Requirements
 
-### Performance
-
 - fast initial load on mobile networks
 - static asset optimization through Vite and compression
-- Lighthouse CI coverage for qualifying PRs
+- Lighthouse CI coverage on all PRs
 
 ### Accessibility
 

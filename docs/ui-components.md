@@ -69,7 +69,7 @@ Example: a homepage hero or sponsor CTA section belongs in `src/components/landi
 - it integrates with external systems or shared concerns
 - it wraps infrastructure-like logic such as SEO, safe rendering, or routing helpers
 
-## shadcn/ui And Radix Rules
+## shadcn/ui and Radix Rules
 
 The project uses shadcn/ui conventions on top of Radix primitives.
 

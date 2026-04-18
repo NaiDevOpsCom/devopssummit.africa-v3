@@ -15,14 +15,11 @@ This project uses automated checks in local development and GitHub Actions to ke
 
 ## Test File Locations
 
-There are currently two test directories:
+All tests live in a single canonical directory:
 
-- `src/test`
-- `src/tests`
+- `src/tests/`
 
-Vitest includes both because it matches `src/**/*.{test,spec}.{ts,tsx}`.
-
-If you add new tests, prefer keeping them near the existing feature area or follow the pattern already used in that part of the codebase.
+New tests should be added to `src/tests/`. Follow the naming pattern already used in that directory (e.g., `MyComponent.test.tsx`, `myHook.test.ts`).
 
 ## Common Commands
 
@@ -58,7 +55,7 @@ The test runner is configured in `vitest.config.ts` with:
 
 - `jsdom` as the environment
 - global test APIs enabled
-- setup file: `src/test/setup.ts`
+- setup file: `src/tests/setup.ts`
 - coverage provider: `v8`
 - coverage reports: text, lcov, html
 
@@ -66,10 +63,10 @@ The test runner is configured in `vitest.config.ts` with:
 
 CI will fail if coverage drops below:
 
-- lines: 60
-- branches: 55
-- functions: 60
-- statements: 60
+- lines: 60%
+- branches: 55%
+- functions: 60%
+- statements: 60%
 
 Generated shadcn-style UI files and some bootstrap files are excluded from coverage to keep the threshold focused on project-owned logic.
 

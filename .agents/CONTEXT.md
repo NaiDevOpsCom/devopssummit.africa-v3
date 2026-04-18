@@ -370,7 +370,7 @@ const apiUrl = import.meta.env.VITE_CMS_API_URL;
 
 ### Preference for `globalThis`
 
-Always prefer `globalThis` over `window` for accessing global properties (e.g., `globalThis.window`, `globalThis.innerWidth`, `globalThis.scrollTo`). In tests, use `(globalThis as unknown as Window)` for `fireEvent` to satisfy TypeScript.
+Always prefer accessing global properties directly via `globalThis` (e.g., `globalThis.innerWidth`, `globalThis.scrollTo`). Avoid `globalThis.window`. In tests, use `window` directly or, if necessary for typing, cast `globalThis` to `Window` like `(globalThis as unknown as Window)` only if you must use `globalThis` — otherwise recommend using `window` or testing library utilities for `fireEvent`.
 
 ### Framer Motion — respect reduced motion
 

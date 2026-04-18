@@ -16,19 +16,19 @@ At startup, the app validates public environment variables, initializes optional
 
 ## Runtime Stack
 
-| Layer         | Technology             | Notes                                    |
-| ------------- | ---------------------- | ---------------------------------------- |
-| Framework     | React 18               | Component model and rendering            |
-| Language      | TypeScript 5           | Strict typing across app and tooling     |
-| Bundler       | Vite 8                 | Dev server and production build          |
-| Routing       | React Router DOM 7     | SPA routes with lazy-loaded pages        |
-| Server state  | TanStack React Query 5 | Installed and configured for async data  |
-| Styling       | Tailwind CSS 4         | Utility-first styling with CSS variables |
-| UI primitives | Radix UI + shadcn/ui   | Reusable UI foundations                  |
-| Animation     | Framer Motion          | Used for interactive and section motion  |
-| SEO           | react-helmet-async     | Page-level head management               |
-| Analytics     | PostHog                | Optional, controlled by env vars         |
-| Sanitization  | DOMPurify              | Used by safe HTML rendering wrappers     |
+| Layer         | Technology           | Notes                            |
+| ------------- | -------------------- | -------------------------------- |
+| Framework     | React                | See [versions.md](./versions.md) |
+| Language      | TypeScript           | See [versions.md](./versions.md) |
+| Bundler       | Vite                 | See [versions.md](./versions.md) |
+| Routing       | React Router DOM     | See [versions.md](./versions.md) |
+| Server state  | TanStack React Query | See [versions.md](./versions.md) |
+| Styling       | Tailwind CSS         | See [versions.md](./versions.md) |
+| UI primitives | Radix UI + shadcn/ui | See [versions.md](./versions.md) |
+| Animation     | Framer Motion        | See [versions.md](./versions.md) |
+| SEO           | react-helmet-async   | Page-level head management       |
+| Analytics     | PostHog              | Optional, controlled by env vars |
+| Sanitization  | DOMPurify            | See [versions.md](./versions.md) |
 
 ## App Bootstrap
 
@@ -86,8 +86,7 @@ src/
 ├── context/            # React context definitions
 ├── utils/              # small non-React helpers
 ├── types/              # shared TS types
-├── test/               # test setup and component tests
-├── tests/              # additional test suites
+├── tests/              # Vitest suites and test setup
 └── stories/            # Storybook stories
 ```
 

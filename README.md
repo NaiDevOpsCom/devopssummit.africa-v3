@@ -19,15 +19,17 @@ The project does not run an application backend. It builds to a static `dist/` b
 
 ### Core app
 
-- React 18
-- TypeScript 5
-- Vite 8
-- React Router DOM 7
-- TanStack React Query 5
+### Core app
+
+- React (See [versions.md](./docs/versions.md))
+- TypeScript (See [versions.md](./docs/versions.md))
+- Vite (See [versions.md](./docs/versions.md))
+- React Router DOM (See [versions.md](./docs/versions.md))
+- TanStack React Query (See [versions.md](./docs/versions.md))
 
 ### UI and styling
 
-- Tailwind CSS 4
+- Tailwind CSS (See [docs/versions.md](./docs/versions.md))
 - Radix UI primitives
 - shadcn/ui conventions
 - Framer Motion
@@ -68,7 +70,7 @@ src/
 ├── context/                  # React context providers
 ├── utils/                    # Small framework-agnostic helpers
 ├── types/                    # Shared TypeScript types
-├── test/ and tests/          # Vitest suites and test utilities
+├── tests/                    # Vitest suites and test setup
 └── stories/                  # Storybook stories
 ```
 

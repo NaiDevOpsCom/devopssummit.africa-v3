@@ -31,7 +31,7 @@ npm run gallery:fetch
 
 ### Production build
 
-`npm run build` eventually triggers `build:bundle`, which runs the gallery sync automatically through `prebuild:bundle`.
+`npm run build` automatically triggers `build:bundle`, which runs the gallery sync through `prebuild:bundle`.
 
 ## Required Secret
 
@@ -39,7 +39,7 @@ The sync script uses:
 
 - `IMAGEKIT_PRIVATE_KEY`
 
-This variable must never be prefixed with `VITE_`.
+This variable must never be prefixed with `VITE_`. Do not use `VITE_` because Vite exposes those env vars to the browser; keep this value server-only to prevent leaking credentials.
 
 ## CI Behavior
 
@@ -49,7 +49,7 @@ Build verification in CI uses:
 SKIP_GALLERY_FETCH=true
 ```
 
-When this flag is set, the script skips remote fetching and makes sure a fallback generated file exists so the build can still complete.
+When set, the script skips remote fetching and ensures a fallback generated file is present to allow the build to complete.
 
 ## Adding A New Gallery Year
 
@@ -63,9 +63,9 @@ When this flag is set, the script skips remote fetching and makes sure a fallbac
 
 The script is designed to be resilient:
 
-- if `IMAGEKIT_PRIVATE_KEY` is missing, it preserves existing gallery data where possible
-- if fetching fails for a year that already has cached data, it keeps the old data instead of failing immediately
-- if generation is skipped in CI, it writes a minimal stub when needed
+- missing `IMAGEKIT_PRIVATE_KEY` → preserve existing gallery data where possible
+- fetch fails for a specific year (e.g., network/error) → keep that year's cached data instead of failing
+- generation skipped in CI → write a minimal stub when needed
 
 ## Troubleshooting
 
