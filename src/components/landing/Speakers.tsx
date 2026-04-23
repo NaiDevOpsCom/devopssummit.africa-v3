@@ -58,6 +58,7 @@ const Speakers: React.FC = () => {
     if (!emblaApi) return;
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
+
     onSelect();
   }, [emblaApi, onSelect]);
 

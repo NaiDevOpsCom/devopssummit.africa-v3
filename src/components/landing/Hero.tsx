@@ -152,7 +152,7 @@ const Hero: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+    <section id="home" className="relative overflow-hidden pt-[var(--navbar-height)]">
       {/* Background video */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <video
@@ -176,7 +176,7 @@ const Hero: React.FC = () => {
       {/* Particle overlay */}
       <ParticleCanvas />
 
-      <div className="relative z-10 max-w-7xl mx-auto section-padding w-full py-32 md:py-0">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-var(--navbar-height))] min-h-[calc(100svh-var(--navbar-height))] w-full max-w-7xl items-start section-padding py-12 md:items-center md:py-16">
         <div className="max-w-2xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
