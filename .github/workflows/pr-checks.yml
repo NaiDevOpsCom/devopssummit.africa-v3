@@ -45,12 +45,12 @@ jobs:
             security
             revert
           requireScope: false
-          # Subject must start with a capital letter
-          subjectPattern: ^[A-Z].+$
+          # Subject must NOT start with a capital letter
+          subjectPattern: ^[a-z].+$
           subjectPatternError: |
-            PR title subject must start with a capital letter.
-            ✅ "feat: Add speaker search filter"
-            ❌ "feat: add speaker search filter"
+            PR title subject must not start with a capital letter.
+            ✅ "feat: add speaker search filter"
+            ❌ "feat: Add speaker search filter"
 
       - name: Validate PR title quality
         env:
@@ -96,11 +96,11 @@ jobs:
             echo "   Vague titles produce useless release notes."
             echo "   Describe WHAT changed, not just that something changed."
             echo ""
-            echo "   ❌ 'fix: Fix bug'"
-            echo "   ✅ 'fix: Correct countdown timer on mobile viewports'"
+            echo "   ❌ 'fix: fix bug'"
+            echo "   ✅ 'fix: correct countdown timer on mobile viewports'"
             echo ""
-            echo "   ❌ 'feat: Update'"
-            echo "   ✅ 'feat: Add session calendar export to Schedule page'"
+            echo "   ❌ 'feat: update'"
+            echo "   ✅ 'feat: add session calendar export to Schedule page'"
             FAILED=1
           else
             echo "✅ No vague words detected — OK"
@@ -131,10 +131,10 @@ jobs:
             echo "─────────────────────────────────────────────"
             echo "PR title validation failed. Please update your PR title."
             echo ""
-            echo "Format:  <type>: <Subject starting with capital>"
-            echo "Example: feat: Add speaker search filter to Schedule page"
-            echo "Example: fix: Correct mobile navbar z-index overlap with hero"
-            echo "Example: content: Update 2026 speaker lineup with 3 new profiles"
+            echo "Format:  <type>: <subject starting with lowercase>"
+            echo "Example: feat: add speaker search filter to Schedule page"
+            echo "Example: fix: correct mobile navbar z-index overlap with hero"
+            echo "Example: content: update 2026 speaker lineup with 3 new profiles"
             echo "─────────────────────────────────────────────"
             exit 1
           fi
