@@ -176,7 +176,7 @@ const Hero: React.FC = () => {
       {/* Particle overlay */}
       <ParticleCanvas />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-var(--navbar-height))] min-h-[calc(100svh-var(--navbar-height))] w-full max-w-7xl items-start section-padding py-12 md:items-center md:py-16">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh_-_var(--navbar-height))] min-h-[calc(100svh_-_var(--navbar-height))] w-full max-w-7xl items-start section-padding py-12 md:items-center md:py-16">
         <div className="max-w-2xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
