@@ -5,10 +5,12 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--navbar-height) + 1rem);
 }
 
 @layer base {
   :root {
+    --navbar-height: 4rem;
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
     --card: 199 88% 58%;
@@ -55,6 +57,12 @@ html {
     --color-border-muted: hsl(var(--border));
     --text-on-gradient: #ffffff;
     --text-on-gradient-muted: rgba(255, 255, 255, 0.6);
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --navbar-height: 5rem;
   }
 }
 
