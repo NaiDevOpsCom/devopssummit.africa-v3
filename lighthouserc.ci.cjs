@@ -1,9 +1,8 @@
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: "./dist",
-      startServerCommand: "npx http-server ./dist -p 8080 -c-1",
-      startServerReadyPattern: "Available on:",
+      startServerCommand: "npm run preview -- --port 8080",
+      startServerReadyPattern: "Local:",
       startServerReadyTimeout: 30000,
       isSinglePageApplication: true,
       url: [

@@ -362,9 +362,6 @@ jobs:
 
       - run: npm ci
 
-      - name: Install http-server for Lighthouse
-        run: npm install -g http-server
-
       - name: Download web-build for Lighthouse
         uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
         with:
