@@ -25,6 +25,8 @@ export default {
       },
       colors: {
         "brand-cyan": "#36B8F2",
+        white: "hsl(var(--white))",
+        black: "hsl(var(--black))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

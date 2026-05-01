@@ -11,7 +11,7 @@ const TicketCard: React.FC<Ticket> = ({ name, price, priceNote, features, ctaLab
     </div>
     <ul className="space-y-3 flex-1 mb-6">
       {features.map((f) => (
-        <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+        <li key={f} className="flex items-start gap-2 text-sm text-black">
           <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
           {f}
         </li>
