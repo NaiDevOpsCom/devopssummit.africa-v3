@@ -362,14 +362,37 @@ jobs:
 
       - run: npm ci
 
+      - name: Install http-server for Lighthouse
+        run: npm install -g http-server
+
       - name: Download web-build for Lighthouse
         uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
         with:
           name: web-build
           path: dist/
 
+      - name: Validate build artifact
+        run: |
+          if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
+            echo "❌ dist directory is empty or missing"
+            exit 1
+          fi
+
+          if [ -f "dist/dist/index.html" ]; then
+            echo "❌ Found nested dist/dist directory"
+            ls -la dist
+            exit 1
+          fi
+
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ dist/index.html not found"
+            exit 1
+          fi
+
+          echo "✅ Build artifact validated"
+
       - name: Run Lighthouse CI
-        run: npx lhci autorun --config=lighthouserc.ci.cjs
+        run: npx lhci autorun --config=lighthouserc.ci.cjs --verbose
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
           # Without LHCI_GITHUB_APP_TOKEN, results still upload to

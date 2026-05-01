@@ -42,7 +42,7 @@ const FAQPreview: React.FC = () => {
               <motion.div key={i} variants={fadeUp}>
                 <AccordionItem
                   value={`home-faq-${i}`}
-                  className="border border-border rounded-xl px-5 bg-white data-[state=open]:shadow-md transition-shadow"
+                  className="border border-border rounded-xl px-5 bg-pure-white data-[state=open]:shadow-md transition-shadow"
                 >
                   <AccordionTrigger className="text-left text-foreground font-heading font-semibold text-sm md:text-base hover:no-underline gap-4">
                     <span>{faq.question}</span>

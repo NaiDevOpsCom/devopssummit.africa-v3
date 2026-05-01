@@ -2,12 +2,15 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: "./dist",
+      startServerCommand: "npx http-server ./dist -p 8080 -c-1",
+      startServerReadyPattern: "Available on:",
+      startServerReadyTimeout: 30000,
       isSinglePageApplication: true,
       url: [
-        "http://localhost/",
-        "http://localhost/about",
-        "http://localhost/schedule",
-        "http://localhost/past-summits",
+        "http://127.0.0.1:8080/",
+        "http://127.0.0.1:8080/about",
+        "http://127.0.0.1:8080/schedule",
+        "http://127.0.0.1:8080/past-summits",
       ],
       numberOfRuns: 3,
       settings: {

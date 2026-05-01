@@ -11,13 +11,13 @@ html {
 @layer base {
   :root {
     --navbar-height: 4rem;
-    --white: 0 0% 100%;
-    --black: 0 0% 0%;
-    --background: 0 0% 100%;
+    --pure-white: 0 0% 100%;
+    --pure-black: 0 0% 0%;
+    --background: var(--pure-white);
     --foreground: 222 47% 11%;
     --card: 199 88% 58%;
     --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
+    --popover: var(--pure-white);
     --popover-foreground: 222 47% 11%;
     --primary: 223 100% 66%;
     --primary-foreground: 210 40% 98%;
@@ -56,8 +56,8 @@ html {
     --color-text-primary: hsl(var(--foreground));
     --color-text-inverse: hsl(var(--primary-foreground));
     --color-border-muted: hsl(var(--border));
-    --text-on-gradient: #ffffff;
-    --text-on-gradient-muted: rgba(255, 255, 255, 0.6);
+    --text-on-gradient: hsl(var(--pure-white));
+    --text-on-gradient-muted: hsl(var(--pure-white) / 0.6);
   }
 }
 
