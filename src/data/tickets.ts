@@ -5,7 +5,6 @@ export const tickets: Ticket[] = [
     id: 1,
     name: "Community Pass",
     price: "Free",
-    priceNote: "$0",
     features: [
       "Access to keynotes",
       "Community networking",
@@ -18,7 +17,6 @@ export const tickets: Ticket[] = [
     id: 2,
     name: "Team / Corporate Pass",
     price: "$140",
-    priceNote: "$20 each",
     features: [
       "Everything in Community",
       "Reserved VIP seats",
@@ -36,9 +34,8 @@ export const tickets: Ticket[] = [
   },
   {
     id: 4,
-    name: "Community Pass",
+    name: "Virtual Pass",
     price: "Free",
-    priceNote: "Virtual",
     features: [
       "Live stream access",
       "Interactive Q&A",
