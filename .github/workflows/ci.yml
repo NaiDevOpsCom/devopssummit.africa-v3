@@ -157,9 +157,12 @@ jobs:
       - name: Build (skip gallery fetch in CI)
         run: npm run build:bundle
         env:
-          # Provide stub env vars so build doesn't fail on missing vars
+          # Provide stub env vars so build doesn't fail on missing vars or crash at runtime
           VITE_APP_ENV: staging
           VITE_API_URL: https://staging-api.example.com
+          VITE_IMAGEKIT_URL_ENDPOINT: https://ik.imagekit.io/test
+          VITE_IMAGEKIT_PUBLIC_KEY: test_public_key
+          VITE_APP_NAME: Africa DevOps Summit Test
           SKIP_GALLERY_FETCH: "true"
         # Note: runs vite build directly, not npm run build
         # This avoids re-running typecheck/lint (already done above)

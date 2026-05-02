@@ -1,7 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: "npm run preview -- --port 8080",
+      startServerCommand: "npm run preview -- --port 8080 --host 127.0.0.1",
       startServerReadyPattern: "Local:",
       startServerReadyTimeout: 30000,
       isSinglePageApplication: true,
