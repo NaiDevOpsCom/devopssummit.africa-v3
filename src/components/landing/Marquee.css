@@ -1,0 +1,151 @@
+/* ───────────────────────────────────────────────────────────
+   Marquee component — intentionally outside @layer so its
+   specificity beats Tailwind utility classes.
+   ─────────────────────────────────────────────────────────── */
+
+.marquee-container {
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+/* ── Variant backgrounds ─────────────────────────────────── */
+.marquee-primary {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary, 217 91% 60%)) 0%,
+    hsl(var(--secondary, 217 91% 40%)) 100%
+  );
+}
+
+.marquee-secondary {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--secondary, 217 91% 40%)) 0%,
+    hsl(var(--secondary-alt, 217 91% 20%)) 100%
+  );
+}
+
+.marquee-accent {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--brand-orange, 24 100% 50%)) 0%,
+    hsl(var(--brand-purple, 270 100% 50%)) 100%
+  );
+}
+
+/* ── Edge fade mask ──────────────────────────────────────── */
+.marquee-with-fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+/* ── Track — continuous scroll via width: max-content ──── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+/* ── Content Block ───────────────────────────────────────── */
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 1rem;
+  padding-right: 1rem; /* ensures seamless connection with the next block */
+}
+
+/* ── Item ────────────────────────────────────────────────── */
+.marquee-item {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+  color: var(--text-on-gradient);
+  font-family: var(--font-heading, "Sora", sans-serif);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  color: var(--text-on-gradient-muted);
+  font-size: 0.85rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.marquee-icon::before {
+  content: var(--marquee-icon, "✳");
+}
+
+/* ── Responsive sizing ───────────────────────────────────── */
+@media (min-width: 768px) {
+  .marquee-container {
+    padding: 1.25rem 0;
+  }
+  .marquee-item {
+    gap: 1rem;
+    padding: 1rem 1.75rem;
+    letter-spacing: 0.12em;
+  }
+  .marquee-icon {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .marquee-item {
+    font-size: 1.125rem;
+  }
+}
+
+/* ── Skew / tilt ─────────────────────────────────────────── */
+.marquee-skewed {
+  transform: skewY(-2deg);
+}
+
+/* ── Hover pause ─────────────────────────────────────────── */
+/* !important is required here to override inline animation-play-state that may be set at runtime */
+.marquee-pause-on-hover:hover .marquee-track {
+  animation-play-state: paused !important;
+}
+
+/* ── Keyframes — translate by exactly 1 block width ──────── */
+@keyframes marquee-scroll-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100% / var(--marquee-blocks, 3)), 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  from {
+    transform: translate3d(calc(-100% / var(--marquee-blocks, 3)), 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}

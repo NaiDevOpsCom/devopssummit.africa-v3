@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import "./Marquee.css";
 
 /**
  * Props for the Marquee component
@@ -52,14 +53,13 @@ export function Marquee({
     [items],
   );
 
-  // Triple the items to create a truly seamless loop
-  const displayItems = useMemo(
-    () => [...itemsWithIds, ...itemsWithIds, ...itemsWithIds],
-    [itemsWithIds],
-  );
-
-  // Defensive guard for empty items
   if (!items || items.length === 0) return null;
+
+  // Calculate enough blocks to cover large screens (e.g., 4K ultrawide).
+  // Assuming average item width is ~200px, 20 items cover ~4000px.
+  // We enforce a minimum of 3 blocks for smooth, guaranteed looping.
+  const MIN_TOTAL_ITEMS = 20;
+  const blockCount = Math.max(3, Math.ceil(MIN_TOTAL_ITEMS / itemsWithIds.length));
 
   const animationName = direction === "left" ? "marquee-scroll-left" : "marquee-scroll-right";
   const isPaused = shouldReduceMotion === true;
@@ -78,23 +78,30 @@ export function Marquee({
     >
       <div
         className="marquee-track"
-        style={{
-          animationName,
-          animationDuration: `${normalizedSpeed}s`,
-          animationTimingFunction: "linear",
-          animationIterationCount: "infinite",
-          animationPlayState: isPaused ? "paused" : "running",
-        }}
+        style={
+          {
+            "--marquee-blocks": blockCount,
+            animationName,
+            animationDuration: `${normalizedSpeed}s`,
+            animationTimingFunction: "linear",
+            animationIterationCount: "infinite",
+            animationPlayState: isPaused ? "paused" : "running",
+          } as React.CSSProperties
+        }
       >
-        {displayItems.map((item, index) => (
-          <span
-            key={`${item.id}-${index}`}
-            className="marquee-item"
-            aria-hidden={index >= itemsWithIds.length}
+        {Array.from({ length: blockCount }).map((_, blockIndex) => (
+          <div
+            key={`marquee-block-${blockIndex}`}
+            className="marquee-content"
+            aria-hidden={blockIndex > 0}
           >
-            <span className="marquee-dot" aria-hidden="true" />
-            {item.value}
-          </span>
+            {itemsWithIds.map((item) => (
+              <span key={`${blockIndex}-${item.id}`} className="marquee-item">
+                <span className="marquee-icon" aria-hidden="true" />
+                {item.value}
+              </span>
+            ))}
+          </div>
         ))}
       </div>
     </section>
