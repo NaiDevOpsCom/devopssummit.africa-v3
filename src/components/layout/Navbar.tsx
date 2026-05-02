@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const navLinks = [
   { label: "Home", href: "#home", route: "/" },
   { label: "About Us", href: "#about", route: "/about" },
-  { label: "Schedule", href: "#schedule", route: "/schedule" },
+  // { label: "Schedule", href: "#schedule", route: "/schedule" },
   { label: "Sponsors", href: "#sponsors", route: "/sponsorship" },
   { label: "Past Summits", href: "#past-summits", route: "/past-summits" },
 ];
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
 
   const isActive = (link: (typeof navLinks)[0]) => {
     if (link.route === "/about") return location.pathname === "/about";
-    if (link.route === "/schedule") return location.pathname === "/schedule";
+    // if (link.route === "/schedule") return location.pathname === "/schedule";
     if (link.route === "/sponsorship") return location.pathname === "/sponsorship";
     if (link.route === "/past-summits") return location.pathname === "/past-summits";
     if (!isHome) return false;
