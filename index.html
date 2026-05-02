@@ -10,11 +10,54 @@
     <link rel="preconnect" href="https://ik.imagekit.io" />
     <link rel="preconnect" href="https://res.cloudinary.com" />
 
-    <!-- Performance: Preload critical LCP assets -->
+    <!-- Performance: Preload critical font binaries to prevent CLS from font swap -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/sora/v17/xMQ9uFFYT72X5wkB_18qmnndmSdSnh2BAfO5mnuyOo1lfiQwV6-xo6eeIw.woff2"
+      crossorigin
+    />
+
+    <!-- Performance: Typography (Asynchronous load) -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      media="print"
+      onload="
+        this.onload = null;
+        this.media = 'all';
+      "
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Performance: Preload critical LCP assets with responsive sizing -->
     <link
       rel="preload"
       as="image"
-      href="https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?tr=w-1920,q-80,f-auto"
+      imagesrcset="
+        https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?tr=w-640,q-80,f-auto 640w,
+        https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?tr=w-1024,q-80,f-auto 1024w,
+        https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?tr=w-1920,q-80,f-auto 1920w
+      "
+      imagesizes="100vw"
     />
 
     <title>Africa DevOps Summit — Nairobi, Kenya | DevOps, Cloud & SRE Conference</title>

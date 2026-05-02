@@ -174,7 +174,9 @@ const AboutSummit: React.FC = () => (
               src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9856.jpg?updatedAt=1757829550534"
               alt="Africa DevOps Summit conference audience"
               className="w-full h-48 md:h-56 object-cover"
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
           </motion.div>
           <motion.div variants={fadeUp}>
@@ -434,7 +436,9 @@ const WhoAttends: React.FC = () => (
                 src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9872.jpg?updatedAt=1757829555177"
                 alt="Africa DevOps Summit Event Gallery"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                loading="lazy"
+                loading="eager"
+                fetchPriority="low"
+                decoding="async"
               />
               {/* Overlay */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -471,6 +475,8 @@ const NairobiCommunity: React.FC = () => (
               src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9856.jpg?updatedAt=1757829550534"
               alt="Nairobi DevOps Community"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </motion.div>
