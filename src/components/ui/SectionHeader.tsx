@@ -41,7 +41,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
 
     {subtitle && (
       <p
-        className={`text-base md:text-lg max-w-3xl mx-auto leading-relaxed ${light ? "text-white/80" : "text-muted-foreground"}`}
+        className={`text-base md:text-lg max-w-3xl mx-auto leading-relaxed ${light ? "text-white/80" : "text-foreground"}`}
       >
         {subtitle}
       </p>
