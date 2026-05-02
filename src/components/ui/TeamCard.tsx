@@ -33,7 +33,7 @@ const TeamCard: React.FC<TeamMember> = ({ name, role, imageUrl, linkedinUrl }) =
         )}
       </div>
       <h3 className="font-bold text-foreground font-heading">{name}</h3>
-      <p className="text-sm text-muted-foreground">{role}</p>
+      <p className="text-sm text-white">{role}</p>
     </div>
   );
 };
