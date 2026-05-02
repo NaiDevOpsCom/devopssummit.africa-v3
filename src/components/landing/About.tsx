@@ -79,13 +79,13 @@ const About: React.FC = () => (
             <div className="h-[1px] w-12 md:w-20 bg-primary/40 ml-4" />
           </div>
 
-          <div className="space-y-6 mb-12">
-            <p className="text-muted-foreground text-lg leading-relaxed">
+          <div className="space-y-6 mb-12 text-foreground">
+            <p className="text-lg leading-relaxed">
               Africa DevOps Summit is a community-driven technology conference dedicated to
               advancing DevOps culture, cloud adoption, automation, and modern software practices
               across Africa.
             </p>
-            <p className="text-muted-foreground text-lg leading-relaxed">
+            <p className="text-lg leading-relaxed">
               We bring together engineers, platform teams, startup founders, enterprises, and global
               technology leaders to share real-world experiences, tools, and strategies that help
               teams build faster, deploy safer, and scale smarter. More than just a conference,
