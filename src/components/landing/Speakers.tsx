@@ -130,12 +130,12 @@ const Speakers: React.FC = () => {
             <>
               <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
                 <div className="flex -ml-6">
-                  {currentYearSpeakers.map((s) => (
+                  {currentYearSpeakers.map((s, index) => (
                     <div
                       key={s.id}
                       className="pl-6 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] min-w-0"
                     >
-                      <SpeakerCard {...s} />
+                      <SpeakerCard {...s} isAboveFold={index < 4} />
                     </div>
                   ))}
                 </div>

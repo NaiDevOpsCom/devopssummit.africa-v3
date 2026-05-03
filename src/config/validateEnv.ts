@@ -46,13 +46,6 @@ const checkAppEnvironment = (errors: string[]): void => {
 const checkProductionAlerts = (warnings: string[]): void => {
   if (Env.IS_PRODUCTION === false) return;
 
-  if (Env.POSTHOG_KEY === "") {
-    warnings.push(
-      "VITE_PUBLIC_POSTHOG_KEY is missing in production. " +
-        "Analytics and session recording will be disabled.",
-    );
-  }
-
   if (Env.APP_VERSION === "" || Env.APP_VERSION === "0.0.0") {
     warnings.push(
       "VITE_APP_VERSION is not set in production. " +

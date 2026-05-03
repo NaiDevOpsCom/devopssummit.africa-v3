@@ -2,7 +2,13 @@ import React from "react";
 import { Speaker } from "@/types";
 import { User } from "lucide-react";
 
-const SpeakerCard: React.FC<Speaker> = ({ name, designation, company, imageUrl }) => {
+const SpeakerCard: React.FC<Speaker & { isAboveFold?: boolean }> = ({
+  name,
+  designation,
+  company,
+  imageUrl,
+  isAboveFold = false,
+}) => {
   const [hasImageError, setHasImageError] = React.useState(false);
 
   return (
@@ -12,7 +18,9 @@ const SpeakerCard: React.FC<Speaker> = ({ name, designation, company, imageUrl }
           <img
             src={imageUrl}
             alt={name}
-            loading="lazy"
+            loading={isAboveFold ? "eager" : "lazy"}
+            fetchPriority={isAboveFold ? "high" : undefined}
+            decoding="async"
             onError={() => setHasImageError(true)}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />

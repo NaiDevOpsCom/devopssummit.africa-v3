@@ -150,13 +150,28 @@ const CountdownUnit: React.FC<{ value: number; label: string }> = ({ value, labe
 const Hero: React.FC = () => {
   const { days, hours, minutes, seconds } = useCountdown();
   const shouldReduceMotion = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Defer video playback until after LCP — prevents competing with critical resources
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+    const timer = setTimeout(() => {
+      const playPromise = videoRef.current?.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay blocked by browser — already muted so this is expected and safe
+        });
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [shouldReduceMotion]);
 
   return (
     <section id="home" className="relative overflow-hidden pt-[var(--navbar-height)]">
       {/* Background video */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <video
-          autoPlay={!shouldReduceMotion}
+          ref={videoRef}
           loop
           muted
           playsInline
@@ -165,7 +180,7 @@ const Hero: React.FC = () => {
           poster="https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?tr=w-1920,q-80,f-auto"
         >
           <source
-            src="https://res.cloudinary.com/nairobidevops/video/upload/v1773297162/summit2025_wqebkh.mp4"
+            src="https://res.cloudinary.com/nairobidevops/video/upload/f_auto,q_auto:low,w_1280/v1773297162/summit2025_wqebkh.mp4"
             type="video/mp4"
           />
         </video>

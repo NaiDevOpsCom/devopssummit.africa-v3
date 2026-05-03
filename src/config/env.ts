@@ -68,11 +68,6 @@ export const IS_NON_PRODUCTION = !IS_PRODUCTION;
 export const APP_NAME = optionalEnv("VITE_APP_NAME", "Africa DevOps Summit");
 export const APP_VERSION = optionalEnv("VITE_APP_VERSION", "1.0.0");
 
-// ─── PostHog ──────────────────────────────────────────────────────────────────
-export const POSTHOG_KEY =
-  import.meta.env.VITE_PUBLIC_POSTHOG_KEY || import.meta.env.VITE_PUBLIC_POSTHOG_TOKEN || "";
-export const POSTHOG_HOST = optionalEnv("VITE_PUBLIC_POSTHOG_HOST", "https://us.i.posthog.com");
-
 // ─── ImageKit ─────────────────────────────────────────────────────────────────
 export const IMAGEKIT_URL_ENDPOINT = optionalEnv("VITE_IMAGEKIT_URL_ENDPOINT");
 export const IMAGEKIT_PUBLIC_KEY = optionalEnv("VITE_IMAGEKIT_PUBLIC_KEY");

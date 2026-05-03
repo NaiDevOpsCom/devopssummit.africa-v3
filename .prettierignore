@@ -27,3 +27,4 @@ src/data/gallery.generated.json
 
 # Lighthouse CI
 .lighthouseci
+lighthouse-*.json

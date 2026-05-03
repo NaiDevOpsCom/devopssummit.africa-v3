@@ -70,6 +70,9 @@ const UpcomingEvent: React.FC = () => {
               src={BACKGROUND_IMAGES[currentImageIndex]}
               alt=""
               className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority={currentImageIndex === 0 ? "high" : "low"}
+              decoding="async"
               onError={(e) => {
                 const target = e.currentTarget;
                 if (target.dataset.errorHandled === "true") return;
