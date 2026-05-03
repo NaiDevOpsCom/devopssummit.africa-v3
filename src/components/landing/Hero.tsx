@@ -156,9 +156,12 @@ const Hero: React.FC = () => {
   useEffect(() => {
     if (shouldReduceMotion) return;
     const timer = setTimeout(() => {
-      videoRef.current?.play().catch(() => {
-        // Autoplay blocked by browser — already muted so this is expected and safe
-      });
+      const playPromise = videoRef.current?.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay blocked by browser — already muted so this is expected and safe
+        });
+      }
     }, 500);
     return () => clearTimeout(timer);
   }, [shouldReduceMotion]);

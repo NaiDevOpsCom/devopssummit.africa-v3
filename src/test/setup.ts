@@ -75,5 +75,3 @@ Object.entries(validateEnvDefaults).forEach(([key, value]) => {
 
 vi.stubEnv("VITE_APP_NAME", "Africa DevOps Summit");
 vi.stubEnv("VITE_APP_VERSION", "0.0.0-test");
-vi.stubEnv("VITE_PUBLIC_POSTHOG_KEY", "");
-vi.stubEnv("VITE_PUBLIC_POSTHOG_HOST", "https://us.i.posthog.com");

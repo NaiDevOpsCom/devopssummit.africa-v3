@@ -14,7 +14,7 @@ import tailwindcss from "@tailwindcss/vite";
 const VENDOR_CHUNKS: Record<string, string[]> = {
   // ── Core React runtime ───────────────────────────────
   // Smallest, most stable — users cache this forever
-  react: ["node_modules/react/", "node_modules/react-dom/"],
+  react: ["node_modules/react", "node_modules/react-dom", "node_modules/scheduler"],
 
   // ── Routing ──────────────────────────────────────────
   router: ["node_modules/react-router", "node_modules/@remix-run/"],
@@ -30,9 +30,6 @@ const VENDOR_CHUNKS: Record<string, string[]> = {
   // ── Data fetching ─────────────────────────────────────
   query: ["node_modules/@tanstack/"],
 
-  // ── Analytics — 185KB, must be off critical path ──────
-  analytics: ["node_modules/posthog-js", "node_modules/@posthog/"],
-
   // ── Charts + D3 internals ─────────────────────────────
   charts: [
     "node_modules/recharts",
@@ -47,7 +44,7 @@ const VENDOR_CHUNKS: Record<string, string[]> = {
   dompurify: ["node_modules/dompurify"],
 
   // ── Forms (ready for when you add ticket/contact forms)
-  forms: ["node_modules/react-hook-form", "node_modules/@hookform/", "node_modules/zod"],
+  forms: ["node_modules/react-hook-form", "node_modules/@hookform", "node_modules/zod"],
 
   // ── UI utilities ──────────────────────────────────────
   // clsx + tailwind-merge + cva used in nearly every component
