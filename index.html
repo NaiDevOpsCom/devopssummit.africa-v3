@@ -11,11 +11,13 @@
     <link rel="preconnect" href="https://res.cloudinary.com" />
 
     <!-- Performance: Preload critical font binaries to prevent CLS from font swap -->
+    <!-- Note: An integrity hash alone is not enough: the URL must be pinned to a specific version. -->
     <link
       rel="preload"
       as="font"
       type="font/woff2"
       href="https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2"
+      integrity="sha384-xF/ZPLO2KarXbEpQJ9rsrheJxCRrBV5rU1jjBA80UdOHZybjlCkK14oirxe1FTC6"
       crossorigin
     />
     <link
@@ -23,6 +25,7 @@
       as="font"
       type="font/woff2"
       href="https://fonts.gstatic.com/s/sora/v17/xMQ9uFFYT72X5wkB_18qmnndmSdSnh2BAfO5mnuyOo1lfiQwV6-xo6eeIw.woff2"
+      integrity="sha384-0mCo6F7f6fDm9F4nXSPJGPEa/Xrerh9WNgp858a5jHwfmnzxvsE1rxGNTAUUk8Un"
       crossorigin
     />
 

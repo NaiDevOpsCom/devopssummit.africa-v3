@@ -14,7 +14,7 @@ import tailwindcss from "@tailwindcss/vite";
 const VENDOR_CHUNKS: Record<string, string[]> = {
   // ── Core React runtime ───────────────────────────────
   // Smallest, most stable — users cache this forever
-  react: ["node_modules/react", "node_modules/react-dom", "node_modules/scheduler"],
+  react: ["node_modules/react/", "node_modules/react-dom/", "node_modules/scheduler/"],
 
   // ── Routing ──────────────────────────────────────────
   router: ["node_modules/react-router", "node_modules/@remix-run/"],
