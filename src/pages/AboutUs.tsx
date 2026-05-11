@@ -127,11 +127,11 @@ const AboutSummit: React.FC = () => (
         >
           <motion.div variants={fadeUp}>
             <div className="flex items-center gap-4 mb-8 overflow-hidden">
-              <div className="h-[1px] w-12 md:w-20 bg-brand-cyan/40" />
-              <div className="bg-brand-cyan text-black px-8 py-2 rounded-full font-bold text-lg md:text-xl shadow-md">
+              <div className="h-[1px] w-12 md:w-20 bg-secondary/40" />
+              <div className="bg-secondary text-black px-8 py-2 rounded-full font-bold text-lg md:text-xl shadow-md">
                 About Us
               </div>
-              <div className="h-[1px] w-12 md:w-20 bg-brand-cyan/40" />
+              <div className="h-[1px] w-12 md:w-20 bg-secondary/40" />
             </div>
 
             <p className="text-black leading-relaxed mb-8">
@@ -147,7 +147,7 @@ const AboutSummit: React.FC = () => (
           </motion.div>
 
           {/* Event card */}
-          <motion.div variants={fadeUp} className="bg-brand-cyan rounded-2xl p-8 text-black">
+          <motion.div variants={fadeUp} className="bg-secondary rounded-2xl p-8 text-black">
             <h3 className="font-heading text-black font-bold text-lg mb-2">
               Africa DevOps Summit 2026
             </h3>
@@ -186,7 +186,7 @@ const AboutSummit: React.FC = () => (
             <ul className="space-y-3">
               {platformPoints.map((pt) => (
                 <li key={pt} className="flex items-start gap-3 text-black">
-                  <CheckCircle className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                   <span className="leading-relaxed">{pt}</span>
                 </li>
               ))}
@@ -237,7 +237,7 @@ const StrategicDirection: React.FC = () => (
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="bg-brand-cyan rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-brand-cyan/10"
+          className="bg-secondary rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-secondary/10"
         >
           <h2 className="text-2xl md:text-3xl font-black font-heading text-black mb-6">
             Our Mission
@@ -255,7 +255,7 @@ const StrategicDirection: React.FC = () => (
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
-          className="bg-brand-cyan rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-brand-cyan/10"
+          className="bg-secondary rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-secondary/10"
         >
           <h2 className="text-2xl md:text-3xl font-black font-heading text-black mb-6">
             Our Vision
@@ -293,7 +293,7 @@ const StrategicDirection: React.FC = () => (
           <motion.div
             key={v.title}
             variants={fadeUp}
-            className="bg-brand-cyan rounded-[2rem] p-8 text-center shadow-lg shadow-brand-cyan/5 transition-transform hover:-translate-y-2 duration-300"
+            className="bg-secondary rounded-[2rem] p-8 text-center shadow-lg shadow-secondary/5 transition-transform hover:-translate-y-2 duration-300"
           >
             <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-6">
               <v.icon className="w-8 h-8 text-black" />
@@ -367,7 +367,7 @@ const WhoAttends: React.FC = () => (
             <div className="absolute inset-0 flex items-center" aria-hidden="true">
               <div className="w-full border-t border-primary/20"></div>
             </div>
-            <span className="relative px-8 py-2.5 rounded-full bg-brand-cyan text-black text-lg font-black shadow-lg shadow-brand-cyan/20">
+            <span className="relative px-8 py-2.5 rounded-full bg-secondary text-black text-lg font-black shadow-lg shadow-secondary/20">
               Our Diverse Community
             </span>
           </div>
@@ -389,7 +389,7 @@ const WhoAttends: React.FC = () => (
               <motion.div
                 key={g.label}
                 variants={fadeUp}
-                className="bg-brand-cyan border border-brand-cyan/20 rounded-2xl p-6 shadow-sm transition-transform hover:-translate-y-1 duration-300"
+                className="bg-secondary border border-secondary/20 rounded-2xl p-6 shadow-sm transition-transform hover:-translate-y-1 duration-300"
               >
                 <h3 className="font-heading font-black text-black text-lg mb-2">{g.label}</h3>
                 <p className="text-black/70 text-sm font-medium leading-relaxed">{g.desc}</p>
@@ -423,7 +423,7 @@ const WhoAttends: React.FC = () => (
           {/* Gallery Image */}
           <Link
             to="/gallery"
-            className="block outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan rounded-[2.5rem]"
+            className="block outline-none focus-visible:ring-2 focus-visible:ring-secondary rounded-[2.5rem]"
           >
             <motion.div
               initial="hidden"
@@ -442,7 +442,7 @@ const WhoAttends: React.FC = () => (
               />
               {/* Overlay */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="bg-brand-cyan text-black px-6 py-2 rounded-full font-black text-sm transform transition-transform duration-500 scale-90 group-hover:scale-100">
+                <div className="bg-secondary text-black px-6 py-2 rounded-full font-black text-sm transform transition-transform duration-500 scale-90 group-hover:scale-100">
                   View Event Gallery
                 </div>
               </div>
@@ -529,7 +529,7 @@ const NairobiCommunity: React.FC = () => (
             href="https://nairobidevops.org/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-7 py-3 rounded-full bg-brand-cyan text-black font-semibold text-sm hover:opacity-90 hover:bg-primary transition-all"
+            className="px-7 py-3 rounded-full bg-secondary text-black font-semibold text-sm hover:opacity-90 hover:bg-primary transition-all"
           >
             Join Our Community
           </a>
@@ -686,7 +686,7 @@ const WhyDevOps: React.FC = () => {
 
           <div className="flex items-center justify-center gap-6 w-full max-w-xl">
             <div className="h-[2px] flex-grow bg-foreground/10" />
-            <span className="px-6 py-2 rounded-full bg-brand-cyan text-black text-sm font-black shadow-lg shadow-brand-cyan/20 whitespace-nowrap">
+            <span className="px-6 py-2 rounded-full bg-secondary text-black text-sm font-black shadow-lg shadow-secondary/20 whitespace-nowrap">
               2026 Summit Evolution
             </span>
             <div className="h-[2px] flex-grow bg-foreground/10" />
@@ -710,7 +710,7 @@ const WhyDevOps: React.FC = () => {
             <motion.div
               key={i}
               variants={fadeUp}
-              className="bg-brand-cyan rounded-[2rem] p-10 flex flex-col items-center text-center shadow-xl shadow-brand-cyan/10 transition-transform hover:-translate-y-2 duration-300"
+              className="bg-secondary rounded-[2rem] p-10 flex flex-col items-center text-center shadow-xl shadow-secondary/10 transition-transform hover:-translate-y-2 duration-300"
             >
               <div className="w-16 h-16 rounded-2xl bg-black/5 flex items-center justify-center mb-6">
                 <CheckCircle className="text-black w-8 h-8" />
@@ -725,7 +725,7 @@ const WhyDevOps: React.FC = () => {
           <Button
             asChild
             size="lg"
-            className="px-7 py-3 rounded-full bg-brand-cyan text-black font-semibold text-sm hover:opacity-90 hover:bg-white transition-all"
+            className="px-7 py-3 rounded-full bg-secondary text-black font-semibold text-sm hover:opacity-90 hover:bg-white transition-all"
           >
             <Link to="/past-summits">Explore Our Past Summits</Link>
           </Button>

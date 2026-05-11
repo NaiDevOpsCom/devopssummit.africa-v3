@@ -1,11 +1,29 @@
 import React from "react";
 import { Benefit } from "@/types";
-import { Users, Utensils, Gift } from "lucide-react";
+import {
+  Users,
+  Gift,
+  Presentation,
+  Terminal,
+  Globe,
+  Briefcase,
+  Cpu,
+  Sparkles,
+  Coffee,
+  UserCheck,
+} from "lucide-react";
 
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
   Users,
-  Utensils,
   Gift,
+  Presentation,
+  Terminal,
+  Globe,
+  Briefcase,
+  Cpu,
+  Sparkles,
+  Coffee,
+  UserCheck,
 };
 
 const BenefitCard: React.FC<Benefit> = ({ icon, title, description }) => {

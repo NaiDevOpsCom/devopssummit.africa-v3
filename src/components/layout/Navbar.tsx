@@ -147,9 +147,9 @@ const Navbar: React.FC = () => {
               }
             }}
             className="hidden md:inline-flex px-6 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
-            aria-label="Get a ticket"
+            aria-label="Get Your Tickets"
           >
-            Get a Ticket
+            Get Your Tickets
           </a>
           <button
             className="md:hidden p-2"

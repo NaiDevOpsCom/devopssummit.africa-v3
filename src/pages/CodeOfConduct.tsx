@@ -194,7 +194,7 @@ const Scope: React.FC = () => (
           communities, and any online interactions related to the event.
         </p>
         <p>
-          It applies to all participants, speakers, sponsors, volunteers, organisers, and vendors.
+          It applies to all participants, speakers, sponsors, volunteers, organizers, and vendors.
           We expect cooperation from everyone to help ensure a safe environment for all.
         </p>
       </motion.div>
@@ -222,7 +222,7 @@ const Enforcement: React.FC = () => (
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
           <p>
-            If a participant engages in unacceptable behaviour, the organisers may take any action
+            If a participant engages in unacceptable behaviour, the organizers may take any action
             they deem appropriate — including a warning, temporary ban, or permanent expulsion from
             the event without a refund.
           </p>
@@ -230,7 +230,7 @@ const Enforcement: React.FC = () => (
         <div className="flex items-start gap-3">
           <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
           <p>
-            Organisers are committed to handling all reports with confidentiality and care. We will
+            organizers are committed to handling all reports with confidentiality and care. We will
             investigate every complaint and respond in a way that is deemed necessary and
             appropriate.
           </p>
