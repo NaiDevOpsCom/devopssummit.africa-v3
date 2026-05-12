@@ -53,6 +53,7 @@ const SponsorHero: React.FC = React.memo(() => (
         playsInline
         preload="metadata"
         aria-hidden="true"
+        tabIndex={-1}
         className="w-full h-full object-cover opacity-20"
       >
         <source
@@ -172,7 +173,7 @@ const whySponsorMetrics = [
     icon: Megaphone,
     value: "100K+",
     label: "Social Media Reach",
-    desc: "Impressions across Twitter/X, LinkedIn, and YouTube",
+    desc: "Impressions across X, LinkedIn, and YouTube",
   },
   {
     icon: Monitor,
@@ -541,37 +542,24 @@ const Testimonials: React.FC = React.memo(() => {
   const [startIdx, setStartIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-rotate every 5.5 s, paused when page is hidden or user manually paused
   useEffect(() => {
     if (total === 0 || isPaused) return;
 
-    let timerId: ReturnType<typeof setInterval>;
-
-    const startTimer = () => {
-      timerId = setInterval(() => setStartIdx((p) => (p + 1) % total), 5500);
-    };
-
-    const stopTimer = () => {
-      if (timerId) clearInterval(timerId);
-    };
+    const rotate = () => setStartIdx((startIdx + 1) % total);
+    let timerId = setInterval(rotate, 5500);
 
     const handleVisibilityChange = () => {
-      if (document.hidden) {
-        stopTimer();
-      } else {
-        startTimer();
+      clearInterval(timerId);
+      if (!globalThis.document.hidden) {
+        timerId = setInterval(rotate, 5500);
       }
     };
 
-    if (!document.hidden) {
-      startTimer();
-    }
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    globalThis.document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      stopTimer();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      clearInterval(timerId);
+      globalThis.document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [total, isPaused, startIdx]); // Reset timer when index changes (manual navigation)
 
