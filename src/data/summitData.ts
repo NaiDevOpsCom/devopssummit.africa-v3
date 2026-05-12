@@ -15,6 +15,7 @@ import { type Stat } from "@/types";
  * Used across the application for the next event date, location, and countdown.
  */
 export const summitDetails = {
+  name: "Africa DevOps Summit 2026",
   date: "November 20–21, 2026",
   location: "Nairobi, Kenya",
   venue: "Sarit Expo Centre",
@@ -32,6 +33,8 @@ export const summitDetails = {
    * This field can be empty/optional.
    */
   sponsorshipDeckUrl: "/deck.pdf",
+  theme: "Shaping the Future of African Tech through DevOps Innovation",
+  attendees: "1000+ Expected",
 };
 
 export interface SummitHighlight {

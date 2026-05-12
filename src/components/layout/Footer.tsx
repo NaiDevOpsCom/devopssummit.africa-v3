@@ -191,7 +191,7 @@ const Footer: React.FC = () => (
 
     <div className="border-t border-muted-foreground/20">
       <div className="max-w-7xl mx-auto section-padding py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-muted-foreground">
-        <p>© 2026 Africa DevOps Summit. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Africa DevOps Summit. All rights reserved.</p>
         <div className="flex gap-4">
           <Link to="/privacy-policy" className="hover:text-primary transition-colors">
             Privacy Policy
