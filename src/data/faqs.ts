@@ -143,7 +143,7 @@ export const faqs: FAQItem[] = [
     category: "Community",
     question: "How can I stay updated on summit news?",
     answer:
-      "Subscribe to our newsletter in the footer of our website, follow us on Twitter/X, LinkedIn, and Instagram (@AfricaDevOps), and join our community Slack workspace for real-time updates and discussions.",
+      "Subscribe to our newsletter in the footer of our website, follow us on X, LinkedIn, and Instagram (@AfricaDevOps), and join our community Slack workspace for real-time updates and discussions.",
   },
 ];
 

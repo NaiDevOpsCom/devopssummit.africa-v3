@@ -14,7 +14,7 @@ I'm interested in a custom or group ticket package for Africa DevOps Summit 2026
 
 YOUR DETAILS
 ------------
-Organisation / Company Name: [Your organisation]
+organization / Company Name: [Your organization]
 Contact Person (Full Name):  [Your full name]
 Job Title / Role:            [Your role]
 Email Address:               [Your email]
@@ -58,8 +58,8 @@ const Tickets: React.FC = () => (
     <div className="max-w-7xl mx-auto section-padding">
       <SectionHeader
         title="Tickets"
-        pill="Secure your place at Africa DevOps today!"
-        subtitle="Choose a ticket that fits your learning goals, whether you're attending in person or joining the conversation online."
+        pill="Choose Your Seat at the Table"
+        subtitle="Whether you are just starting out or leading engineering teams at scale, there is a place for you at #ADS2026"
       />
 
       <motion.div
@@ -67,7 +67,7 @@ const Tickets: React.FC = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+        className="flex flex-wrap lg:flex-nowrap justify-center gap-6 mb-12 max-w-6xl mx-auto"
       >
         {tickets.map((t) => (
           <TicketCard key={t.id} {...t} />

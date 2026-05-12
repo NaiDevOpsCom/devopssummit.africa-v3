@@ -221,10 +221,9 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading leading-tight mb-6"
           >
-            <span className="text-primary-foreground">Shaping the Future</span>
+            <span className="text-primary-foreground">Africa Ascends:</span>
             <br />
-            <span className="text-primary-foreground">of </span>
-            <span className="text-primary">African Tech</span>
+            <span className="text-primary">Build What's Next</span>
           </motion.h1>
 
           <motion.p
@@ -233,8 +232,8 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-muted-foreground text-base md:text-lg max-w-xl mb-8 leading-relaxed"
           >
-            Driving collaboration, innovation, and scalable DevOps practices to support African
-            digital transformation and strengthen communities across industries.
+            Where Africa's engineers across DevOps, AI, and Security stop following the global
+            roadmap and start writing it
           </motion.p>
 
           {/* Countdown */}
