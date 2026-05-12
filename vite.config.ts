@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "node:path";
-import { componentTagger } from "lovable-tagger";
 import { visualizer } from "rollup-plugin-visualizer";
 import { compression } from "vite-plugin-compression2";
 import { VitePWA } from "vite-plugin-pwa";
@@ -91,7 +90,6 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     tailwindcss(),
     react(),
-    mode === "development" && componentTagger(),
     (process.env.ANALYZE === "true" || mode === "analysis") &&
       visualizer({
         open: process.env.CI !== "true" && process.env.HEADLESS !== "true", // auto-open stats.html only in non-CI headless runs
