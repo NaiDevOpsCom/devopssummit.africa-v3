@@ -12,14 +12,14 @@ const Sponsors: React.FC = () => {
   const hasSponsors = currentYearSponsors.length > 0;
 
   return (
-    <section id="sponsors" className="py-24 md:py-32 bg-[#00A0F6]/20">
+    <section id="sponsors" className="py-24 md:py-32 bg-pill-bg/20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {hasSponsors && (
           <>
             <SectionHeader
               title="Partners & Sponsors"
-              pill="Our Summit Partners"
-              subtitle="We proudly collaborate with organizations committed to advancing DevOps excellence and innovation across Africa."
+              pill="Our Ecosystem Partners"
+              subtitle="We proudly collaborate with organizations committed to advancing DevOps, AI, and cloud innovation across Africa."
             />
 
             <motion.div
@@ -70,7 +70,7 @@ const Sponsors: React.FC = () => {
               <div className="absolute inset-0 flex items-center justify-center h-full">
                 <div className="w-full max-w-[300px] h-[1px] bg-white/20" />
               </div>
-              <span className="relative z-10 inline-block px-8 py-2 rounded-full bg-brand-cyan text-black text-sm font-bold uppercase tracking-wider">
+              <span className="relative z-10 inline-block px-8 py-2 rounded-full bg-secondary text-black text-sm font-bold uppercase tracking-wider">
                 {currentYear} Summit Sponsors
               </span>
             </div>
@@ -84,7 +84,7 @@ const Sponsors: React.FC = () => {
               <Button
                 asChild
                 size="lg"
-                className="px-7 py-3 rounded-full bg-brand-cyan text-black font-semibold text-sm hover:opacity-90 hover:bg-white transition-all"
+                className="px-7 py-3 rounded-full bg-secondary text-black font-semibold text-sm hover:opacity-90 hover:bg-white transition-all"
               >
                 <Link to="/sponsorship#packages">View Sponsorship packages</Link>
               </Button>
