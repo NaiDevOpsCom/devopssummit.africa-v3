@@ -40,7 +40,7 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
-    expect(screen.getByLabelText("Get a ticket")).toBeInTheDocument();
+    expect(screen.getByLabelText("Get Your Tickets")).toBeInTheDocument();
   });
 
   it("toggles mobile menu on hamburger click", () => {
@@ -82,7 +82,7 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
-    const getTicketBtns = screen.getAllByText("Get a Ticket");
+    const getTicketBtns = screen.getAllByText("Get Your Tickets");
     fireEvent.click(getTicketBtns[0]);
     expect(mockNavigate).toHaveBeenCalledWith("/#tickets");
   });

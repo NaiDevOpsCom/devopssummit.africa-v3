@@ -10,6 +10,8 @@ import { speakers } from "@/data/speakers";
 
 const CURRENT_YEAR = 2026;
 
+import { CFP_TOPICS } from "@/constants/speakers";
+
 interface ApplySpeakerButtonProps {
   readonly variant?: "primary" | "secondary";
 }
@@ -109,8 +111,12 @@ const Speakers: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <SectionHeader
           title="Featured Speakers"
-          pill="Innovators Transforming Africa’s Tech Future"
-          subtitle="Meet the experts shaping Africa’s DevOps and cloud future — sharing real-world insights, lessons, and bold ideas."
+          pill="The Stage Is Set. Your Story Belongs On It"
+          subtitle={
+            currentYearSpeakers.length > 0
+              ? "ADS2026 features engineers, architects, AI practitioners, and security leads who are doing the actual work — not just talking about it"
+              : "Calling practitioners with real-world engineering stories — submit your talk to join our lineup."
+          }
           light
         />
 
@@ -121,10 +127,34 @@ const Speakers: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           {currentYearSpeakers.length === 0 ? (
-            <div className="py-20 text-center text-white/70 flex flex-col items-center">
-              <p className="text-lg">No speakers announced yet for {CURRENT_YEAR}.</p>
-              <p className="mt-2 text-sm mb-8">Check back soon for updates!</p>
-              <ApplySpeakerButton variant="primary" />
+            <div className="pt-4 pb-12 md:pb-20 flex flex-col items-center">
+              <h2 className="sr-only">Call for Papers Topics</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full mb-16">
+                {CFP_TOPICS.map((topic, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                    className="flex items-start gap-4 p-6 rounded-2xl bg-white/5 border border-white/10"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70">
+                      <topic.icon className="w-6 h-6" />
+                    </div>
+                    <p className="text-white/80 text-sm md:text-base leading-snug pt-1">
+                      {topic.text}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="flex flex-col items-center gap-4">
+                <p className="text-white/40 text-sm italic mb-2">
+                  No speakers announced yet for {CURRENT_YEAR}. Be the first to join the lineup!
+                </p>
+                <ApplySpeakerButton variant="primary" />
+              </div>
             </div>
           ) : (
             <>
