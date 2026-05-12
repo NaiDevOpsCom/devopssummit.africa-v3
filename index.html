@@ -149,9 +149,7 @@
       }
     </script>
 
-    <!-- Google Tag Manager -->
-    <script type="module" src="/scripts/gtm.js"></script>
-    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager will be loaded lazily in main.tsx or via inline delay -->
 
     <!-- Facebook Meta Manager -->
     <meta name="facebook-domain-verification" content="kczggxco3jv08h01udx5hdckru1yo4" />
@@ -170,5 +168,30 @@
     <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Performance: Load non-critical GTM after main app is ready
+      window.addEventListener("load", function () {
+        if ("requestIdleCallback" in globalThis) {
+          requestIdleCallback(
+            function () {
+              var s = document.createElement("script");
+              s.src = "/scripts/gtm.js";
+              s.type = "module";
+              s.async = true;
+              document.body.appendChild(s);
+            },
+            { timeout: 3000 },
+          );
+        } else {
+          setTimeout(function () {
+            var s = document.createElement("script");
+            s.src = "/scripts/gtm.js";
+            s.type = "module";
+            s.async = true;
+            document.body.appendChild(s);
+          }, 2000);
+        }
+      });
+    </script>
   </body>
 </html>

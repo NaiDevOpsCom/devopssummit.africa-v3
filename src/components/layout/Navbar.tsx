@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, memo } from "react";
 import { Menu, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const navLinks = [
 
 const sectionIds = navLinks.map((l) => l.href.slice(1));
 
-const Navbar: React.FC = () => {
+const Navbar = memo(() => {
   const [scrolled, setScrolled] = useState(() =>
     globalThis.window === undefined ? false : globalThis.window.scrollY > 20,
   );
@@ -202,6 +202,8 @@ const Navbar: React.FC = () => {
       )}
     </nav>
   );
-};
+});
+
+Navbar.displayName = "Navbar";
 
 export default Navbar;
