@@ -61,7 +61,8 @@ const Speakers: React.FC = () => {
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
 
-    onSelect();
+    // We don't call onSelect() synchronously here to avoid cascading renders.
+    // It will be triggered by emblaApi.reInit() in the effect below.
   }, [emblaApi, onSelect]);
 
   React.useEffect(() => {
