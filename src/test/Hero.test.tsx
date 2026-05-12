@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import Hero from "@/components/landing/Hero";
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
@@ -102,8 +102,8 @@ describe("Hero", () => {
         <Hero />
       </MemoryRouter>,
     );
-    expect(screen.getByText("African Tech")).toBeInTheDocument();
-    expect(screen.getByText("Shaping the Future")).toBeInTheDocument();
+    expect(screen.getByText("Africa Ascends:")).toBeInTheDocument();
+    expect(screen.getByText("Build What's Next")).toBeInTheDocument();
   });
 
   it("renders CTA buttons", () => {
@@ -128,7 +128,7 @@ describe("Hero", () => {
     expect(screen.getByText("Sec")).toBeInTheDocument();
   });
 
-  it("initializes and draws particles on canvas", () => {
+  it("initializes and draws particles on canvas", async () => {
     vi.useFakeTimers();
     Object.defineProperty(HTMLCanvasElement.prototype, "offsetWidth", {
       value: 1000,
@@ -156,8 +156,10 @@ describe("Hero", () => {
       </MemoryRouter>,
     );
 
-    fireEvent.resize(globalThis as unknown as Window);
-    vi.runOnlyPendingTimers();
+    await act(async () => {
+      fireEvent.resize(globalThis as unknown as Window);
+      vi.runOnlyPendingTimers();
+    });
     expect(HTMLCanvasElement.prototype.getContext).toHaveBeenCalled();
     vi.useRealTimers();
   });
