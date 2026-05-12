@@ -17,10 +17,14 @@ import { type Stat } from "@/types";
 export const summitDetails = {
   date: "November 20–21, 2026",
   location: "Nairobi, Kenya",
-  mapLink: "https://www.google.com/maps/place/Nairobi,+Kenya",
+  venue: "Sarit Expo Centre",
+  time: "8:00 AM – 5:00 PM EAT",
+  mapLink: "https://maps.app.goo.gl/uXv7F987Z1R57m4x7",
+  mapEmbedUrl:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8504068593893!2d36.80186957591632!3d-1.2620755355972848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f174199f1fd8b%3A0x6968037a34610196!2sSarit%20Expo%20Centre!5e0!3m2!1sen!2ske!4v1715447125215!5m2!1sen!2ske",
   // Includes UTC+03:00 (EAT) offset so Date.parse() yields a deterministic instant
   // regardless of the browser's local timezone.
-  datetime: "2026-11-20T09:00:00+03:00",
+  datetime: "2026-11-20T08:00:00+03:00",
   /**
    * @property {string} sponsorshipDeckUrl
    * The public URL or relative path to the conference sponsorship PDF used for download/display.

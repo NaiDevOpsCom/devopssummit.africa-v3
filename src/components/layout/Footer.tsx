@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Twitter,
   Linkedin,
   Instagram,
   Youtube,
@@ -9,21 +8,23 @@ import {
   MapPin,
   Calendar,
   Clock,
-  ExternalLink,
+  Send,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SafeLink } from "@/components/SafeLink";
+import { summitDetails } from "@/data/summitData";
 
-const EVENT_VENUE = {
-  name: "Africa DevOps Summit 2026",
-  venue: "Sarit Expo Centre",
-  address: "Nairobi, Kenya",
-  date: "October 16–17, 2026",
-  time: "8:00 AM – 5:00 PM EAT",
-  // Google Maps embed query — update this when venue changes
-  mapQuery: "Sarit+Expo+Centre,+Nairobi,+Kenya",
-  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sarit+Expo+Centre+Nairobi+Kenya",
-};
+const XIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 const quickLinks = [
   { label: "About Us", href: "/about" },
@@ -35,16 +36,20 @@ const quickLinks = [
 ];
 
 const socials = [
-  { Icon: Twitter, href: "#", label: "Twitter" },
-  { Icon: Linkedin, href: "#", label: "LinkedIn" },
-  { Icon: Instagram, href: "#", label: "Instagram" },
-  { Icon: Youtube, href: "#", label: "YouTube" },
+  { Icon: XIcon, href: "https://x.com/afdevopssummit", label: "X" },
+  {
+    Icon: Linkedin,
+    href: "https://www.linkedin.com/company/africa-devops-summit/",
+    label: "LinkedIn",
+  },
+  { Icon: Instagram, href: "https://www.instagram.com/afdevopssummit", label: "Instagram" },
+  { Icon: Youtube, href: "https://youtube.com/@nairobidevopscommunity", label: "YouTube" },
 ];
 
 const Footer: React.FC = () => (
   <footer className="bg-dark-bg text-primary-foreground">
     <div className="max-w-7xl mx-auto section-padding py-16">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Column 1 — Brand & Contact */}
         <div className="space-y-6">
           <div>
@@ -63,24 +68,31 @@ const Footer: React.FC = () => (
           <div className="space-y-2 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-              <span>info@africadevops.com</span>
+              <SafeLink
+                href="mailto:nairobi@devopssummit.africa"
+                className="hover:text-primary transition-colors"
+              >
+                nairobi@devopssummit.africa
+              </SafeLink>
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-              <span>+254 798 669 125</span>
+              <SafeLink href="tel:+254722818668" className="hover:text-primary transition-colors">
+                +254 722 818 668
+              </SafeLink>
             </div>
           </div>
 
           <div className="flex gap-3">
             {socials.map(({ Icon, href, label }) => (
-              <a
+              <SafeLink
                 key={label}
                 href={href}
                 className="w-9 h-9 rounded-full bg-card-dark flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
                 aria-label={label}
               >
                 <Icon className="w-4 h-4" />
-              </a>
+              </SafeLink>
             ))}
           </div>
         </div>
@@ -107,45 +119,72 @@ const Footer: React.FC = () => (
           <h4 className="font-heading font-bold mb-4">Summit Venue</h4>
 
           {/* Google Maps Embed */}
-          <div className="rounded-lg overflow-hidden border border-border mb-4">
+          <div className="rounded-lg overflow-hidden border border-border mb-5">
             <iframe
               title="Summit Venue Map"
-              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.819074698082!2d36.7812!3d-1.2635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z${EVENT_VENUE.mapQuery}!5e0!3m2!1sen!2ske!4v1700000000000`}
+              src={summitDetails.mapEmbedUrl}
               width="100%"
               height="180"
               style={{ border: 0 }}
               allowFullScreen={false}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="w-full"
+              className="w-full grayscale hover:grayscale-0 transition-all duration-300"
             />
           </div>
 
           {/* Venue Details */}
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-              <span>
-                {EVENT_VENUE.venue}, {EVENT_VENUE.address}
-              </span>
+          <div className="space-y-4 text-sm text-muted-foreground">
+            {/* Row 1: Date and Time */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-secondary flex-shrink-0" />
+                <span className="text-small text-muted-foreground">{summitDetails.date}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-secondary flex-shrink-0" />
+                <span className="text-small text-muted-foreground">{summitDetails.time}</span>
+              </div>
             </div>
+
+            {/* Row 2: Location */}
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-primary flex-shrink-0" />
-              <span>{EVENT_VENUE.date}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-primary flex-shrink-0" />
-              <span>{EVENT_VENUE.time}</span>
+              <MapPin className="w-4 h-4 text-secondary flex-shrink-0" />
+              <span className="text-small text-muted-foreground">{summitDetails.location}</span>
             </div>
           </div>
+        </div>
 
-          <SafeLink
-            href={EVENT_VENUE.mapsUrl}
-            className="inline-flex items-center gap-1.5 mt-3 text-sm text-primary hover:underline"
-          >
-            Open in Google Maps
-            <ExternalLink className="w-3.5 h-3.5" />
-          </SafeLink>
+        {/* Column 4 — Newsletter */}
+        <div className="space-y-6">
+          <div>
+            <h4 className="font-heading font-bold mb-4">Newsletter</h4>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+              Join 1,000+ practitioners. Get the latest summit news and DevOps insights delivered to
+              your inbox via our Substack.
+            </p>
+            <SafeLink
+              href="https://nairobidevops.substack.com/subscribe"
+              className="inline-flex items-center justify-center w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11 rounded-md transition-all group"
+            >
+              Subscribe Now
+              <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </SafeLink>
+            <p className="text-[10px] text-muted-foreground text-center mt-4">
+              By subscribing, you agree to our{" "}
+              <Link to="/privacy-policy" className="underline hover:text-primary transition-colors">
+                Privacy Policy
+              </Link>{" "}
+              and{" "}
+              <Link
+                to="/code-of-conduct"
+                className="underline hover:text-primary transition-colors"
+              >
+                Terms
+              </Link>
+              .
+            </p>
+          </div>
         </div>
       </div>
     </div>
