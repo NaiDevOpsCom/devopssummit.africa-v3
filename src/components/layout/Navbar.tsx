@@ -195,7 +195,7 @@ const Navbar: React.FC = () => {
                 setOpen(false);
               }}
             >
-              Get a Ticket
+              Get Your Tickets
             </a>
           </div>
         </div>
