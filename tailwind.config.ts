@@ -24,7 +24,8 @@ export default {
         body: ["Inter", "sans-serif"],
       },
       colors: {
-        "brand-cyan": "#36B8F2",
+        "brand-cyan": "hsl(var(--brand-cyan))",
+        "brand-cyan-vibrant": "hsl(var(--brand-cyan-vibrant))",
         "pure-white": "hsl(var(--pure-white))",
         "pure-black": "hsl(var(--pure-black))",
         white: "hsl(var(--pure-white))",

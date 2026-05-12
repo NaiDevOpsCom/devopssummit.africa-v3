@@ -20,12 +20,12 @@ const Index = () => {
   const [resetCounter, setResetCounter] = React.useState(0);
 
   // Define lazy components inside useMemo to allow re-binding on retry
-  const { UpcomingEvent, Speakers, Tickets, Benefits, Sponsors, Team, FAQPreview } = React.useMemo(
+  const { WhatWeCover, Speakers, Tickets, Benefits, Sponsors, Team, FAQPreview } = React.useMemo(
     () => ({
-      UpcomingEvent: lazy(() => import("@/components/landing/UpcomingEvent")),
+      WhatWeCover: lazy(() => import("@/components/landing/WhatWeCover")),
       Speakers: lazy(() => import("@/components/landing/Speakers")),
-      Tickets: lazy(() => import("@/components/landing/Tickets")),
       Benefits: lazy(() => import("@/components/landing/Benefits")),
+      Tickets: lazy(() => import("@/components/landing/Tickets")),
       Sponsors: lazy(() => import("@/components/landing/Sponsors")),
       Team: lazy(() => import("@/components/landing/Team")),
       FAQPreview: lazy(() => import("@/components/landing/FAQPreview")),
@@ -48,7 +48,7 @@ const Index = () => {
       <ErrorBoundary onReset={() => setResetCounter((prev) => prev + 1)} fallback={ErrorFallback}>
         <div className="space-y-0" key={resetCounter}>
           <Suspense fallback={<div className="min-h-[400px] animate-pulse bg-muted/20" />}>
-            <UpcomingEvent />
+            <WhatWeCover />
           </Suspense>
           <Suspense fallback={<div className="min-h-[600px] animate-pulse bg-muted/10" />}>
             <Speakers />
@@ -87,11 +87,11 @@ const Index = () => {
             />
           </div>
 
-          <Suspense fallback={<div className="min-h-[500px] animate-pulse bg-muted/20" />}>
-            <Tickets />
-          </Suspense>
           <Suspense fallback={<div className="min-h-[400px] animate-pulse bg-muted/10" />}>
             <Benefits />
+          </Suspense>
+          <Suspense fallback={<div className="min-h-[500px] animate-pulse bg-muted/20" />}>
+            <Tickets />
           </Suspense>
           <Suspense fallback={<div className="min-h-[300px] animate-pulse bg-muted/20" />}>
             <Sponsors />
