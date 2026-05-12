@@ -62,6 +62,13 @@ HTMLCanvasElement.prototype.getContext = vi.fn(
     }) as unknown as CanvasRenderingContext2D,
 ) as unknown as typeof HTMLCanvasElement.prototype.getContext;
 
+// ── Media Elements ───────────────────────────────────────────────────────────
+// Required by Hero background video
+HTMLMediaElement.prototype.play = vi.fn().mockResolvedValue(undefined);
+HTMLMediaElement.prototype.pause = vi.fn();
+HTMLMediaElement.prototype.load = vi.fn();
+HTMLMediaElement.prototype.setAttribute = vi.fn();
+
 // ── import.meta.env defaults for tests ──────────────────────────────────────
 // Keep the required runtime validation keys aligned with validateEnv().
 const validateEnvDefaults = {

@@ -32,7 +32,7 @@ const Team: React.FC = () => {
       <div className="max-w-7xl mx-auto section-padding">
         <SectionHeader
           title="Our Team"
-          pill="Meet the Team Behind Africa DevOps Summit"
+          pill="The People Who Make ADS Happen"
           subtitle="A passionate team of organizers, engineers, and community builders working together to deliver a seamless experience."
           light
         />
