@@ -1,4 +1,4 @@
-import { type Sponsor, type SponsorTestimonial } from "@/types";
+import { type Sponsor, type SponsorTestimonial, type SponsorshipPackage } from "@/types";
 
 /**
  * Unified Sponsors Data Source
@@ -265,5 +265,79 @@ export const sponsorTestimonials: SponsorTestimonial[] = [
     role: "Cloud Architect",
     company: "MTN Group",
     verified: false,
+  },
+];
+
+export const sponsorshipPackages: SponsorshipPackage[] = [
+  {
+    name: "Community",
+    price: "$2,500",
+    benefits: [
+      "Logo on Website",
+      "2 Attendee Passes",
+      "Social Media Mention",
+      "Shared Digital Swag Bag",
+    ],
+  },
+  {
+    name: "Bronze",
+    price: "$3,500",
+    benefits: [
+      "Logo on Website",
+      "3 Attendee Passes",
+      "Social Media Mention",
+      "Digital Swag Inclusion",
+    ],
+  },
+  {
+    name: "Silver",
+    price: "$5,000",
+    benefits: [
+      "Standard Exhibition Booth",
+      "5 Attendee Passes",
+      "Branding on Event App",
+      "Newsletter Mention",
+      "Physical Swag Inclusion",
+    ],
+  },
+  {
+    name: "Gold",
+    price: "$10,000",
+    highlight: true,
+    benefits: [
+      "Large Exhibition Booth",
+      "10 Attendee Passes",
+      "Logo on Main Stage",
+      "5-min Lightning Talk",
+      "Talent Portal Access",
+      "1 Private Workshop Slot",
+    ],
+  },
+  {
+    name: "Platinum",
+    price: "$20,000",
+    benefits: [
+      "Premium 36sqm Booth",
+      "20 Attendee Passes",
+      "Keynote Speaking Slot",
+      "VIP Lounge Branding",
+      "Lead Retrieval Device",
+      "Dedicated PR Support",
+    ],
+  },
+  {
+    name: "Venue Partner",
+    price: "In-kind",
+    benefits: [
+      "On-site Branding",
+      "Event Access",
+      "Community Recognition",
+      "Strategic Partnership",
+    ],
+  },
+  {
+    name: "Refreshments Partner",
+    price: "In-kind",
+    benefits: ["Catering Branding", "Product Placement", "Community Recognition", "Event Access"],
   },
 ];

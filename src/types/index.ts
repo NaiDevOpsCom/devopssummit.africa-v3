@@ -70,3 +70,10 @@ export interface SponsorTestimonial {
   /** Whether the testimonial has been verified for publication. */
   verified?: boolean;
 }
+
+export interface SponsorshipPackage {
+  name: string;
+  price: string;
+  highlight?: boolean;
+  benefits: string[];
+}
