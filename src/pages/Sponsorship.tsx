@@ -48,6 +48,32 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
+const SECURE_RANDOM_RANGE = 0x100000000;
+
+const getSecureRandomInt = (maxExclusive: number): number => {
+  const values = new Uint32Array(1);
+  const limit = Math.floor(SECURE_RANDOM_RANGE / maxExclusive) * maxExclusive;
+  let value: number;
+
+  do {
+    globalThis.crypto.getRandomValues(values);
+    value = values[0];
+  } while (value >= limit);
+
+  return value % maxExclusive;
+};
+
+const secureShuffle = <T,>(items: readonly T[]): T[] => {
+  const shuffled = [...items];
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = getSecureRandomInt(i + 1);
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+};
+
 /* ------------------------------------------------------------------ */
 /*  1 · Hero                                                           */
 /* ------------------------------------------------------------------ */
@@ -707,8 +733,7 @@ const PastSponsors = React.memo(() => {
     const randomized: Record<string, (typeof sponsorsData)[number]> = {};
     for (const [yearStr, sponsors] of Object.entries(sponsorsData)) {
       if (Number(yearStr) >= 2026) continue;
-      // eslint-disable-next-line react-hooks/purity
-      const shuffled = [...sponsors].sort(() => 0.5 - Math.random());
+      const shuffled = secureShuffle(sponsors);
       randomized[yearStr] = shuffled.slice(0, 5);
     }
     return randomized;
