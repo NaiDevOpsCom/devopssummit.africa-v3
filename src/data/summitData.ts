@@ -33,6 +33,11 @@ export const summitDetails = {
    * This field can be empty/optional.
    */
   sponsorshipDeckUrl: "/deck.pdf",
+  /**
+   * @property {string} sponsorshipCalendlyUrl
+   * The Calendly link for booking sponsorship partnership calls.
+   */
+  sponsorshipCalendlyUrl: "https://calendly.com/africadevopssummit",
   theme: "Shaping the Future of African Tech through DevOps Innovation",
   attendees: "1000+ Expected",
 };
