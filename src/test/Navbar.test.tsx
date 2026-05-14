@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Navbar from "@/components/layout/Navbar";
 import { MemoryRouter } from "react-router-dom";
 
@@ -54,14 +54,26 @@ describe("Navbar", () => {
     expect(screen.getByLabelText("Close menu")).toBeInTheDocument();
   });
 
-  it("handles scroll to change background", () => {
+  it("handles scroll to change background", async () => {
     render(
       <MemoryRouter>
         <Navbar />
       </MemoryRouter>,
     );
-    fireEvent.scroll(globalThis as unknown as Window, { target: { scrollY: 100 } });
-    expect(screen.getByRole("navigation")).toHaveClass("bg-background/80", { exact: false });
+    Object.defineProperty(globalThis, "scrollY", {
+      value: 100,
+      configurable: true,
+      writable: true,
+    });
+    (globalThis as unknown as Window).dispatchEvent(new Event("scroll"));
+    await waitFor(() => {
+      expect(screen.getByRole("navigation")).toHaveClass("bg-background/80", { exact: false });
+    });
+    Object.defineProperty(globalThis, "scrollY", {
+      value: 0,
+      configurable: true,
+      writable: true,
+    });
   });
 
   it("navigates to route on click", () => {

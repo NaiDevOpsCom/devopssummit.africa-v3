@@ -40,7 +40,10 @@ export function buildCloudinaryUrl(
 ): string {
   if (!src.includes(CLOUDINARY_UPLOAD_SEGMENT)) return src;
 
-  const [prefix, suffix] = src.split(CLOUDINARY_UPLOAD_SEGMENT);
+  const index = src.indexOf(CLOUDINARY_UPLOAD_SEGMENT);
+
+  const prefix = src.slice(0, index);
+  const suffix = src.slice(index + CLOUDINARY_UPLOAD_SEGMENT.length);
   const serialized = serializeTransform(transform);
   if (!serialized) return src;
 

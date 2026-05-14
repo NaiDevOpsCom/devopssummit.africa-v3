@@ -12,6 +12,9 @@ const navLinks = [
 
 const sectionIds = navLinks.map((l) => l.href.slice(1));
 
+const sortSectionsByDOMOrder = (a: string, b: string) =>
+  sectionIds.indexOf(a) - sectionIds.indexOf(b);
+
 const Navbar = memo(() => {
   const [scrolled, setScrolled] = useState(() =>
     globalThis.window === undefined ? false : globalThis.window.scrollY > 20,
@@ -51,22 +54,65 @@ const Navbar = memo(() => {
   useEffect(() => {
     if (!isHome) return;
 
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((section): section is HTMLElement => Boolean(section));
+    const visibleSections = new Set<string>();
+    let observer: IntersectionObserver | null = null;
+    const observedElements = new Set<HTMLElement>();
 
-    if (!sections.length) return;
+    const handleIntersection: IntersectionObserverCallback = (entries) => {
+      let changed = false;
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          visibleSections.add(entry.target.id);
+          changed = true;
+        } else if (visibleSections.has(entry.target.id)) {
+          visibleSections.delete(entry.target.id);
+          changed = true;
+        }
+      }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((entry) => entry.isIntersecting);
-        if (visible?.target.id) setActiveSection(visible.target.id);
-      },
-      { rootMargin: "-30% 0px -60% 0px", threshold: 0 },
-    );
+      if (changed && visibleSections.size > 0) {
+        const sorted = Array.from(visibleSections).sort(sortSectionsByDOMOrder);
+        setActiveSection(sorted[0]);
+      }
+    };
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    const observeSections = () => {
+      const sections = sectionIds
+        .map((id) => document.getElementById(id))
+        .filter((section): section is HTMLElement => Boolean(section));
+
+      observer ??= new IntersectionObserver(handleIntersection, {
+        rootMargin: "-30% 0px -60% 0px",
+        threshold: 0,
+      });
+
+      sections.forEach((section) => {
+        if (!observedElements.has(section)) {
+          observer!.observe(section);
+          observedElements.add(section);
+        }
+      });
+    };
+
+    observeSections();
+
+    let debounceTimer: ReturnType<typeof setTimeout>;
+    const debouncedObserveSections = () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(observeSections, 100);
+    };
+
+    const mutationObserver = new MutationObserver(debouncedObserveSections);
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      if (observer) observer.disconnect();
+      mutationObserver.disconnect();
+      clearTimeout(debounceTimer);
+      visibleSections.clear();
+      observedElements.clear();
+    };
   }, [isHome]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, link: (typeof navLinks)[0]) => {
