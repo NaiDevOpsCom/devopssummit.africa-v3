@@ -18,7 +18,7 @@ export const summitDetails = {
   name: "Africa DevOps Summit 2026",
   date: "November 20–21, 2026",
   location: "Nairobi, Kenya",
-  venue: "Sarit Expo Centre",
+  venue: "Nairobi, Kenya",
   time: "8:00 AM – 5:00 PM EAT",
   mapLink: "https://maps.app.goo.gl/uXv7F987Z1R57m4x7",
   mapEmbedUrl:
@@ -38,7 +38,7 @@ export const summitDetails = {
    * The Calendly link for booking sponsorship partnership calls.
    */
   sponsorshipCalendlyUrl: "https://calendly.com/africadevopssummit",
-  theme: "Shaping the Future of African Tech through DevOps Innovation",
+  theme: "Africa Ascends: Build What's Next",
   attendees: "1000+ Expected",
 };
 

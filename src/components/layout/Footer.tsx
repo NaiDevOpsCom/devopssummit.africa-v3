@@ -54,10 +54,11 @@ const Footer: React.FC = () => (
         <div className="space-y-6">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-xs">ADS</span>
-              </div>
-              <span className="font-heading font-bold text-sm">Africa DevOps Summit</span>
+              <img
+                src="https://res.cloudinary.com/nairobidevops/image/upload/v1778755016/Updated_ADS_logo_grjrqu.png"
+                alt="Africa DevOps Summit Logo"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Africa's premier DevOps, Cloud &amp; SRE conference driving innovation and

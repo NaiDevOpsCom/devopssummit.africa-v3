@@ -1,5 +1,7 @@
 import { type Ticket } from "@/types";
 
+export const CTA_URL = "https://vabu.app/l/9h79bUcZR2";
+
 export const tickets: Ticket[] = [
   {
     id: 1,
@@ -16,6 +18,7 @@ export const tickets: Ticket[] = [
       "Dedicated early-career networking session with mid and senior engineers",
     ],
     ctaLabel: "Buy Tickets Now",
+    ctaLink: CTA_URL,
   },
   {
     id: 2,
@@ -32,6 +35,7 @@ export const tickets: Ticket[] = [
       "Access to all community and professional networking sessions",
     ],
     ctaLabel: "Buy Tickets Now",
+    ctaLink: CTA_URL,
   },
   {
     id: 3,
@@ -47,5 +51,6 @@ export const tickets: Ticket[] = [
       "Single consolidated invoice for straightforward team budgeting",
     ],
     ctaLabel: "Buy Tickets Now",
+    ctaLink: CTA_URL,
   },
 ];

@@ -22,6 +22,7 @@ export interface Ticket {
   disclaimer?: string;
   features: string[];
   ctaLabel: string;
+  ctaLink?: HttpUrl | (string & {});
 }
 
 export interface TeamMember {

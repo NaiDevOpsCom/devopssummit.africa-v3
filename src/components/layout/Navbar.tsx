@@ -169,14 +169,11 @@ const Navbar = memo(() => {
           className="flex items-center gap-2"
           aria-label="Africa DevOps Summit home"
         >
-          <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-heading font-bold text-xs">ADS</span>
-          </div>
-          <span
-            className={`font-heading font-bold text-sm hidden sm:inline ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
-          >
-            AFRICA DEVOPS SUMMIT
-          </span>
+          <img
+            src="https://res.cloudinary.com/nairobidevops/image/upload/v1778755016/Updated_ADS_logo_grjrqu.png"
+            alt="Africa DevOps Summit Logo"
+            className="h-9 md:h-11 w-auto object-contain transition-transform duration-300 hover:scale-105 origin-left"
+          />
         </a>
 
         <div className="hidden md:flex items-center gap-8">
