@@ -20,7 +20,7 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
-    expect(screen.getByText("AFRICA DEVOPS SUMMIT")).toBeInTheDocument();
+    expect(screen.getByAltText("Africa DevOps Summit Logo")).toBeInTheDocument();
   });
 
   it("renders all nav links", () => {
