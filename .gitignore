@@ -32,3 +32,4 @@ src/data/gallery.generated.json
 
 storybook-static
 .lighthouseci/
+coverage/
