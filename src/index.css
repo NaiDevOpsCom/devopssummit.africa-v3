@@ -20,7 +20,6 @@ html {
     --primary: 223 100% 66%;
     --primary-foreground: 210 40% 98%;
     --secondary: 199 89% 60%;
-    --secondary-alt: 210 100% 50%;
     --secondary-foreground: 222 47% 11%;
     --muted: 210 40% 96%;
     --muted-foreground: 215 20% 65%;
@@ -34,7 +33,6 @@ html {
     --brand-blue: var(--ring);
     --brand-orange: 25 95% 53%;
     --brand-purple: 270 95% 65%;
-    --pill-bg: 201 99% 49%;
     --radius: 0.75rem;
     --dark-bg: 222 47% 11%;
     --card-dark: 217 33% 17%;

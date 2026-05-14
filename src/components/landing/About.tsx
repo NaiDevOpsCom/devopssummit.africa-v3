@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { stats } from "@/data/summitData";
+import { stats } from "@/data/stats";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },

@@ -29,7 +29,6 @@
 **Africa DevOps Summit** is Africa's premier DevOps, Cloud & SRE conference. This repository contains the official conference website — a frontend-only React application that serves as the event's primary digital presence.
 
 The website handles:
-
 - Marketing and event promotion
 - Speaker and schedule showcasing
 - Ticket sales (currently via external provider)
@@ -44,35 +43,35 @@ The site is a **public-facing, community-driven project**. It is maintained by a
 
 ### Primary Goals
 
-| Goal            | Description                                                           |
-| --------------- | --------------------------------------------------------------------- |
-| **Inform**      | Give attendees all the information they need to attend the summit     |
-| **Convert**     | Drive ticket purchases and sponsor inquiries                          |
+| Goal | Description |
+|---|---|
+| **Inform** | Give attendees all the information they need to attend the summit |
+| **Convert** | Drive ticket purchases and sponsor inquiries |
 | **Credibility** | Showcase past editions to build trust with new attendees and sponsors |
-| **Community**   | Serve as a home for the African DevOps community year-round           |
+| **Community** | Serve as a home for the African DevOps community year-round |
 
 ### Success Metrics
 
-| Metric                   | Target (to be defined) |
-| ------------------------ | ---------------------- |
-| Unique monthly visitors  | `TODO: set target`     |
-| Ticket conversion rate   | `TODO: set target`     |
-| Sponsor inquiry volume   | `TODO: set target`     |
-| Newsletter sign-up count | `TODO: set target`     |
-| Bounce rate              | `TODO: set target`     |
-| Average session duration | `TODO: set target`     |
+| Metric | Target (to be defined) |
+|---|---|
+| Unique monthly visitors | `TODO: set target` |
+| Ticket conversion rate | `TODO: set target` |
+| Sponsor inquiry volume | `TODO: set target` |
+| Newsletter sign-up count | `TODO: set target` |
+| Bounce rate | `TODO: set target` |
+| Average session duration | `TODO: set target` |
 
 ---
 
 ## 3. Target Audience
 
-| Segment                    | Description                                                                  |
-| -------------------------- | ---------------------------------------------------------------------------- |
-| **DevOps & SRE Engineers** | Practitioners looking for learning, networking, and career growth            |
-| **Software Developers**    | Full-stack, backend, and frontend engineers embracing DevOps culture         |
-| **Tech Leaders**           | CTOs, Engineering Managers, VPs of Engineering scouting talent and trends    |
-| **Students & New Grads**   | Aspiring professionals entering the DevOps space                             |
-| **Sponsors & Partners**    | Companies targeting Africa's engineering talent pipeline                     |
+| Segment | Description |
+|---|---|
+| **DevOps & SRE Engineers** | Practitioners looking for learning, networking, and career growth |
+| **Software Developers** | Full-stack, backend, and frontend engineers embracing DevOps culture |
+| **Tech Leaders** | CTOs, Engineering Managers, VPs of Engineering scouting talent and trends |
+| **Students & New Grads** | Aspiring professionals entering the DevOps space |
+| **Sponsors & Partners** | Companies targeting Africa's engineering talent pipeline |
 | **Community Contributors** | Open source contributors and meetup organizers in the African tech ecosystem |
 
 ---
@@ -81,16 +80,16 @@ The site is a **public-facing, community-driven project**. It is maintained by a
 
 This is a **frontend-only** application. There is no dedicated backend server.
 
-| Layer                 | Technology                               | Notes                                       |
-| --------------------- | ---------------------------------------- | ------------------------------------------- |
-| **Framework**         | [React](https://react.dev/) 18+          | UI component library                        |
-| **Build Tool**        | [Vite](https://vitejs.dev/)              | Fast dev server and bundler                 |
-| **Language**          | TypeScript                               | Strict typing enforced throughout           |
-| **Styling**           | [Tailwind CSS](https://tailwindcss.com/) | Utility-first CSS framework                 |
-| **Component Library** | [shadcn/ui](https://ui.shadcn.com/)      | Accessible, unstyled component primitives   |
-| **Content**           | Static + CMS (mixed)                     | See [Content Strategy](#6-content-strategy) |
-| **Package Manager**   | `TODO: confirm — npm / pnpm / yarn`      |                                             |
-| **Linting**           | `TODO: confirm — ESLint + Prettier?`     |                                             |
+| Layer | Technology | Notes |
+|---|---|---|
+| **Framework** | [React](https://react.dev/) 18+ | UI component library |
+| **Build Tool** | [Vite](https://vitejs.dev/) | Fast dev server and bundler |
+| **Language** | TypeScript | Strict typing enforced throughout |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) | Utility-first CSS framework |
+| **Component Library** | [shadcn/ui](https://ui.shadcn.com/) | Accessible, unstyled component primitives |
+| **Content** | Static + CMS (mixed) | See [Content Strategy](#6-content-strategy) |
+| **Package Manager** | `TODO: confirm — npm / pnpm / yarn` | |
+| **Linting** | `TODO: confirm — ESLint + Prettier?` | |
 
 ### Key Constraints
 
@@ -188,18 +187,18 @@ The primary marketing page. High traffic, high conversion priority.
 
 **Sections:**
 
-| Section             | Description                                                      | Content Source |
-| ------------------- | ---------------------------------------------------------------- | -------------- |
-| Hero                | Event name, tagline, date, location, primary CTA ("Get Tickets") | Static         |
-| About               | Short event summary and value proposition                        | Static         |
-| Upcoming Event      | Date, venue, countdown timer                                     | Static         |
-| Speakers Preview    | 6–8 featured speakers with headshots and titles                  | CMS            |
-| Ticket Tiers        | Pricing cards with tier benefits                                 | Static         |
-| Attendance Benefits | Why you should attend (icons + copy)                             | Static         |
-| Sponsor Logos       | Logo grid of current sponsors                                    | CMS            |
-| Sponsor CTA         | "Become a Sponsor" banner with link to `/sponsorship`            | Static         |
-| Organising Team     | Photos and names of core organisers                              | Static / CMS   |
-| FAQ Preview         | Top 4–5 FAQs with link to full `/faqs` page                      | Static         |
+| Section | Description | Content Source |
+|---|---|---|
+| Hero | Event name, tagline, date, location, primary CTA ("Get Tickets") | Static |
+| About | Short event summary and value proposition | Static |
+| Upcoming Event | Date, venue, countdown timer | Static |
+| Speakers Preview | 6–8 featured speakers with headshots and titles | CMS |
+| Ticket Tiers | Pricing cards with tier benefits | Static |
+| Attendance Benefits | Why you should attend (icons + copy) | Static |
+| Sponsor Logos | Logo grid of current sponsors | CMS |
+| Sponsor CTA | "Become a Sponsor" banner with link to `/sponsorship` | Static |
+| Organising Team | Photos and names of core organisers | Static / CMS |
+| FAQ Preview | Top 4–5 FAQs with link to full `/faqs` page | Static |
 
 ---
 
@@ -209,13 +208,13 @@ Tells the story of the summit and the community behind it.
 
 **Sections:**
 
-| Section                  | Description                                  | Content Source |
-| ------------------------ | -------------------------------------------- | -------------- |
-| Mission & Vision         | What the summit stands for                   | Static         |
-| Core Values              | Innovation, Community, Diversity, Excellence | Static         |
-| Who Attends              | Audience breakdown with visual indicators    | Static         |
-| Nairobi DevOps Community | Spotlight on the organising community        | Static / CMS   |
-| Journey Timeline         | Visual timeline: 2024 → 2025 → 2026          | Static         |
+| Section | Description | Content Source |
+|---|---|---|
+| Mission & Vision | What the summit stands for | Static |
+| Core Values | Innovation, Community, Diversity, Excellence | Static |
+| Who Attends | Audience breakdown with visual indicators | Static |
+| Nairobi DevOps Community | Spotlight on the organising community | Static / CMS |
+| Journey Timeline | Visual timeline: 2024 → 2025 → 2026 | Static |
 
 ---
 
@@ -225,16 +224,15 @@ Full two-day conference programme.
 
 **Sections:**
 
-| Section            | Description                                  | Content Source             |
-| ------------------ | -------------------------------------------- | -------------------------- |
-| Day Tabs           | Toggle between Day 1 and Day 2               | —                          |
-| Session Cards      | Time, title, speaker, track, room            | CMS                        |
-| Speaker Profiles   | Keynotes, panelists, workshop facilitators   | CMS                        |
-| Download Programme | Link to downloadable PDF                     | Static (file in `/public`) |
-| Add to Calendar    | `.ics` file download or Google Calendar link | Static                     |
+| Section | Description | Content Source |
+|---|---|---|
+| Day Tabs | Toggle between Day 1 and Day 2 | — |
+| Session Cards | Time, title, speaker, track, room | CMS |
+| Speaker Profiles | Keynotes, panelists, workshop facilitators | CMS |
+| Download Programme | Link to downloadable PDF | Static (file in `/public`) |
+| Add to Calendar | `.ics` file download or Google Calendar link | Static |
 
 **Notes for contributors:**
-
 - Sessions should be typed via a `Session` interface in `/src/types/`
 - Tracks should be defined as an enum or constant for consistency
 - The schedule must be responsive — consider mobile-first card layout vs. desktop table
@@ -247,23 +245,23 @@ Converts prospective sponsors into inquiries.
 
 **Sections:**
 
-| Section                   | Description                                        | Content Source |
-| ------------------------- | -------------------------------------------------- | -------------- |
-| Why Sponsor               | Metrics, audience reach, value narrative           | Static         |
-| Audience Breakdown        | Visual progress bars by segment                    | Static         |
-| Sponsorship Tiers         | Community, Silver, Gold, Platinum — benefits table | Static         |
-| Benefits Overview         | Shared benefits across all tiers                   | Static         |
-| Past Sponsor Testimonials | Quotes from previous sponsors                      | CMS            |
-| Contact CTA               | Email link + sponsor deck download button          | Static         |
+| Section | Description | Content Source |
+|---|---|---|
+| Why Sponsor | Metrics, audience reach, value narrative | Static |
+| Audience Breakdown | Visual progress bars by segment | Static |
+| Sponsorship Tiers | Community, Silver, Gold, Platinum — benefits table | Static |
+| Benefits Overview | Shared benefits across all tiers | Static |
+| Past Sponsor Testimonials | Quotes from previous sponsors | CMS |
+| Contact CTA | Email link + sponsor deck download button | Static |
 
 **Sponsorship Tier Summary:**
 
-| Tier      | `TODO: price` | Key Benefits                                    |
-| --------- | ------------- | ----------------------------------------------- |
-| Community | —             | Logo on website, social mention                 |
-| Silver    | —             | + Booth space, programme listing                |
-| Gold      | —             | + Speaking slot, email feature                  |
-| Platinum  | —             | + All Gold + premier branding, exclusive access |
+| Tier | `TODO: price` | Key Benefits |
+|---|---|---|
+| Community | — | Logo on website, social mention |
+| Silver | — | + Booth space, programme listing |
+| Gold | — | + Speaking slot, email feature |
+| Platinum | — | + All Gold + premier branding, exclusive access |
 
 > `TODO: Finalise tier pricing and benefits table with the organising team.`
 
@@ -275,20 +273,19 @@ Builds credibility by showcasing past editions.
 
 **Sections:**
 
-| Section                | Description                            | Content Source |
-| ---------------------- | -------------------------------------- | -------------- |
-| Year Selector          | Tab toggle: 2024, 2025                 | —              |
-| Edition Overview       | Theme, date, venue, attendance metrics | CMS            |
-| Event Recap            | Embedded video + written recap         | CMS            |
-| Highlights             | Key moments from the edition           | CMS            |
-| Speaker Archive        | Full speaker list for that year        | CMS            |
-| Photo Gallery          | Grid with lightbox viewer              | CMS            |
-| Community Testimonials | Attendee quotes                        | CMS            |
-| Sponsor Highlights     | Sponsors for that edition              | CMS            |
-| Growth Visualisation   | Year-on-year metrics chart             | Static / CMS   |
+| Section | Description | Content Source |
+|---|---|---|
+| Year Selector | Tab toggle: 2024, 2025 | — |
+| Edition Overview | Theme, date, venue, attendance metrics | CMS |
+| Event Recap | Embedded video + written recap | CMS |
+| Highlights | Key moments from the edition | CMS |
+| Speaker Archive | Full speaker list for that year | CMS |
+| Photo Gallery | Grid with lightbox viewer | CMS |
+| Community Testimonials | Attendee quotes | CMS |
+| Sponsor Highlights | Sponsors for that edition | CMS |
+| Growth Visualisation | Year-on-year metrics chart | Static / CMS |
 
 **Notes for contributors:**
-
 - Each year's data should be isolated (e.g. `data/past-summits/2024.ts`) for easy extension
 - The photo gallery lightbox should be keyboard accessible
 - Video embeds should be lazy-loaded
@@ -318,25 +315,21 @@ Long-form text page. Static content. Must be kept up to date with any new data c
 ## 8. User Flows
 
 ### Attendee Flow
-
 ```
 Homepage → Browse Speakers & Schedule → Review Ticket Tiers → Click "Get Tickets" → External ticketing page
 ```
 
 ### Sponsor Flow
-
 ```
 Homepage or /sponsorship → Review audience metrics & tiers → Download sponsor deck OR click email CTA → Organiser follow-up
 ```
 
 ### Community Explorer Flow
-
 ```
 /past-summits → Toggle year → Watch recap / view photos → Read testimonials → Navigate to upcoming event
 ```
 
 ### Contributor Flow
-
 ```
 README.md → PRD.md → Clone repo → npm install → npm run dev → Pick an open GitHub Issue → Open PR
 ```
@@ -378,11 +371,11 @@ colors: {
 
 > `TODO: Confirm font choices and add to config.`
 
-| Role               | Font   | Notes                                 |
-| ------------------ | ------ | ------------------------------------- |
+| Role | Font | Notes |
+|---|---|---|
 | Display / Headings | `TODO` | Used for hero text and section titles |
-| Body               | `TODO` | Used for paragraphs and UI text       |
-| Mono               | `TODO` | Used for code snippets if any         |
+| Body | `TODO` | Used for paragraphs and UI text |
+| Mono | `TODO` | Used for code snippets if any |
 
 ### Accessibility Standards
 
@@ -451,12 +444,12 @@ npm run dev
 
 ### Branch Strategy
 
-| Branch              | Purpose                                               |
-| ------------------- | ----------------------------------------------------- |
-| `main`              | Production-ready code — protected, requires PR review |
-| `dev`               | Integration branch for active development             |
-| `feat/your-feature` | Feature branches — branch off `dev`                   |
-| `fix/your-fix`      | Bug fix branches — branch off `dev`                   |
+| Branch | Purpose |
+|---|---|
+| `main` | Production-ready code — protected, requires PR review |
+| `dev` | Integration branch for active development |
+| `feat/your-feature` | Feature branches — branch off `dev` |
+| `fix/your-fix` | Bug fix branches — branch off `dev` |
 
 ### Pull Request Process
 
@@ -500,20 +493,20 @@ This generates the component into `/src/components/ui/`. Do not manually edit fi
 
 These are items that need decisions or information from the core team before they can be implemented or documented.
 
-| #   | Question                                                               | Owner           | Status  |
-| --- | ---------------------------------------------------------------------- | --------------- | ------- |
-| 1   | What is the 2026 conference date and venue?                            | Organising team | ⬜ Open |
-| 2   | What is the GitHub organisation and repo URL?                          | Core team       | ⬜ Open |
-| 3   | What are the confirmed brand colours and fonts?                        | Design lead     | ⬜ Open |
-| 4   | What are the ticket tiers, pricing, and ticketing platform?            | Organising team | ⬜ Open |
-| 5   | Which CMS has been chosen (Sanity, Contentful, MDX, etc.)?             | Core team       | ⬜ Open |
-| 6   | What integrations are needed at launch (analytics, newsletter, etc.)?  | Core team       | ⬜ Open |
-| 7   | What is the package manager for this project (npm / pnpm / yarn)?      | Core team       | ⬜ Open |
-| 8   | Is dark mode in scope for this version?                                | Design lead     | ⬜ Open |
-| 9   | What is the CI/CD pipeline for deploying to cPanel?                    | DevOps lead     | ⬜ Open |
-| 10  | Who has cPanel access and what is the deployment process for non-devs? | Infra lead      | ⬜ Open |
-| 11  | Is there a staging environment or is it deploy-straight-to-prod?       | Infra lead      | ⬜ Open |
-| 12  | What is the security/incident reporting contact email?                 | Organising team | ⬜ Open |
+| # | Question | Owner | Status |
+|---|---|---|---|
+| 1 | What is the 2026 conference date and venue? | Organising team | ⬜ Open |
+| 2 | What is the GitHub organisation and repo URL? | Core team | ⬜ Open |
+| 3 | What are the confirmed brand colours and fonts? | Design lead | ⬜ Open |
+| 4 | What are the ticket tiers, pricing, and ticketing platform? | Organising team | ⬜ Open |
+| 5 | Which CMS has been chosen (Sanity, Contentful, MDX, etc.)? | Core team | ⬜ Open |
+| 6 | What integrations are needed at launch (analytics, newsletter, etc.)? | Core team | ⬜ Open |
+| 7 | What is the package manager for this project (npm / pnpm / yarn)? | Core team | ⬜ Open |
+| 8 | Is dark mode in scope for this version? | Design lead | ⬜ Open |
+| 9 | What is the CI/CD pipeline for deploying to cPanel? | DevOps lead | ⬜ Open |
+| 10 | Who has cPanel access and what is the deployment process for non-devs? | Infra lead | ⬜ Open |
+| 11 | Is there a staging environment or is it deploy-straight-to-prod? | Infra lead | ⬜ Open |
+| 12 | What is the security/incident reporting contact email? | Organising team | ⬜ Open |
 
 ---
 
@@ -522,7 +515,6 @@ These are items that need decisions or information from the core team before the
 Features and improvements planned beyond the current MVP:
 
 ### Short-term (Next iteration)
-
 - [ ] CI/CD pipeline — automated build and FTP deploy to cPanel on merge to `main`
 - [ ] Newsletter sign-up form (Mailchimp / ConvertKit integration)
 - [ ] Search/filter on `/faqs` page
@@ -530,7 +522,6 @@ Features and improvements planned beyond the current MVP:
 - [ ] Optimised image loading (lazy load, WebP conversion)
 
 ### Medium-term
-
 - [ ] Online ticket purchasing (Stripe, Luma, or Eventbrite integration)
 - [ ] Speaker CFP (Call for Papers) submission form
 - [ ] Blog / news section for event updates and community content
@@ -538,7 +529,6 @@ Features and improvements planned beyond the current MVP:
 - [ ] CMS migration for all dynamic content (if not already done)
 
 ### Long-term / Vision
-
 - [ ] User authentication and personalised schedule builder
 - [ ] Live event streaming integration
 - [ ] Attendee networking platform (pre-event matchmaking)
@@ -551,25 +541,25 @@ Features and improvements planned beyond the current MVP:
 
 ### Glossary
 
-| Term            | Definition                                                                                                    |
-| --------------- | ------------------------------------------------------------------------------------------------------------- |
-| **SPA**         | Single Page Application — the entire site is one HTML file; routing is handled in the browser by React Router |
-| **CMS**         | Content Management System — a tool that lets non-developers update website content                            |
-| **shadcn/ui**   | A component library that generates accessible, unstyled React components into your codebase                   |
-| **Vite**        | The build tool that compiles and bundles the React + TypeScript code for the browser                          |
-| **cPanel**      | A web hosting control panel used to manage shared hosting — where the built site files are uploaded           |
-| **`.htaccess`** | An Apache server configuration file needed to make SPA routing work on cPanel hosting                         |
+| Term | Definition |
+|---|---|
+| **SPA** | Single Page Application — the entire site is one HTML file; routing is handled in the browser by React Router |
+| **CMS** | Content Management System — a tool that lets non-developers update website content |
+| **shadcn/ui** | A component library that generates accessible, unstyled React components into your codebase |
+| **Vite** | The build tool that compiles and bundles the React + TypeScript code for the browser |
+| **cPanel** | A web hosting control panel used to manage shared hosting — where the built site files are uploaded |
+| **`.htaccess`** | An Apache server configuration file needed to make SPA routing work on cPanel hosting |
 
 ### Key Contacts
 
-| Role                | Name   | Contact |
-| ------------------- | ------ | ------- |
-| Project Lead        | `TODO` | `TODO`  |
-| Design Lead         | `TODO` | `TODO`  |
-| DevOps / Infra Lead | `TODO` | `TODO`  |
-| CMS / Content Lead  | `TODO` | `TODO`  |
-| Sponsorship Lead    | `TODO` | `TODO`  |
+| Role | Name | Contact |
+|---|---|---|
+| Project Lead | `TODO` | `TODO` |
+| Design Lead | `TODO` | `TODO` |
+| DevOps / Infra Lead | `TODO` | `TODO` |
+| CMS / Content Lead | `TODO` | `TODO` |
+| Sponsorship Lead | `TODO` | `TODO` |
 
 ---
 
-_This PRD is a living document. If you make a significant architectural or product decision, update this file as part of your PR._
+*This PRD is a living document. If you make a significant architectural or product decision, update this file as part of your PR.*

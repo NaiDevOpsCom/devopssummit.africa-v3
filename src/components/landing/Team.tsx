@@ -12,8 +12,10 @@ const Team: React.FC = () => {
   const filtered = activeRole === "All" ? team : team.filter((t) => t.role === activeRole);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
   React.useEffect(() => {

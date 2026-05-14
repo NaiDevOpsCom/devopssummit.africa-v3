@@ -1,4 +1,4 @@
-import { type Ticket } from "@/types";
+import { Ticket } from "@/types";
 
 export const CTA_URL = "https://vabu.app/l/9h79bUcZR2";
 

@@ -194,23 +194,17 @@ const Speakers: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="flex flex-col sm:flex-row gap-4 justify-center mt-4 w-full"
                 >
                   <Button
                     asChild
                     size="lg"
-                    className="group px-10 py-4 rounded-full bg-white text-primary border-2 border-white font-bold text-base hover:bg-white/90 transition-all"
+                    className="group px-10 py-4 rounded-full border-2 border-white text-white font-bold text-base hover:bg-white hover:text-primary transition-all"
                   >
-                    <Link
-                      to="/schedule#speakers"
-                      className="flex items-center justify-center gap-2"
-                    >
+                    <Link to="/schedule#speakers">
                       View More Speakers
                       <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   </Button>
-
-                  <ApplySpeakerButton variant="secondary" />
                 </motion.div>
               </div>
             </>

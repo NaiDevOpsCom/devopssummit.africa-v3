@@ -5,44 +5,24 @@ import React from "react";
 import { MemoryRouter } from "react-router-dom";
 
 // Mock framer-motion to avoid animation issues in tests
-vi.mock("framer-motion", () => {
-  const filterProps = (props: any) => {
-    const {
-      initial: _initial,
-      animate: _animate,
-      exit: _exit,
-      transition: _transition,
-      whileInView: _whileInView,
-      whileHover: _whileHover,
-      whileTap: _whileTap,
-      viewport: _viewport,
-      variants: _variants,
-      layoutId: _layoutId,
-      layout: _layout,
-      ...validProps
-    } = props;
-    return validProps;
-  };
-
-  return {
-    motion: {
-      span: ({ children, ...props }: React.HTMLAttributes<HTMLSpanElement>) => (
-        <span {...filterProps(props)}>{children}</span>
-      ),
-      h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-        <h1 {...filterProps(props)}>{children}</h1>
-      ),
-      p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-        <p {...filterProps(props)}>{children}</p>
-      ),
-      div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-        <div {...filterProps(props)}>{children}</div>
-      ),
-    },
-    useReducedMotion: () => false,
-    AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  };
-});
+vi.mock("framer-motion", () => ({
+  motion: {
+    span: ({ children, ...props }: React.HTMLAttributes<HTMLSpanElement>) => (
+      <span {...props}>{children}</span>
+    ),
+    h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+      <h1 {...props}>{children}</h1>
+    ),
+    p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+      <p {...props}>{children}</p>
+    ),
+    div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+      <div {...props}>{children}</div>
+    ),
+  },
+  useReducedMotion: () => false,
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
 
 // Mock canvas
 HTMLCanvasElement.prototype.getContext = vi.fn(

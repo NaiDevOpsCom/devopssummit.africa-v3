@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import type { ImageKitConfig } from "@/types/imagekit.types";
-import { type DELIVERY_DEFAULTS } from "@/lib/imagekit.config";
+import { DELIVERY_DEFAULTS } from "@/lib/imagekit.config";
 
 export interface ImageKitContextValue {
   config: ImageKitConfig;

@@ -5,10 +5,7 @@
  *
  * Used in:
  * - src/pages/PastSummits.tsx: To display detailed year-by-year highlights and growth charts.
- * - src/components/landing/About.tsx: To display overarching summit stats.
  */
-
-import { type Stat } from "@/types";
 
 /**
  * Upcoming Summit Details
@@ -66,21 +63,6 @@ export interface GrowthMetric {
   label: string;
   values: { year: string; value: number }[];
 }
-
-/**
- * Overarching statistics for the summit over the years.
- * Displayed in the About section on the landing page.
- *
- * NOTE: These are marketing-rounded projection figures intended for at-a-glance
- * impact and are NOT summed totals derived from growthMetrics. For precise
- * year-by-year breakdowns, refer to growthMetrics below.
- */
-export const stats: Stat[] = [
-  { value: "700+", label: "Attendees since 2024" },
-  { value: "23+", label: "Speakers" },
-  { value: "10+", label: "African countries represented" },
-  { value: "10+", label: "Partners & Sponsors" },
-];
 
 /**
  * Metrics tracking the summit's evolution across years.

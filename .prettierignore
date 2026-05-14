@@ -1,19 +1,9 @@
-# Dependencies
 node_modules
-
-# Build outputs
 dist
 build
-storybook-static
-coverage
-
-# Lock files — never reformat these
 bun.lock
 bun.lockb
 package-lock.json
-yarn.lock
-
-# Minified files
 *.min.js
 *.min.css
 

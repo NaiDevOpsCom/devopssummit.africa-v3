@@ -9,7 +9,7 @@ updates:
       time: "08:00"
       timezone: "Africa/Nairobi" # changed from UTC
     open-pull-requests-limit: 10
-    target-branch: "staging"
+    target-branch: "main"
 
     # Only update direct dependencies — reduces random transitive breakage
     allow:
@@ -112,7 +112,6 @@ updates:
       time: "08:00"
       timezone: "Africa/Nairobi" # changed from UTC
     open-pull-requests-limit: 5
-    target-branch: "staging"
 
     ignore:
       - dependency-name: "*"
