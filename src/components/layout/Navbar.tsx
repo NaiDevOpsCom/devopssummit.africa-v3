@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
+import React, { useState, useEffect, useCallback, useRef, memo } from "react";
 import { Menu, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -18,36 +18,56 @@ const Navbar = memo(() => {
   );
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const scrollFrameRef = useRef<number>();
   const navigate = useNavigate();
   const location = useLocation();
 
   const isHome = location.pathname === "/";
 
-  const handleScroll = useCallback(() => {
-    setScrolled(globalThis.window.scrollY > 20);
-
-    if (!isHome) return;
-
-    const offset = globalThis.window.innerHeight * 0.35;
-    for (let i = sectionIds.length - 1; i >= 0; i--) {
-      const el = document.getElementById(sectionIds[i]);
-      if (el && el.getBoundingClientRect().top <= offset) {
-        setActiveSection(sectionIds[i]);
-        return;
-      }
-    }
-    setActiveSection("home");
-  }, [isHome]);
+  const updateScrolled = useCallback(() => {
+    setScrolled((current) => {
+      const next = globalThis.window.scrollY > 20;
+      return current === next ? current : next;
+    });
+  }, []);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (scrollFrameRef.current) return;
+      scrollFrameRef.current = requestAnimationFrame(() => {
+        scrollFrameRef.current = undefined;
+        updateScrolled();
+      });
+    };
+
     globalThis.window.addEventListener("scroll", handleScroll, { passive: true });
-    // Use requestAnimationFrame to avoid synchronous setState in effect warning
-    const rafId = requestAnimationFrame(() => handleScroll());
+    handleScroll();
     return () => {
       globalThis.window.removeEventListener("scroll", handleScroll);
-      cancelAnimationFrame(rafId);
+      if (scrollFrameRef.current) cancelAnimationFrame(scrollFrameRef.current);
     };
-  }, [handleScroll]);
+  }, [updateScrolled]);
+
+  useEffect(() => {
+    if (!isHome) return;
+
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible?.target.id) setActiveSection(visible.target.id);
+      },
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [isHome]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, link: (typeof navLinks)[0]) => {
     e.preventDefault();
