@@ -60,6 +60,9 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
+    // Wait for the mount-time RAF to settle
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
     Object.defineProperty(globalThis, "scrollY", {
       value: 100,
       configurable: true,
