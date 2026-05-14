@@ -10,30 +10,37 @@ import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 import noUnsanitized from "eslint-plugin-no-unsanitized";
 
-export default tseslint.config({ ignores: ["dist", "storybook-static"] }, {
-  extends: [
-    js.configs.recommended,
-    ...tseslint.configs.recommended,
-    prettierConfig,
-    noUnsanitized.configs.recommended,
-  ],
-  files: ["**/*.{ts,tsx}"],
-  languageOptions: {
-    ecmaVersion: 2020,
-    globals: globals.browser,
+export default tseslint.config(
+  { ignores: ["dist", "storybook-static"] },
+  {
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      prettierConfig,
+      noUnsanitized.configs.recommended,
+    ],
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+      prettier: prettier,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
+      "prettier/prettier": "warn",
+    },
   },
-  plugins: {
-    "react-hooks": reactHooks,
-    "react-refresh": reactRefresh,
-    prettier: prettier,
-  },
-  rules: {
-    ...reactHooks.configs.recommended.rules,
-    "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-    "@typescript-eslint/no-unused-vars": ["warn", { 
-      "argsIgnorePattern": "^_", 
-      "varsIgnorePattern": "^_" 
-    }],
-    "prettier/prettier": "warn",
-  },
-}, storybook.configs["flat/recommended"]);
+  storybook.configs["flat/recommended"],
+);

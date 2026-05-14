@@ -30,15 +30,15 @@ This guide covers everything you need to go from "I want to help" to "my PR is m
 
 You don't need to write code to contribute. Here are all the ways you can help:
 
-| Type | How |
-|---|---|
-| 🐛 **Report a bug** | [Open a bug report issue](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=bug_report.md) |
-| 💡 **Suggest a feature** | [Open a feature request issue](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=feature_request.md) |
-| 💬 **Ask a question or discuss an idea** | [Start a GitHub Discussion](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions) |
-| 🛠️ **Fix a bug or build a feature** | Clone the repo, make your changes, open a PR (see below) |
-| 📝 **Improve documentation** | Edit any `.md` file and open a PR |
-| 🎨 **Improve UI / design** | Open an issue first to discuss, then submit a PR with screenshots |
-| 📣 **Update event content** | Speaker bios, schedule, photos — see [Content Contributions](#content-contributions) |
+| Type                                     | How                                                                                                                           |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 🐛 **Report a bug**                      | [Open a bug report issue](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=bug_report.md)           |
+| 💡 **Suggest a feature**                 | [Open a feature request issue](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues/new?template=feature_request.md) |
+| 💬 **Ask a question or discuss an idea** | [Start a GitHub Discussion](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions)                               |
+| 🛠️ **Fix a bug or build a feature**      | Clone the repo, make your changes, open a PR (see below)                                                                      |
+| 📝 **Improve documentation**             | Edit any `.md` file and open a PR                                                                                             |
+| 🎨 **Improve UI / design**               | Open an issue first to discuss, then submit a PR with screenshots                                                             |
+| 📣 **Update event content**              | Speaker bios, schedule, photos — see [Content Contributions](#content-contributions)                                          |
 
 **Not sure where to start?** Browse [open issues](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/issues) or [start a discussion](https://github.com/NaiDevOpsCom/devopssummit.africa-v3/discussions) — the team is happy to help you find something that matches your skills and interest.
 
@@ -61,7 +61,7 @@ Make sure you have the following installed before starting:
 - A code editor — [VS Code](https://code.visualstudio.com/) is recommended. Install the following extensions for the best experience:
   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) *(if used)*
+  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) _(if used)_
 
 ---
 
@@ -99,6 +99,7 @@ cp .env.example .env.local
 ```
 
 **Rules:**
+
 - **Never commit `.env.local`** — it is gitignored
 - Always keep `.env.example` up to date when you add a new variable
 - Variables must be prefixed with `VITE_` to be accessible in the app
@@ -108,16 +109,16 @@ cp .env.example .env.local
 
 ## Available Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start local dev server with hot module replacement at `http://localhost:5173` |
-| `npm run build` | Production build — output goes to `dist/` |
-| `npm run build:dev` | Development build (with source maps) |
-| `npm run preview` | Preview the production build locally before deploying |
-| `npm run lint` | Run ESLint across the codebase |
-| `npm run typecheck` | TypeScript type checking without emitting files |
-| `npm run test` | Run tests once *(if tests exist for the area you're working on)* |
-| `npm run test:watch` | Run tests in watch mode |
+| Command              | Description                                                                   |
+| -------------------- | ----------------------------------------------------------------------------- |
+| `npm run dev`        | Start local dev server with hot module replacement at `http://localhost:5173` |
+| `npm run build`      | Production build — output goes to `dist/`                                     |
+| `npm run build:dev`  | Development build (with source maps)                                          |
+| `npm run preview`    | Preview the production build locally before deploying                         |
+| `npm run lint`       | Run ESLint across the codebase                                                |
+| `npm run typecheck`  | TypeScript type checking without emitting files                               |
+| `npm run test`       | Run tests once _(if tests exist for the area you're working on)_              |
+| `npm run test:watch` | Run tests in watch mode                                                       |
 
 > 💡 Always run `npm run build` and `npm run lint` before opening a PR to catch errors early.
 
@@ -147,16 +148,17 @@ cp .env.example .env.local
 
 Branch directly off `main`:
 
-| Branch pattern | Use for |
-|---|---|
-| `feat/<short-description>` | New features or enhancements |
-| `fix/<short-description>` | Bug fixes |
-| `docs/<short-description>` | Documentation-only changes |
-| `style/<short-description>` | UI/visual changes with no logic impact |
+| Branch pattern                 | Use for                                     |
+| ------------------------------ | ------------------------------------------- |
+| `feat/<short-description>`     | New features or enhancements                |
+| `fix/<short-description>`      | Bug fixes                                   |
+| `docs/<short-description>`     | Documentation-only changes                  |
+| `style/<short-description>`    | UI/visual changes with no logic impact      |
 | `refactor/<short-description>` | Code restructuring with no behaviour change |
-| `content/<short-description>` | Content updates (speakers, schedule, copy) |
+| `content/<short-description>`  | Content updates (speakers, schedule, copy)  |
 
 **Examples:**
+
 ```
 feat/speaker-search-filter
 fix/mobile-navbar-overlap
@@ -173,23 +175,25 @@ Keep branch names lowercase, hyphen-separated, and descriptive but brief.
 This project follows [Conventional Commits](https://www.conventionalcommits.org/). This keeps the git history readable and makes changelogs easier to generate.
 
 **Format:**
+
 ```
 <type>: <short present-tense description>
 ```
 
 **Types:**
 
-| Type | When to use |
-|---|---|
-| `feat` | Adding a new feature or page section |
-| `fix` | Fixing a bug |
-| `docs` | Documentation changes only |
-| `style` | Visual/UI changes that don't affect logic |
-| `refactor` | Code restructuring — no behaviour change |
-| `content` | Updating event content (speakers, schedule, etc.) |
-| `chore` | Dependency updates, config changes, build tweaks |
+| Type       | When to use                                       |
+| ---------- | ------------------------------------------------- |
+| `feat`     | Adding a new feature or page section              |
+| `fix`      | Fixing a bug                                      |
+| `docs`     | Documentation changes only                        |
+| `style`    | Visual/UI changes that don't affect logic         |
+| `refactor` | Code restructuring — no behaviour change          |
+| `content`  | Updating event content (speakers, schedule, etc.) |
+| `chore`    | Dependency updates, config changes, build tweaks  |
 
 **Examples:**
+
 ```
 feat: add speaker video links to past summits page
 fix: correct navbar active state on /past-summits route
@@ -232,6 +236,7 @@ Keep the description short (under 72 characters) and in the present tense.
 
 - Avoid `any` — define proper types and interfaces in `src/types/`
 - Use **plain function declarations** for components, not `React.FC`:
+
   ```tsx
   // ✅ Preferred
   export default function SpeakerCard({ name, bio }: SpeakerCardProps) { ... }
@@ -239,6 +244,7 @@ Keep the description short (under 72 characters) and in the present tense.
   // ❌ Avoid
   const SpeakerCard: React.FC<SpeakerCardProps> = ({ name, bio }) => { ... }
   ```
+
 - Export prop types as named interfaces alongside the component file
 
 ### Components
@@ -253,6 +259,7 @@ Keep the description short (under 72 characters) and in the present tense.
 
 - **Tailwind only** — no inline styles, no external `.css` files (except `src/styles/globals.css`)
 - Use semantic Tailwind tokens, not raw values:
+
   ```tsx
   // ✅ Correct — uses design tokens
   <p className="text-foreground bg-primary">...</p>
@@ -260,6 +267,7 @@ Keep the description short (under 72 characters) and in the present tense.
   // ❌ Wrong — hardcoded color
   <p className="text-gray-900 bg-orange-500">...</p>
   ```
+
 - Do not use arbitrary Tailwind values (e.g. `w-[347px]`) — add custom tokens to `tailwind.config.ts` instead
 - Responsive design is required — always test at mobile (`375px`), tablet (`768px`), and desktop (`1280px`) widths
 
@@ -278,24 +286,25 @@ Keep the description short (under 72 characters) and in the present tense.
 ### Imports
 
 - Use the `@/` path alias for all imports — no relative `../../../` chains:
+
   ```ts
   // ✅ Correct
-  import { SpeakerCard } from "@/components/shared/SpeakerCard"
+  import { SpeakerCard } from "@/components/shared/SpeakerCard";
 
   // ❌ Avoid
-  import { SpeakerCard } from "../../../components/shared/SpeakerCard"
+  import { SpeakerCard } from "../../../components/shared/SpeakerCard";
   ```
 
 ### File Naming
 
-| Type | Convention | Example |
-|---|---|---|
-| Components | PascalCase | `SpeakerCard.tsx` |
-| Pages | PascalCase | `Schedule.tsx` |
-| Hooks | camelCase with `use` prefix | `useScrollPosition.ts` |
-| Utilities | camelCase | `formatDate.ts` |
-| Data files | camelCase | `speakers.ts` |
-| Type files | camelCase | `speaker.types.ts` |
+| Type       | Convention                  | Example                |
+| ---------- | --------------------------- | ---------------------- |
+| Components | PascalCase                  | `SpeakerCard.tsx`      |
+| Pages      | PascalCase                  | `Schedule.tsx`         |
+| Hooks      | camelCase with `use` prefix | `useScrollPosition.ts` |
+| Utilities  | camelCase                   | `formatDate.ts`        |
+| Data files | camelCase                   | `speakers.ts`          |
+| Type files | camelCase                   | `speaker.types.ts`     |
 
 ---
 
@@ -337,15 +346,18 @@ Not all contributions require code changes. If you're an organizer, volunteer, o
 
 ### How to contribute content
 
-**For CMS-managed content** *(speakers, schedule, sponsors, past summits):*
+**For CMS-managed content** _(speakers, schedule, sponsors, past summits):_
+
 > `TODO: Document CMS access and update process once CMS is confirmed.`
 
-**For static content** *(FAQs, Code of Conduct, ticket tiers, etc.):*
+**For static content** _(FAQs, Code of Conduct, ticket tiers, etc.):_
+
 1. Edit the relevant file in `src/data/`
 2. Follow the existing TypeScript structure and types
 3. Open a PR with the label `content`
 
 **For images:**
+
 - Use WebP format where possible
 - Keep file sizes under 200KB — compress using [Squoosh](https://squoosh.app/) or [TinyPNG](https://tinypng.com/)
 - Use descriptive, kebab-case filenames: `amina-njoroge-speaker-2026.webp`
@@ -396,4 +408,4 @@ We're a friendly community — no question is too small. We'd rather you ask tha
 
 ---
 
-*Thank you for contributing to the Africa DevOps Summit. Let's build something the continent is proud of. 🌍*
+_Thank you for contributing to the Africa DevOps Summit. Let's build something the continent is proud of. 🌍_

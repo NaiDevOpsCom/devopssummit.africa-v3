@@ -85,7 +85,7 @@ Edit file in src/data/  →  Open a Pull Request  →  Review  →  Merge to mai
 4. A maintainer will review and merge
 5. The site is redeployed and the change goes live
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full PR process. For content PRs specifically, always include a brief description of what changed — e.g. *"Added 3 new 2026 speakers and updated Sarah Johnson's image URL."*
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full PR process. For content PRs specifically, always include a brief description of what changed — e.g. _"Added 3 new 2026 speakers and updated Sarah Johnson's image URL."_
 
 ---
 
@@ -97,30 +97,30 @@ Consistency in copy makes the site feel polished and professional. Follow these 
 
 - **Community-first, professional** — warm and inclusive, not corporate or stiff
 - Write as if you're talking to a fellow practitioner, not a press release audience
-- Avoid marketing superlatives: *"world-class"*, *"cutting-edge"*, *"revolutionary"* — be specific instead
+- Avoid marketing superlatives: _"world-class"_, _"cutting-edge"_, _"revolutionary"_ — be specific instead
 
 ### Formatting rules
 
-| Rule | ✅ Correct | ❌ Wrong |
-|---|---|---|
-| Names | Use full name as the speaker provided it | Do not shorten or anglicise names |
-| Designations | Title case | `devops engineer` → `DevOps Engineer` |
-| Company names | Match the company's official capitalisation | `safaricom` → `Safaricom PLC` |
-| Talk titles | Title case | `how to deploy on kubernetes` → `How to Deploy on Kubernetes` |
-| Abbreviations | Spell out on first use | `SRE (Site Reliability Engineering)` |
-| Ampersands | Use *and* in prose; `&` is fine in titles | FAQ answers: use *and* |
-| Punctuation | No trailing exclamation marks in titles | `Deploying at Scale!` → `Deploying at Scale` |
-| Oxford comma | Always use it | `DevOps, Cloud, and SRE` not `DevOps, Cloud and SRE` |
+| Rule          | ✅ Correct                                  | ❌ Wrong                                                      |
+| ------------- | ------------------------------------------- | ------------------------------------------------------------- |
+| Names         | Use full name as the speaker provided it    | Do not shorten or anglicise names                             |
+| Designations  | Title case                                  | `devops engineer` → `DevOps Engineer`                         |
+| Company names | Match the company's official capitalisation | `safaricom` → `Safaricom PLC`                                 |
+| Talk titles   | Title case                                  | `how to deploy on kubernetes` → `How to Deploy on Kubernetes` |
+| Abbreviations | Spell out on first use                      | `SRE (Site Reliability Engineering)`                          |
+| Ampersands    | Use _and_ in prose; `&` is fine in titles   | FAQ answers: use _and_                                        |
+| Punctuation   | No trailing exclamation marks in titles     | `Deploying at Scale!` → `Deploying at Scale`                  |
+| Oxford comma  | Always use it                               | `DevOps, Cloud, and SRE` not `DevOps, Cloud and SRE`          |
 
 ### Length guidelines
 
-| Content | Recommended length |
-|---|---|
-| Speaker bio (if added in future) | 50–100 words |
-| Talk title | 5–15 words |
-| FAQ question | One clear sentence, ends with `?` |
-| FAQ answer | 2–5 sentences — enough to be genuinely helpful, short enough to scan |
-| Company name | As officially written — no truncation |
+| Content                          | Recommended length                                                   |
+| -------------------------------- | -------------------------------------------------------------------- |
+| Speaker bio (if added in future) | 50–100 words                                                         |
+| Talk title                       | 5–15 words                                                           |
+| FAQ question                     | One clear sentence, ends with `?`                                    |
+| FAQ answer                       | 2–5 sentences — enough to be genuinely helpful, short enough to scan |
+| Company name                     | As officially written — no truncation                                |
 
 ---
 
@@ -132,9 +132,15 @@ The speakers file exports a single `speakers` object organised by year:
 
 ```ts
 export const speakers: Record<number, Speaker[]> = {
-  2026: [ /* current year speakers */ ],
-  2025: [ /* past summit speakers */ ],
-  2024: [ /* past summit speakers */ ],
+  2026: [
+    /* current year speakers */
+  ],
+  2025: [
+    /* past summit speakers */
+  ],
+  2024: [
+    /* past summit speakers */
+  ],
 };
 ```
 
@@ -147,18 +153,18 @@ export const speakers: Record<number, Speaker[]> = {
 
 ### 2026 Speaker fields reference
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `id` | `string` | ✅ | Unique identifier. Format: `"2026-k1"` (keynote), `"2026-p1"` (panelist), `"2026-s1"` (speaker) |
-| `name` | `string` | ✅ | Full name as the speaker uses it professionally |
-| `designation` | `string` | ✅ | Job title — title case (e.g. `"SRE Lead"`) |
-| `company` | `string \| null` | ✅ | Company name — use `null` if independent/unknown |
-| `imageUrl` | `string \| null` | ✅ | Full image URL — see [Speaker image URLs](#speaker-image-urls) |
-| `eventRole` | `string` | ✅ | One of: `"Keynote Speaker"`, `"Panelist"`, `"Speaker"` |
-| `isKeynote` | `boolean` | ⚠️ | Only include if `true`. Omit entirely for non-keynote speakers |
-| `twitter` | `string \| null` | ⬜ | Twitter/X handle — format: `"@handle"`. Use `null` if none |
-| `linkedin` | `string \| null` | ⬜ | LinkedIn handle — format: `"in/handle"`. Use `null` if none |
-| `github` | `string \| null` | ⬜ | GitHub handle — format: `"@handle"`. Use `null` if none |
+| Field         | Type             | Required | Description                                                                                     |
+| ------------- | ---------------- | -------- | ----------------------------------------------------------------------------------------------- |
+| `id`          | `string`         | ✅       | Unique identifier. Format: `"2026-k1"` (keynote), `"2026-p1"` (panelist), `"2026-s1"` (speaker) |
+| `name`        | `string`         | ✅       | Full name as the speaker uses it professionally                                                 |
+| `designation` | `string`         | ✅       | Job title — title case (e.g. `"SRE Lead"`)                                                      |
+| `company`     | `string \| null` | ✅       | Company name — use `null` if independent/unknown                                                |
+| `imageUrl`    | `string \| null` | ✅       | Full image URL — see [Speaker image URLs](#speaker-image-urls)                                  |
+| `eventRole`   | `string`         | ✅       | One of: `"Keynote Speaker"`, `"Panelist"`, `"Speaker"`                                          |
+| `isKeynote`   | `boolean`        | ⚠️       | Only include if `true`. Omit entirely for non-keynote speakers                                  |
+| `twitter`     | `string \| null` | ⬜       | Twitter/X handle — format: `"@handle"`. Use `null` if none                                      |
+| `linkedin`    | `string \| null` | ⬜       | LinkedIn handle — format: `"in/handle"`. Use `null` if none                                     |
+| `github`      | `string \| null` | ⬜       | GitHub handle — format: `"@handle"`. Use `null` if none                                         |
 
 ---
 
@@ -166,17 +172,17 @@ export const speakers: Record<number, Speaker[]> = {
 
 Past summit speakers (2025, 2024) use a different shape — they record what was presented, not what is upcoming:
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `id` | `string` | ✅ | Format: `"2025-1"`, `"2025-2"` — increment from last entry |
-| `name` | `string` | ✅ | Full name |
-| `designation` | `string` | ✅ | Job title at time of the summit |
-| `company` | `string \| null` | ✅ | Company at time of the summit. Use `null` if unknown |
-| `imageUrl` | `string \| null` | ✅ | Full Cloudinary URL, or `null` if no photo available |
-| `topic` | `string` | ✅ | Exact talk title as delivered |
-| `videoUrl` | `string \| null` | ✅ | YouTube or recording URL. Use `null` if not available |
-| `slidesUrl` | `string \| null` | ⬜ | Link to slides (Google Slides, Speaker Deck, etc.). Use `null` if not available |
-| `isKeynote` | `boolean` | ⬜ | Only include if `true`. Omit for regular speakers |
+| Field         | Type             | Required | Description                                                                     |
+| ------------- | ---------------- | -------- | ------------------------------------------------------------------------------- |
+| `id`          | `string`         | ✅       | Format: `"2025-1"`, `"2025-2"` — increment from last entry                      |
+| `name`        | `string`         | ✅       | Full name                                                                       |
+| `designation` | `string`         | ✅       | Job title at time of the summit                                                 |
+| `company`     | `string \| null` | ✅       | Company at time of the summit. Use `null` if unknown                            |
+| `imageUrl`    | `string \| null` | ✅       | Full Cloudinary URL, or `null` if no photo available                            |
+| `topic`       | `string`         | ✅       | Exact talk title as delivered                                                   |
+| `videoUrl`    | `string \| null` | ✅       | YouTube or recording URL. Use `null` if not available                           |
+| `slidesUrl`   | `string \| null` | ⬜       | Link to slides (Google Slides, Speaker Deck, etc.). Use `null` if not available |
+| `isKeynote`   | `boolean`        | ⬜       | Only include if `true`. Omit for regular speakers                               |
 
 ---
 
@@ -191,6 +197,7 @@ Past summit speakers (2025, 2024) use a different shape — they record what was
 4. Copy the template below, paste it after the last entry in the `2026` array, and fill in the values:
 
 **Template — regular speaker:**
+
 ```ts
 {
   id: "2026-s9",
@@ -206,6 +213,7 @@ Past summit speakers (2025, 2024) use a different shape — they record what was
 ```
 
 **Template — keynote speaker:**
+
 ```ts
 {
   id: "2026-k3",
@@ -222,6 +230,7 @@ Past summit speakers (2025, 2024) use a different shape — they record what was
 ```
 
 **Real example — existing entry for reference:**
+
 ```ts
 {
   id: "2026-s3",
@@ -275,6 +284,7 @@ Remove `isKeynote` entirely if the speaker was not a keynote.
 Find the speaker by searching for their `name` value in the file (`Ctrl+F` / `Cmd+F`). Edit only the field value — the part inside the quotes — not the field name itself.
 
 **Example — updating an image URL:**
+
 ```ts
 // Before
 imageUrl: "https://images.unsplash.com/photo-placeholder?w=400",
@@ -284,6 +294,7 @@ imageUrl: "https://res.cloudinary.com/nairobidevops/image/upload/v.../grace_ndut
 ```
 
 **Example — adding social handles to an existing speaker:**
+
 ```ts
 // Before
 {
@@ -337,25 +348,28 @@ https://res.cloudinary.com/nairobidevops/image/upload/v[VERSION]/[FILENAME].[ext
 ```
 
 **Real example:**
+
 ```
 https://res.cloudinary.com/nairobidevops/image/upload/v1773388830/Newton_Kipng_kir9fo.jpg
 ```
 
 **Image requirements before uploading:**
 
-| Requirement | Value |
-|---|---|
-| Dimensions | Minimum 400×400px, ideally 800×800px |
-| Aspect ratio | Square (1:1) |
-| Format | JPG or WebP preferred. PNG accepted |
-| File size | Under 300KB — compress at [Squoosh](https://squoosh.app/) or [TinyPNG](https://tinypng.com/) before uploading |
-| Subject framing | Face clearly visible and centred — the UI crops to a circle |
-| File naming | `Firstname_Lastname_shortcode.ext` — match the Cloudinary naming convention |
+| Requirement     | Value                                                                                                         |
+| --------------- | ------------------------------------------------------------------------------------------------------------- |
+| Dimensions      | Minimum 400×400px, ideally 800×800px                                                                          |
+| Aspect ratio    | Square (1:1)                                                                                                  |
+| Format          | JPG or WebP preferred. PNG accepted                                                                           |
+| File size       | Under 300KB — compress at [Squoosh](https://squoosh.app/) or [TinyPNG](https://tinypng.com/) before uploading |
+| Subject framing | Face clearly visible and centred — the UI crops to a circle                                                   |
+| File naming     | `Firstname_Lastname_shortcode.ext` — match the Cloudinary naming convention                                   |
 
 If a speaker photo is not yet available, use `null`:
+
 ```ts
 imageUrl: null,
 ```
+
 The UI will display a placeholder avatar automatically.
 
 ---
@@ -364,13 +378,14 @@ The UI will display a placeholder avatar automatically.
 
 Social links are stored as **handles, not full URLs**. The application constructs the full URLs automatically.
 
-| Platform | Field | Format | Example |
-|---|---|---|---|
-| Twitter / X | `twitter` | `"@handle"` | `"@gracenduta"` |
-| LinkedIn | `linkedin` | `"in/handle"` | `"in/gracenduta"` |
-| GitHub | `github` | `"@handle"` | `"@gracenduta"` |
+| Platform    | Field      | Format        | Example           |
+| ----------- | ---------- | ------------- | ----------------- |
+| Twitter / X | `twitter`  | `"@handle"`   | `"@gracenduta"`   |
+| LinkedIn    | `linkedin` | `"in/handle"` | `"in/gracenduta"` |
+| GitHub      | `github`   | `"@handle"`   | `"@gracenduta"`   |
 
 If a speaker does not have a profile on a platform, use `null` — do not use an empty string:
+
 ```ts
 // ✅ Correct
 twitter: null,
@@ -380,6 +395,7 @@ twitter: "",
 ```
 
 Do not include the full URL:
+
 ```ts
 // ✅ Correct
 linkedin: "in/gracenduta",
@@ -430,11 +446,11 @@ FAQs are displayed grouped by category on the `/faqs` page. The order within eac
 
 ### FAQ fields reference
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `category` | `string` | ✅ | Must exactly match one of the values in `faqCategories` — case-sensitive |
-| `question` | `string` | ✅ | The question — ends with `?`. One sentence, clearly phrased |
-| `answer` | `string` | ✅ | The answer — 2–5 sentences. Plain text only, no HTML or markdown |
+| Field      | Type     | Required | Description                                                              |
+| ---------- | -------- | -------- | ------------------------------------------------------------------------ |
+| `category` | `string` | ✅       | Must exactly match one of the values in `faqCategories` — case-sensitive |
+| `question` | `string` | ✅       | The question — ends with `?`. One sentence, clearly phrased              |
+| `answer`   | `string` | ✅       | The answer — 2–5 sentences. Plain text only, no HTML or markdown         |
 
 ---
 
@@ -454,6 +470,7 @@ FAQs are displayed grouped by category on the `/faqs` page. The order within eac
 ```
 
 **Real example:**
+
 ```ts
 {
   category: "Venue & Travel",
@@ -472,6 +489,7 @@ FAQs are displayed grouped by category on the `/faqs` page. The order within eac
 Search for the question text (`Ctrl+F` / `Cmd+F`), then edit the `answer` value. Do not change the `category` or `question` field names — only the values inside the quotes.
 
 **Example — updating a hotel code:**
+
 ```ts
 // Before
 answer: "Use code ADS2026 when booking for the discounted rate.",
@@ -493,6 +511,7 @@ Delete the entire object from `{` to `},`. Then check whether that FAQ was refer
 If none of the existing six categories fit your new FAQ, you can add a new one:
 
 1. Add the new category name to `faqCategories`:
+
    ```ts
    export const faqCategories = [
      "General",
@@ -501,7 +520,7 @@ If none of the existing six categories fit your new FAQ, you can add a new one:
      "Venue & Travel",
      "Sponsorship",
      "Community",
-     "Workshops",   // ← new category added here
+     "Workshops", // ← new category added here
    ] as const;
    ```
 
@@ -558,13 +577,13 @@ The sponsors file follows the same pattern as speakers and FAQs — a list of ob
 
 **Sponsor logo requirements:**
 
-| Requirement | Value |
-|---|---|
-| Format | SVG preferred. PNG or WebP accepted |
-| Background | Transparent background required |
-| Width | Minimum 400px wide |
-| File size | Under 100KB |
-| File naming | `sponsor-company-name-year.svg` |
+| Requirement | Value                               |
+| ----------- | ----------------------------------- |
+| Format      | SVG preferred. PNG or WebP accepted |
+| Background  | Transparent background required     |
+| Width       | Minimum 400px wide                  |
+| File size   | Under 100KB                         |
+| File naming | `sponsor-company-name-year.svg`     |
 
 Upload logos to Cloudinary under `nairobidevops` before adding the URL to the file.
 
@@ -592,13 +611,13 @@ If this command fails, there is likely a syntax error in the file you edited —
 
 **Common mistakes and how to fix them:**
 
-| Symptom | Likely cause | Fix |
-|---|---|---|
-| `build` fails with `Unexpected token` | Missing or extra comma | Check the entry above and below where you made changes |
-| `build` fails with `is not assignable to type` | Wrong value type | Check the fields reference — `null` vs `""` vs omitting the field |
-| Image not showing | Wrong URL format or typo | Copy the URL directly from Cloudinary, do not type it manually |
-| FAQ not appearing under correct heading | Category string mismatch | Check spelling and capitalisation matches `faqCategories` exactly |
-| Homepage FAQ wrong | Index positions shifted | Recount positions and update `homepageFaqs` |
+| Symptom                                        | Likely cause             | Fix                                                               |
+| ---------------------------------------------- | ------------------------ | ----------------------------------------------------------------- |
+| `build` fails with `Unexpected token`          | Missing or extra comma   | Check the entry above and below where you made changes            |
+| `build` fails with `is not assignable to type` | Wrong value type         | Check the fields reference — `null` vs `""` vs omitting the field |
+| Image not showing                              | Wrong URL format or typo | Copy the URL directly from Cloudinary, do not type it manually    |
+| FAQ not appearing under correct heading        | Category string mismatch | Check spelling and capitalisation matches `faqCategories` exactly |
+| Homepage FAQ wrong                             | Index positions shifted  | Recount positions and update `homepageFaqs`                       |
 
 ### Step 3 — Open a pull request
 
@@ -618,7 +637,7 @@ If this command fails, there is likely a syntax error in the file you edited —
 4. In the PR description, briefly list what changed:
    - Which file(s) were edited
    - What was added, changed, or removed
-   - Any follow-up actions needed (e.g. *"Image URL for speaker 3 is a placeholder — will update when photo is received"*)
+   - Any follow-up actions needed (e.g. _"Image URL for speaker 3 is a placeholder — will update when photo is received"_)
 5. Add the `content` label to the PR
 
 ---
@@ -628,6 +647,7 @@ If this command fails, there is likely a syntax error in the file you edited —
 Before submitting a content PR, run through this checklist:
 
 **Speakers**
+
 - [ ] `id` is unique and follows the correct format for the year and role
 - [ ] `name` matches exactly how the speaker uses their name professionally
 - [ ] `designation` is in title case
@@ -640,6 +660,7 @@ Before submitting a content PR, run through this checklist:
 - [ ] `npm run build` passes
 
 **FAQs**
+
 - [ ] `category` exactly matches one of the values in `faqCategories`
 - [ ] `question` ends with `?`
 - [ ] `answer` is 2–5 sentences in plain text
@@ -647,6 +668,7 @@ Before submitting a content PR, run through this checklist:
 - [ ] `npm run build` passes
 
 **Sponsors**
+
 - [ ] Logo is uploaded to Cloudinary with a transparent background
 - [ ] `tier` matches one of the defined tier names exactly
 - [ ] `websiteUrl` includes `https://`
@@ -666,4 +688,4 @@ If your change is urgent (e.g. a speaker name spelling correction before a publi
 
 ---
 
-*This guide covers `speakers.ts`, `faqs.ts`, and `sponsors.ts`. For changes to ticket tiers, team members, or site configuration, coordinate with a developer — those files have tighter coupling to the UI.*
+_This guide covers `speakers.ts`, `faqs.ts`, and `sponsors.ts`. For changes to ticket tiers, team members, or site configuration, coordinate with a developer — those files have tighter coupling to the UI._

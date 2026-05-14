@@ -13,6 +13,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:bundle": "vite build",
+    "build:validate": "run-s typecheck lint:ci format:check build:bundle",
     "build:dev": "vite build --mode development",
     "typecheck": "tsc --noEmit --pretty",
     "lint": "eslint . --ext .ts,.tsx",

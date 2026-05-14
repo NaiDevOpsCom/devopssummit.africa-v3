@@ -21,7 +21,7 @@ assignees: ""
 <!--
   What pain point or gap does this address?
   Example: "As an attendee, I can't easily add a session to my calendar — I have to manually copy the date and time."
-  
+
   If this is tied to a user type, use this format:
   "As a [attendee / sponsor / volunteer / contributor], I want to [do something] so that [outcome]."
 -->
