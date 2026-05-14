@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_NAME = "Africa DevOps Summit";
-const SITE_URL = "https://africadevopssummit.com";
+const SITE_URL = "https://www.devopssummit.africa";
 const DEFAULT_IMAGE =
   "https://res.cloudinary.com/nairobidevops/image/upload/v1755523755/4_expgn2.svg";
 

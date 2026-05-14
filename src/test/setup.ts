@@ -27,22 +27,58 @@ Object.defineProperty(globalThis, "matchMedia", {
 
 // ── ResizeObserver ───────────────────────────────────────────────────────────
 // Required by radix-ui components (ScrollArea, NavigationMenu, etc.)
-globalThis.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+class MockResizeObserver {
+  callback: any;
+  constructor(callback: any) {
+    this.callback = callback;
+  }
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  trigger(entries: any[]) {
+    if (this.callback) {
+      this.callback(entries, this);
+    }
+  }
+}
+globalThis.ResizeObserver = MockResizeObserver as any;
 
 // ── IntersectionObserver ─────────────────────────────────────────────────────
 // Required by lazy loading, useDynamicBackground
-globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-  root: null,
-  rootMargin: "",
-  thresholds: [],
-}));
+class MockIntersectionObserver {
+  callback: any;
+  root: any = null;
+  rootMargin: string = "";
+  thresholds: any[] = [];
+  constructor(callback: any, options?: any) {
+    this.callback = callback;
+    if (options) {
+      this.root = options.root || null;
+      this.rootMargin = options.rootMargin || "";
+      if (options.threshold === undefined) {
+        this.thresholds = [];
+      } else if (Array.isArray(options.threshold)) {
+        this.thresholds = options.threshold;
+      } else {
+        this.thresholds = [options.threshold];
+      }
+    }
+  }
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = () => [];
+}
+globalThis.IntersectionObserver = MockIntersectionObserver as any;
+
+// ── MutationObserver ─────────────────────────────────────────────────────────
+// Required by lazy loading
+class MockMutationObserver {
+  observe = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn();
+}
+globalThis.MutationObserver = MockMutationObserver as any;
 
 // ── Canvas ───────────────────────────────────────────────────────────────────
 // Required by Hero component — avoids "getContext is not a function" errors
