@@ -29,6 +29,7 @@
     "test:watch": "vitest",
     "fetch-gallery": "tsx scripts/fetch-gallery.ts",
     "prebuild": "tsx scripts/fetch-gallery.ts",
+    "prebuild:bundle": "tsx scripts/fetch-gallery.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "chromatic"
