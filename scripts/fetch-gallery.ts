@@ -188,7 +188,10 @@ async function main() {
   const skipGalleryFetch = process.env.SKIP_GALLERY_FETCH === "true";
 
   if (skipGalleryFetch) {
-    console.log("  [skip] SKIP_GALLERY_FETCH=true — preserving existing gallery data and skipping ImageKit fetch.");
+    console.log(
+      "  [skip] SKIP_GALLERY_FETCH=true — preserving existing gallery data " +
+        "and skipping ImageKit fetch.",
+    );
     saveGallery(gallery, outPath, outDir);
     return;
   }
