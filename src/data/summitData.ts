@@ -183,3 +183,13 @@ export const pastSummitsData: Record<number, PastSummit> = {
     ],
   },
 };
+
+/**
+ * Overarching summit stats displayed in the About section.
+ */
+export const stats: Stat[] = [
+  { value: "500+", label: "Attendees since 2024" },
+  { value: "4+", label: "African countries represented" },
+  { value: "15+", label: "Speakers" },
+  { value: "7+", label: "Partners & Sponsors" },
+];

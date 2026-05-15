@@ -164,8 +164,8 @@ function saveGallery(gallery: GalleryData, outPath: string, outDir: string) {
     const { writeFileSync } = fs;
     writeFileSync(outPath, jsonOutput, "utf-8");
     console.log(`\n✅ Saved to src/data/gallery.generated.json\n`);
-  } catch (err: any) {
-    if (err?.code === "EBADF") {
+  } catch (err: unknown) {
+    if (err instanceof Error && (err as NodeJS.ErrnoException).code === "EBADF") {
       console.warn(
         `\n⚠️  Failed to save file to disk (node Windows EBADF bug) but skipping to continue build.`,
         err.message,

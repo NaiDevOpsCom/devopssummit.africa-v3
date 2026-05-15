@@ -47,7 +47,7 @@ describe("validateEnv", () => {
 
     // Workaround for Vitest not fully clearing import.meta.env
     resetEnvKeys.forEach((key) => {
-      delete (import.meta as any).env[key];
+      delete (import.meta as unknown as { env: Record<string, string | undefined> }).env[key];
     });
   });
 

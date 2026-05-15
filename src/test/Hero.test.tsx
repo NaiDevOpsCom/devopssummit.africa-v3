@@ -121,8 +121,7 @@ describe("Hero", () => {
     Object.defineProperty(globalThis, "innerWidth", { value: 1000, configurable: true });
     Object.defineProperty(globalThis, "crypto", {
       value: {
-        getRandomValues: (arr: any) => {
-          // eslint-disable-next-line no-param-reassign
+        getRandomValues: (arr: Uint32Array) => {
           arr[0] = 123456;
           return arr;
         },

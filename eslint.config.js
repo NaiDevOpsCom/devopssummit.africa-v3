@@ -13,12 +13,6 @@ import noUnsanitized from "eslint-plugin-no-unsanitized";
 export default tseslint.config(
   { ignores: ["dist", "storybook-static"] },
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      prettierConfig,
-      noUnsanitized.configs.recommended,
-    ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
