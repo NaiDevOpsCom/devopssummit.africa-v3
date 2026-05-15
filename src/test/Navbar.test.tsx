@@ -1,7 +1,17 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Navbar from "@/components/layout/Navbar";
 import { MemoryRouter } from "react-router-dom";
+
+const mockNavigate = vi.fn();
+
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
 
 describe("Navbar", () => {
   it("renders the brand name", () => {
@@ -10,7 +20,7 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
-    expect(screen.getByText("AFRICA DEVOPS SUMMIT")).toBeInTheDocument();
+    expect(screen.getByAltText("Africa DevOps Summit Logo")).toBeInTheDocument();
   });
 
   it("renders all nav links", () => {
@@ -30,7 +40,7 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
-    expect(screen.getByLabelText("Get a ticket")).toBeInTheDocument();
+    expect(screen.getByLabelText("Get Your Tickets")).toBeInTheDocument();
   });
 
   it("toggles mobile menu on hamburger click", () => {
@@ -42,5 +52,53 @@ describe("Navbar", () => {
     const menuBtn = screen.getByLabelText("Open menu");
     fireEvent.click(menuBtn);
     expect(screen.getByLabelText("Close menu")).toBeInTheDocument();
+  });
+
+  it("handles scroll to change background", async () => {
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>,
+    );
+    // Wait for the mount-time RAF to settle
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    Object.defineProperty(globalThis, "scrollY", {
+      value: 100,
+      configurable: true,
+      writable: true,
+    });
+    (globalThis as unknown as Window).dispatchEvent(new Event("scroll"));
+    await waitFor(() => {
+      expect(screen.getByRole("navigation")).toHaveClass("bg-background/80", { exact: false });
+    });
+    Object.defineProperty(globalThis, "scrollY", {
+      value: 0,
+      configurable: true,
+      writable: true,
+    });
+  });
+
+  it("navigates to route on click", () => {
+    Object.defineProperty(globalThis, "innerHeight", { value: 1000, configurable: true });
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Navbar />
+      </MemoryRouter>,
+    );
+    const aboutLink = screen.getAllByText("About Us")[0];
+    fireEvent.click(aboutLink);
+    expect(mockNavigate).toHaveBeenCalledWith("/about");
+  });
+
+  it("handles get a ticket click on non-home page", () => {
+    render(
+      <MemoryRouter initialEntries={["/about"]}>
+        <Navbar />
+      </MemoryRouter>,
+    );
+    const getTicketBtns = screen.getAllByText("Get Your Tickets");
+    fireEvent.click(getTicketBtns[0]);
+    expect(mockNavigate).toHaveBeenCalledWith("/#tickets");
   });
 });

@@ -5,7 +5,42 @@
  *
  * Used in:
  * - src/pages/PastSummits.tsx: To display detailed year-by-year highlights and growth charts.
+ * - src/components/landing/About.tsx: To display overarching summit stats.
  */
+
+import { type Stat } from "@/types";
+
+/**
+ * Upcoming Summit Details
+ * Used across the application for the next event date, location, and countdown.
+ */
+export const summitDetails = {
+  name: "Africa DevOps Summit 2026",
+  date: "November 20–21, 2026",
+  location: "Nairobi, Kenya",
+  venue: "Nairobi, Kenya",
+  time: "8:00 AM – 5:00 PM EAT",
+  mapLink: "https://maps.app.goo.gl/uXv7F987Z1R57m4x7",
+  mapEmbedUrl:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8504068593893!2d36.80186957591632!3d-1.2620755355972848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f174199f1fd8b%3A0x6968037a34610196!2sSarit%20Expo%20Centre!5e0!3m2!1sen!2ske!4v1715447125215!5m2!1sen!2ske",
+  // Includes UTC+03:00 (EAT) offset so Date.parse() yields a deterministic instant
+  // regardless of the browser's local timezone.
+  datetime: "2026-11-20T08:00:00+03:00",
+  /**
+   * @property {string} sponsorshipDeckUrl
+   * The public URL or relative path to the conference sponsorship PDF used for download/display.
+   * Expected format: e.g., "/deck.pdf" or full "https://..." URL.
+   * This field can be empty/optional.
+   */
+  sponsorshipDeckUrl: "/deck.pdf",
+  /**
+   * @property {string} sponsorshipCalendlyUrl
+   * The Calendly link for booking sponsorship partnership calls.
+   */
+  sponsorshipCalendlyUrl: "https://calendly.com/africadevopssummit",
+  theme: "Africa Ascends: Build What's Next",
+  attendees: "1000+ Expected",
+};
 
 export interface SummitHighlight {
   title: string;
@@ -151,3 +186,13 @@ export const pastSummitsData: Record<number, PastSummit> = {
     ],
   },
 };
+
+/**
+ * Overarching summit stats displayed in the About section.
+ */
+export const stats: Stat[] = [
+  { value: "500+", label: "Attendees since 2024" },
+  { value: "4+", label: "African countries represented" },
+  { value: "15+", label: "Speakers" },
+  { value: "7+", label: "Partners & Sponsors" },
+];

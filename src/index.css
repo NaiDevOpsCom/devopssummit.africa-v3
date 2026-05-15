@@ -1,19 +1,21 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
-
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--navbar-height) + 1rem);
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --navbar-height: 4rem;
+    --pure-white: 0 0% 100%;
+    --pure-black: 0 0% 0%;
+    --background: var(--pure-white);
     --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
+    --card: 199 88% 58%;
     --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
+    --popover: var(--pure-white);
     --popover-foreground: 222 47% 11%;
     --primary: 223 100% 66%;
     --primary-foreground: 210 40% 98%;
@@ -50,6 +52,14 @@ html {
     --color-text-primary: hsl(var(--foreground));
     --color-text-inverse: hsl(var(--primary-foreground));
     --color-border-muted: hsl(var(--border));
+    --text-on-gradient: hsl(var(--pure-white));
+    --text-on-gradient-muted: hsl(var(--pure-white) / 0.6);
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --navbar-height: 5rem;
   }
 }
 

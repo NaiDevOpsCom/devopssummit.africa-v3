@@ -31,3 +31,4 @@ src/data/gallery.generated.json
 *.sw?
 
 storybook-static
+.lighthouseci/

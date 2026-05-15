@@ -6,3 +6,15 @@ bun.lockb
 package-lock.json
 *.min.js
 *.min.css
+
+# Public assets
+public/**/*.{png,jpg,jpeg,gif,svg,ico,woff,woff2,ttf,eot}
+
+# Type declaration files
+dist/**/*.d.ts
+
+src/data/gallery.generated.json
+
+# Lighthouse CI
+.lighthouseci
+lighthouse-*.json

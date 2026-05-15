@@ -25,12 +25,19 @@ function useCountdown() {
 
 const ParticleCanvas: React.FC = React.memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
+
     const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d", { alpha: false }) || canvas.getContext("2d")!;
     let animId: number;
     let particles: { x: number; y: number; vx: number; vy: number; r: number; o: number }[] = [];
+
+    // Helper using Web Crypto API to avoid SonarQube warnings around Math.random()
+    const secureRandom = () =>
+      globalThis.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -39,24 +46,62 @@ const ParticleCanvas: React.FC = React.memo(() => {
 
     const init = () => {
       resize();
-      const count = Math.floor((canvas.width * canvas.height) / 12000);
+      // Reduce density: higher divisor means fewer particles
+      const divisor = globalThis.window.innerWidth < 768 ? 25000 : 15000;
+      const count = Math.min(Math.floor((canvas.width * canvas.height) / divisor), 80);
       particles = Array.from({ length: count }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 1.5 + 0.5,
-        o: Math.random() * 0.5 + 0.2,
+        x: secureRandom() * canvas.width,
+        y: secureRandom() * canvas.height,
+        vx: (secureRandom() - 0.5) * 0.3,
+        vy: (secureRandom() - 0.5) * 0.3,
+        r: secureRandom() * 1.5 + 0.5,
+        o: secureRandom() * 0.4 + 0.1,
       }));
     };
 
+    const drawConnections = (
+      p: { x: number; y: number },
+      i: number,
+      maxDist: number,
+      maxDistSq: number,
+    ) => {
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x;
+        const dy = p.y - q.y;
+
+        // Optimization: Skip pairs that are obviously too far apart without calculating square root
+        if (Math.abs(dx) > maxDist || Math.abs(dy) > maxDist) continue;
+
+        const distSq = dx * dx + dy * dy;
+        if (distSq < maxDistSq) {
+          const dist = Math.sqrt(distSq);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(56, 189, 248, ${0.1 * (1 - dist / maxDist)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    };
+
     const draw = () => {
+      // Use a slightly opaque clear to create a very subtle trail effect if desired,
+      // but simple clear is faster.
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       const maxDist = 120;
+      const maxDistSq = maxDist * maxDist;
+
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
+
+        // Update position
         p.x += p.vx;
         p.y += p.vy;
+
+        // Boundary checks
         if (p.x < 0) p.x = canvas.width;
         if (p.x > canvas.width) p.x = 0;
         if (p.y < 0) p.y = canvas.height;
@@ -67,34 +112,23 @@ const ParticleCanvas: React.FC = React.memo(() => {
         ctx.fillStyle = `rgba(37, 99, 235, ${p.o})`;
         ctx.fill();
 
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x;
-          const dy = p.y - q.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < maxDist) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 * (1 - dist / maxDist)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
+        drawConnections(p, i, maxDist, maxDistSq);
       }
       animId = requestAnimationFrame(draw);
     };
 
     init();
     draw();
-    window.addEventListener("resize", init);
+    globalThis.window.addEventListener("resize", init);
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener("resize", init);
+      globalThis.window.removeEventListener("resize", init);
     };
-  }, []);
+  }, [shouldReduceMotion]);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-[1]" />;
+  if (shouldReduceMotion) return null;
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-[1] opacity-60" />;
 });
 ParticleCanvas.displayName = "ParticleCanvas";
 
@@ -112,22 +146,37 @@ const CountdownUnit: React.FC<{ value: number; label: string }> = ({ value, labe
 const Hero: React.FC = () => {
   const { days, hours, minutes, seconds } = useCountdown();
   const shouldReduceMotion = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Defer video playback until after LCP — prevents competing with critical resources
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+    const timer = setTimeout(() => {
+      const playPromise = videoRef.current?.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay blocked by browser — already muted so this is expected and safe
+        });
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [shouldReduceMotion]);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+    <section id="home" className="relative overflow-hidden pt-[var(--navbar-height)]">
       {/* Background video */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <video
-          autoPlay={!shouldReduceMotion}
+          ref={videoRef}
           loop
           muted
           playsInline
           preload="metadata"
           className="w-full h-full object-cover"
-          poster="https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?updatedAt=1773116106604"
+          poster="https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?tr=w-1920,q-80,f-auto"
         >
           <source
-            src="https://res.cloudinary.com/nairobidevops/video/upload/v1773297162/summit2025_wqebkh.mp4"
+            src="https://res.cloudinary.com/nairobidevops/video/upload/f_auto,q_auto:low,w_1280/v1773297162/summit2025_wqebkh.mp4"
             type="video/mp4"
           />
         </video>
@@ -138,7 +187,7 @@ const Hero: React.FC = () => {
       {/* Particle overlay */}
       <ParticleCanvas />
 
-      <div className="relative z-10 max-w-7xl mx-auto section-padding w-full py-32 md:py-0">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh_-_var(--navbar-height))] min-h-[calc(100svh_-_var(--navbar-height))] w-full max-w-7xl items-start section-padding py-12 md:items-center md:py-16">
         <div className="max-w-2xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -167,10 +216,9 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading leading-tight mb-6"
           >
-            <span className="text-primary-foreground">Shaping the Future</span>
+            <span className="text-primary-foreground">Africa Ascends:</span>
             <br />
-            <span className="text-primary-foreground">of </span>
-            <span className="text-primary">African Tech</span>
+            <span className="text-primary">Build What's Next</span>
           </motion.h1>
 
           <motion.p
@@ -179,8 +227,8 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-muted-foreground text-base md:text-lg max-w-xl mb-8 leading-relaxed"
           >
-            Driving collaboration, innovation, and scalable DevOps practices to support African
-            digital transformation and strengthen communities across industries.
+            Where Africa's engineers across DevOps, AI, and Security stop following the global
+            roadmap and start writing it
           </motion.p>
 
           {/* Countdown */}

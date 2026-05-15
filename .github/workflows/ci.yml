@@ -1,0 +1,409 @@
+# .github/workflows/ci.yml
+name: CI Quality Gates
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  # ── TypeScript ─────────────────────────────────────────────
+  typecheck:
+    name: 🔷 TypeScript Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript compiler
+        run: npx tsc --noEmit --pretty
+        # --pretty gives coloured output with error codes
+        # Fails on: type mismatches, missing props, implicit any, etc.
+
+  # ── ESLint ─────────────────────────────────────────────────
+  lint:
+    name: 🔍 ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: |
+          echo "Running ESLint — max-warnings=0 means warnings = failures"
+          npx eslint . \
+            --ext .ts,.tsx \
+            --max-warnings=0 \
+            --format=stylish
+        # stylish format: groups errors by file, shows rule name + line
+        # e.g.  src/components/Card.tsx
+        #         12:5  error  'foo' is defined but never used  no-unused-vars
+
+  # ── Prettier ───────────────────────────────────────────────
+  format:
+    name: 🎨 Prettier Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: |
+          echo "Checking code formatting..."
+          npx prettier --check . --ignore-path .prettierignore --log-level=warn
+        # Lists every file that differs from Prettier's expected output
+        # Fix locally with: npm run format
+
+  # ── Tests ──────────────────────────────────────────────────
+  # ── Unit & Integration Tests ──────────────────────────────────────
+  test:
+    name: 🧪 Unit Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Run unit tests with coverage
+        run: npx vitest run --coverage --reporter=verbose --reporter=github-actions
+        env:
+          # Provide stub values so env validation doesn't fail
+          VITE_IMAGEKIT_URL_ENDPOINT: https://ik.imagekit.io/test
+          VITE_IMAGEKIT_PUBLIC_KEY: test_public_key
+          VITE_APP_NAME: Africa DevOps Summit Test
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        if: always() # Upload even if tests fail — useful for debugging
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+  # ── Storybook Tests (separate — needs browser) ────────────────────
+  # Only runs on PRs to main, not on every push to staging
+  # Uncomment when Storybook stories are fully set up
+  # storybook-tests:
+  #   name: 📚 Storybook Tests
+  #   runs-on: ubuntu-latest
+  #   if: github.base_ref == 'main'
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ env.NODE_VERSION }}
+  #         cache: "npm"
+  #     - run: npm ci
+  #     - run: npx playwright install chromium --with-deps
+  #     - run: npm run build-storybook -- --quiet
+  #     - run: npx vitest run --project=storybook
+
+  # ── Build Verification ─────────────────────────────────────
+  build-check:
+    name: 🏗️ Build Verification
+    runs-on: ubuntu-latest
+    needs: [typecheck, lint, format, test] # Only build if quality gates pass
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (skip gallery fetch in CI)
+        run: npm run build:bundle
+        env:
+          # Provide stub env vars so build doesn't fail on missing vars or crash at runtime
+          VITE_APP_ENV: staging
+          VITE_API_URL: https://staging-api.example.com
+          VITE_IMAGEKIT_URL_ENDPOINT: https://ik.imagekit.io/test
+          VITE_IMAGEKIT_PUBLIC_KEY: test_public_key
+          VITE_APP_NAME: Africa DevOps Summit Test
+          SKIP_GALLERY_FETCH: "true"
+        # Note: runs vite build directly, not npm run build
+        # This avoids re-running typecheck/lint (already done above)
+        # and skips prebuild:bundle if SKIP_GALLERY_FETCH is handled in script
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        with:
+          name: web-build
+          path: dist/
+          retention-days: 1
+
+      - name: Report bundle size
+        run: |
+          if [ -d dist ]; then
+            echo "=== Bundle Size Report ==="
+            du -sh dist/
+            echo ""
+            if [ -d dist/assets ]; then
+              echo "=== Asset breakdown ==="
+              find dist/assets -type f | sort | while read f; do
+                size=$(du -sh "$f" | cut -f1)
+                echo "$size  $f"
+              done
+            else
+              echo "no assets directory"
+            fi
+          else
+            echo "no dist directory"
+          fi
+
+  # ── Security ───────────────────────────────────────────────
+  # ── Security ───────────────────────────────────────────────
+  security:
+    name: 🔐 Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+      security-events: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0 # Full history required for secret scanning
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ── Dependency vulnerability audit ──────────────────────
+      # Fails CI on high/critical severity vulnerabilities
+      # Run 'npm audit fix' locally to resolve fixable issues
+      # Remove --omit=dev to also scan devDependencies (recommended)
+      - name: Audit npm dependencies
+        run: npm audit --audit-level=high
+
+      # ── Secret leak detection ────────────────────────────────
+      # Scans full git history for accidentally committed secrets:
+      # API keys, tokens, private keys, connection strings
+      - name: Scan for committed secrets
+        uses: gitleaks/gitleaks-action@1f2d10fb689bc07a5f56f48d6db61f5bbbe772fa # v2.3.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false # Manual upload below to avoid naming issue
+
+      - name: Upload Gitleaks report
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        if: always()
+        with:
+          name: gitleaks-report
+          path: results.sarif
+
+      # ── Required Cloudflare Pages files ──────────────────────
+      # These must exist in public/ or CF Pages serves without
+      # security headers and SPA routing breaks on direct URLs
+      - name: Validate public/_headers exists
+        run: |
+          if [ ! -f "public/_headers" ]; then
+            echo "❌ public/_headers is missing"
+            echo "   Security headers will NOT be served by Cloudflare Pages"
+            echo "   Create public/_headers — see docs/security-headers.md"
+            exit 1
+          fi
+          echo "✅ public/_headers present"
+          echo "--- Contents preview ---"
+          head -20 public/_headers
+
+      - name: Validate public/_redirects exists
+        run: |
+          if [ ! -f "public/_redirects" ]; then
+            echo "❌ public/_redirects is missing"
+            echo "   Direct navigation to /about, /schedule etc. will return 404"
+            echo "   Create public/_redirects with: /*    /index.html    200"
+            exit 1
+          fi
+          echo "✅ public/_redirects present"
+          cat public/_redirects
+
+  # ── Bundle Size Budget ─────────────────────────────────────
+  # Runs after build-check — uses the same dist output
+  bundle-budget:
+    name: 📦 Bundle Size Budget
+    runs-on: ubuntu-latest
+    needs: [build-check]
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Download build artifact
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+        with:
+          name: web-build
+          path: dist/
+
+      - name: Check bundle budgets
+        run: |
+          echo "=== Bundle Budget Report ==="
+
+          # ── Main JS bundle (gzip) — budget: 150KB ──────────
+          # After chunking, main index bundle should drop from 116KB gzip
+          MAIN_JS=$(find dist/assets -name "vendor-react-*.js" | head -1)
+          if [ -n "$MAIN_JS" ]; then
+            # Measure gzip size to match the budget label
+            SIZE=$(gzip -c "$MAIN_JS" | wc -c)
+            SIZE_KB=$((SIZE / 1024))
+            echo "vendor-react (gzip): ${SIZE_KB}KB"
+            
+            MAX_KB=${MAX_REACT_KB:-150}
+            if [ "$SIZE_KB" -gt "$MAX_KB" ]; then
+              echo "❌ vendor-react exceeds ${MAX_KB}KB budget (${SIZE_KB}KB)"
+              exit 1
+            fi
+          fi
+
+          # ── Total JS (uncompressed) — budget: 1200KB ────────
+          TOTAL_JS=$(find dist/assets -name "*.js" ! -name "*.gz" ! -name "*.br" \
+            -exec wc -c {} + | tail -1 | awk '{print $1}')
+          TOTAL_JS=${TOTAL_JS:-0}
+          TOTAL_JS_KB=$((TOTAL_JS / 1024))
+          echo "Total JS (uncompressed): ${TOTAL_JS_KB}KB"
+
+          if [ "$TOTAL_JS_KB" -gt 1200 ]; then
+            echo "❌ Total JS exceeds 1200KB budget (${TOTAL_JS_KB}KB)"
+            exit 1
+          fi
+
+          # ── CSS — budget: 150KB uncompressed ─────────────────
+          TOTAL_CSS=$(find dist/assets -name "*.css" ! -name "*.gz" ! -name "*.br" \
+            -exec wc -c {} + | tail -1 | awk '{print $1}')
+          TOTAL_CSS=${TOTAL_CSS:-0}
+          TOTAL_CSS_KB=$((TOTAL_CSS / 1024))
+          echo "Total CSS (uncompressed): ${TOTAL_CSS_KB}KB"
+
+          if [ "$TOTAL_CSS_KB" -gt 150 ]; then
+            echo "⚠️  CSS exceeds 150KB (${TOTAL_CSS_KB}KB) — review Tailwind purge"
+          fi
+
+          # ── Single chunk limit — no chunk over 400KB ──────────
+          OVERSIZED=$(find dist/assets -name "*.js" ! -name "*.gz" ! -name "*.br" \
+            -size +400k)
+          if [ -n "$OVERSIZED" ]; then
+            echo "❌ Oversized chunks found:"
+            echo "$OVERSIZED"
+            exit 1
+          fi
+
+          echo "✅ All budgets passed"
+
+  # ── Lighthouse CI ─────────────────────────────────────────
+  # Runs on PRs to main only — too slow for every push
+  lighthouse:
+    name: 🔦 Lighthouse CI
+    runs-on: ubuntu-latest
+    needs: [build-check]
+    if: github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'staging')
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Download web-build for Lighthouse
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+        with:
+          name: web-build
+          path: dist/
+
+      - name: Validate build artifact
+        run: |
+          if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
+            echo "❌ dist directory is empty or missing"
+            exit 1
+          fi
+
+          if [ -f "dist/dist/index.html" ]; then
+            echo "❌ Found nested dist/dist directory"
+            ls -la dist
+            exit 1
+          fi
+
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ dist/index.html not found"
+            exit 1
+          fi
+
+          echo "✅ Build artifact validated"
+
+      - name: Run Lighthouse CI
+        run: npx lhci autorun --config=lighthouserc.ci.cjs --verbose
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          # Without LHCI_GITHUB_APP_TOKEN, results still upload to
+          # temporary-public-storage and URL is printed in CI logs
+          # Install the GitHub App for PR status checks:
+          # https://github.com/apps/lighthouse-ci
+
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 14

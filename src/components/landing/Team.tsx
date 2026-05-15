@@ -12,10 +12,8 @@ const Team: React.FC = () => {
   const filtered = activeRole === "All" ? team : team.filter((t) => t.role === activeRole);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
   React.useEffect(() => {
@@ -34,7 +32,7 @@ const Team: React.FC = () => {
       <div className="max-w-7xl mx-auto section-padding">
         <SectionHeader
           title="Our Team"
-          pill="Meet the Team Behind Africa DevOps Summit"
+          pill="The People Who Make ADS Happen"
           subtitle="A passionate team of organizers, engineers, and community builders working together to deliver a seamless experience."
           light
         />

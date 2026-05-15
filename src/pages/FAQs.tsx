@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SEO from "@/components/SEO";
+import Seo from "@/components/SEO";
 import { motion } from "framer-motion";
 import { HelpCircle, Search } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
@@ -89,7 +89,7 @@ const FAQBody: React.FC = () => {
           variants={fadeUp}
           className="relative mb-8"
         >
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground" />
           <input
             type="text"
             placeholder="Search questions…"
@@ -143,14 +143,14 @@ const FAQBody: React.FC = () => {
               >
                 <AccordionItem
                   value={`faq-${i}`}
-                  className="border border-border rounded-xl px-5 bg-card data-[state=open]:shadow-md transition-shadow"
+                  className="border border-border rounded-xl px-5 bg-pure-white data-[state=open]:shadow-md transition-shadow"
                 >
                   <AccordionTrigger className="text-left text-foreground font-heading font-semibold text-sm md:text-base hover:no-underline gap-4">
                     <span>{faq.question}</span>
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground text-sm md:text-base leading-relaxed pb-5">
                     {faq.answer}
-                    <span className="block mt-2 text-xs text-primary/60 font-medium">
+                    <span className="block mt-2 text-xs text-primary font-medium">
                       {faq.category}
                     </span>
                   </AccordionContent>
@@ -204,7 +204,7 @@ const ContactCTA: React.FC = () => (
 /* ------------------------------------------------------------------ */
 const FAQs: React.FC = () => (
   <>
-    <SEO
+    <Seo
       title="FAQs"
       description="Find answers to common questions about the Africa DevOps Summit 2026 — tickets, venue, schedule, speakers, and more."
       keywords="FAQ, frequently asked questions, DevOps conference, tickets, venue, Nairobi"

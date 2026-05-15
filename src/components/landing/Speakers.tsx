@@ -10,6 +10,34 @@ import { speakers } from "@/data/speakers";
 
 const CURRENT_YEAR = 2026;
 
+import { CFP_TOPICS } from "@/constants/speakers";
+
+interface ApplySpeakerButtonProps {
+  readonly variant?: "primary" | "secondary";
+}
+
+/** Shared CTA that appears in both the empty-state and below the carousel. */
+function ApplySpeakerButton({ variant = "primary" }: ApplySpeakerButtonProps) {
+  const borderClass = variant === "primary" ? "border-white" : "border-white/70";
+  return (
+    <Button
+      asChild
+      size="lg"
+      className={`group px-10 py-4 rounded-full border-2 ${borderClass} bg-transparent text-white font-bold text-base hover:bg-white hover:text-primary transition-all`}
+    >
+      <a
+        href="https://talks.nairobidevops.org/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2"
+      >
+        Apply to speak
+        <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+      </a>
+    </Button>
+  );
+}
+
 const Speakers: React.FC = () => {
   const currentYearSpeakers = useMemo(() => speakers[CURRENT_YEAR] || [], []);
 
@@ -32,7 +60,9 @@ const Speakers: React.FC = () => {
     if (!emblaApi) return;
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
-    onSelect();
+
+    // We don't call onSelect() synchronously here to avoid cascading renders.
+    // It will be triggered by emblaApi.reInit() in the effect below.
   }, [emblaApi, onSelect]);
 
   React.useEffect(() => {
@@ -82,8 +112,12 @@ const Speakers: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <SectionHeader
           title="Featured Speakers"
-          pill="Meet Our Speakers"
-          subtitle="Hear from experienced DevOps practitioners, cloud experts, security leaders, and innovators who are building and scaling systems used by millions across Africa and beyond."
+          pill="The Stage Is Set. Your Story Belongs On It"
+          subtitle={
+            currentYearSpeakers.length > 0
+              ? "ADS2026 features engineers, architects, AI practitioners, and security leads who are doing the actual work — not just talking about it"
+              : "Calling practitioners with real-world engineering stories — submit your talk to join our lineup."
+          }
           light
         />
 
@@ -94,20 +128,45 @@ const Speakers: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           {currentYearSpeakers.length === 0 ? (
-            <div className="py-20 text-center text-white/70">
-              <p className="text-lg">No speakers announced yet for {CURRENT_YEAR}.</p>
-              <p className="mt-2 text-sm">Check back soon for updates!</p>
+            <div className="pt-4 pb-12 md:pb-20 flex flex-col items-center">
+              <h2 className="sr-only">Call for Papers Topics</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full mb-16">
+                {CFP_TOPICS.map((topic, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                    className="flex items-start gap-4 p-6 rounded-2xl bg-white/5 border border-white/10"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70">
+                      <topic.icon className="w-6 h-6" />
+                    </div>
+                    <p className="text-white/80 text-sm md:text-base leading-snug pt-1">
+                      {topic.text}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="flex flex-col items-center gap-4">
+                <p className="text-white/40 text-sm italic mb-2">
+                  No speakers announced yet for {CURRENT_YEAR}. Be the first to join the lineup!
+                </p>
+                <ApplySpeakerButton variant="primary" />
+              </div>
             </div>
           ) : (
             <>
               <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
                 <div className="flex -ml-6">
-                  {currentYearSpeakers.map((s) => (
+                  {currentYearSpeakers.map((s, index) => (
                     <div
                       key={s.id}
                       className="pl-6 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] min-w-0"
                     >
-                      <SpeakerCard {...s} />
+                      <SpeakerCard {...s} isAboveFold={index < 4} />
                     </div>
                   ))}
                 </div>

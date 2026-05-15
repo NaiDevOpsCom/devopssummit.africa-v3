@@ -4,6 +4,60 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Performance: Preconnect to CDNs -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://ik.imagekit.io" />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+
+    <!-- Performance: Preload critical font binaries to prevent CLS from font swap -->
+    <!-- Note: An integrity hash alone is not enough: the URL must be pinned to a specific version. -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2"
+      integrity="sha384-xF/ZPLO2KarXbEpQJ9rsrheJxCRrBV5rU1jjBA80UdOHZybjlCkK14oirxe1FTC6"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/sora/v17/xMQ9uFFYT72X5wkB_18qmnndmSdSnh2BAfO5mnuyOo1lfiQwV6-xo6eeIw.woff2"
+      integrity="sha384-0mCo6F7f6fDm9F4nXSPJGPEa/Xrerh9WNgp858a5jHwfmnzxvsE1rxGNTAUUk8Un"
+      crossorigin
+    />
+
+    <!-- Performance: Typography (Asynchronous load) -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      media="print"
+      onload="
+        this.onload = null;
+        this.media = 'all';
+      "
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Performance: Preload critical LCP assets -->
+    <link
+      rel="preload"
+      as="image"
+      href="https://ik.imagekit.io/nairobidevops/ads2025/IMG_6738.JPG?tr=w-1920,q-80,f-auto"
+    />
+
     <title>Africa DevOps Summit — Nairobi, Kenya | DevOps, Cloud & SRE Conference</title>
 
     <meta
@@ -18,40 +72,27 @@
 
     <meta name="author" content="Africa DevOps Summit — Nairobi DevOps Community" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.devopssummit.africa/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Africa DevOps Summit" />
     <meta property="og:url" content="https://www.devopssummit.africa/" />
-    <meta
-      property="og:title"
-      content="Africa DevOps Summit — Nairobi, Kenya"
-    />
+    <meta property="og:title" content="Africa DevOps Summit — Nairobi, Kenya" />
     <meta
       property="og:description"
       content="Join Africa's premier DevOps, Cloud Native & SRE conference. November 2026, Nairobi, Kenya — in-person + virtual. Organised by the Nairobi DevOps Community."
     />
-    <meta
-      property="og:image"
-      content="https://www.devopssummit.africa/og-image.png"
-    />
+    <meta property="og:image" content="https://www.devopssummit.africa/og-image.png" />
     <meta property="og:locale" content="en_KE" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@nairobidevops" />
     <meta name="twitter:creator" content="@nairobidevops" />
-    <meta
-      name="twitter:title"
-      content="Africa DevOps Summit — Nairobi, Kenya"
-    />
+    <meta name="twitter:title" content="Africa DevOps Summit — Nairobi, Kenya" />
     <meta
       name="twitter:description"
       content="Africa's flagship DevOps, Cloud Native & SRE conference. November 2026, Nairobi — in-person + virtual. By the Nairobi DevOps Community."
     />
-    <meta
-      name="twitter:image"
-      content="https://www.devopssummit.africa/og-image.png"
-    />
+    <meta name="twitter:image" content="https://www.devopssummit.africa/og-image.png" />
 
     <meta name="geo.region" content="KE-30" />
     <meta name="geo.placename" content="Nairobi, Kenya" />
@@ -59,62 +100,97 @@
     <meta name="ICBM" content="-1.286389, 36.817223" />
 
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Event",
-      "name": "Africa DevOps Summit",
-      "alternateName": ["ADS 2026", "#AfricaDevOpsSummit"],
-      "startDate": "2026-11-20T08:00:00Z",
-      "endDate": "2026-11-21T18:00:00Z",
-      "description": "Africa DevOps Summit is the continent's flagship conference dedicated to advancing DevOps culture and practice. The annual event unites technologists, leaders, and innovators from across Africa and beyond through keynote presentations, hands-on workshops, lightning talks, panel discussions, and networking opportunities.",
-      "url": "https://www.devopssummit.africa/",
-      "eventStatus": "https://schema.org/EventScheduled",
-      "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-      "location": {
-        "@type": "Place",
-        "name": "Nairobi",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Nairobi",
-          "addressCountry": "KE"
-        }
-      },
-      "organizer": {
-        "@type": "Organization",
-        "name": "Nairobi DevOps Community",
-        "url": "https://nairobidevops.org/",
-        "sameAs": [
-          "https://x.com/nairobidevops",
-          "https://www.instagram.com/nairobidevops/"
-        ]
-      },
-      "image": "https://www.devopssummit.africa/og-image.png",
-      "inLanguage": "en",
-      "keywords": "DevOps, Cloud Native, SRE, Platform Engineering, Kubernetes, Africa, Nairobi, Kenya"
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "Africa DevOps Summit",
+        "alternateName": ["ADS 2026", "#AfricaDevOpsSummit"],
+        "startDate": "2026-11-20T08:00:00Z",
+        "endDate": "2026-11-21T18:00:00Z",
+        "description": "Africa DevOps Summit is the continent's flagship conference dedicated to advancing DevOps culture and practice. The annual event unites technologists, leaders, and innovators from across Africa and beyond through keynote presentations, hands-on workshops, lightning talks, panel discussions, and networking opportunities.",
+        "url": "https://www.devopssummit.africa/",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+        "location": {
+          "@type": "Place",
+          "name": "Nairobi",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Nairobi",
+            "addressCountry": "KE"
+          }
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": "Nairobi DevOps Community",
+          "url": "https://nairobidevops.org/",
+          "sameAs": ["https://x.com/nairobidevops", "https://www.instagram.com/nairobidevops/"]
+        },
+        "image": "https://www.devopssummit.africa/og-image.png",
+        "inLanguage": "en",
+        "keywords": "DevOps, Cloud Native, SRE, Platform Engineering, Kubernetes, Africa, Nairobi, Kenya"
+      }
     </script>
 
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Nairobi DevOps Community",
-      "url": "https://nairobidevops.org/",
-      "logo": "https://nairobidevops.org/logo.png",
-      "description": "A dynamic, inclusive, and growing collective focused on DevOps practices in Nairobi, Kenya, and beyond. Over 3,000 members, 50+ events, and 20+ partners.",
-      "sameAs": [
-        "https://x.com/nairobidevops",
-        "https://www.instagram.com/nairobidevops/"
-      ],
-      "foundingLocation": {
-        "@type": "Place",
-        "name": "Nairobi, Kenya"
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Nairobi DevOps Community",
+        "url": "https://nairobidevops.org/",
+        "logo": "https://nairobidevops.org/logo.png",
+        "description": "A dynamic, inclusive, and growing collective focused on DevOps practices in Nairobi, Kenya, and beyond. Over 3,000 members, 50+ events, and 20+ partners.",
+        "sameAs": ["https://x.com/nairobidevops", "https://www.instagram.com/nairobidevops/"],
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "Nairobi, Kenya"
+        }
       }
-    }
     </script>
+
+    <!-- Google Tag Manager will be loaded lazily in main.tsx or via inline delay -->
+
+    <!-- Facebook Meta Manager -->
+    <meta name="facebook-domain-verification" content="kczggxco3jv08h01udx5hdckru1yo4" />
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        title="Google Tag Manager"
+        src="https://www.googletagmanager.com/ns.html?id=GTM-P6L9KZDZ"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Performance: Load non-critical GTM after main app is ready
+      window.addEventListener("load", function () {
+        if ("requestIdleCallback" in globalThis) {
+          requestIdleCallback(
+            function () {
+              var s = document.createElement("script");
+              s.src = "/scripts/gtm.js";
+              s.type = "module";
+              s.async = true;
+              document.body.appendChild(s);
+            },
+            { timeout: 3000 },
+          );
+        } else {
+          setTimeout(function () {
+            var s = document.createElement("script");
+            s.src = "/scripts/gtm.js";
+            s.type = "module";
+            s.async = true;
+            document.body.appendChild(s);
+          }, 2000);
+        }
+      });
+    </script>
   </body>
 </html>

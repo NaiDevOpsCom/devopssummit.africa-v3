@@ -6,7 +6,7 @@ export interface Speaker {
   name: string;
   designation: string | null;
   company?: string | null;
-  imageUrl: HttpUrl | string | null;
+  imageUrl: HttpUrl | (string & {}) | null;
   eventRole?: string | null;
   topic?: string | null;
   videoUrl?: HttpUrl | null;
@@ -19,8 +19,10 @@ export interface Ticket {
   name: string;
   price: string;
   priceNote?: string;
+  disclaimer?: string;
   features: string[];
   ctaLabel: string;
+  ctaLink?: HttpUrl | (string & {});
 }
 
 export interface TeamMember {
@@ -68,4 +70,11 @@ export interface SponsorTestimonial {
   image?: string;
   /** Whether the testimonial has been verified for publication. */
   verified?: boolean;
+}
+
+export interface SponsorshipPackage {
+  name: string;
+  price: string;
+  highlight?: boolean;
+  benefits: string[];
 }

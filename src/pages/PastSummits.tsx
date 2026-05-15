@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import SEO from "@/components/SEO";
+import React, { useState, useCallback, useEffect } from "react";
+import Seo from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Play,
@@ -35,6 +35,7 @@ import { Speaker } from "@/types";
 import SummitGallery from "@/components/SummitGallery";
 import { summitsArray, getSummitCounts } from "@/utils/summitUtils";
 import { SafeLink } from "@/components/SafeLink";
+import { buildCloudinarySrcSet, buildCloudinaryUrl } from "@/utils/cloudinary";
 
 const iconMap: Record<string, React.ReactNode> = {
   server: <Server className="w-6 h-6" />,
@@ -57,6 +58,9 @@ const tierColors: Record<string, string> = {
   community: "bg-secondary/20 text-secondary-foreground",
 };
 
+const PAST_SUMMITS_HERO_IMAGE =
+  "https://res.cloudinary.com/nairobidevops/image/upload/v1773331511/PXL_20240601_141623150_dnm3ad.jpg";
+
 /* ─── Shared Logic & Constants moved to @/utils/summitUtils ─── */
 
 /* ─── Hero ─── */
@@ -64,12 +68,31 @@ const PastSummitsHero: React.FC = () => (
   <section className="relative min-h-[60vh] flex items-center overflow-hidden">
     <div className="absolute inset-0">
       <img
-        src={
-          "https://res.cloudinary.com/nairobidevops/image/upload/v1773331511/PXL_20240601_141623150_dnm3ad.jpg"
-        }
+        src={buildCloudinaryUrl(PAST_SUMMITS_HERO_IMAGE, {
+          width: 1440,
+          height: 810,
+          crop: "fill",
+          gravity: "auto",
+          quality: "auto:eco",
+        })}
+        srcSet={buildCloudinarySrcSet(
+          PAST_SUMMITS_HERO_IMAGE,
+          {
+            aspectRatio: "16:9",
+            crop: "fill",
+            gravity: "auto",
+            quality: "auto:eco",
+          },
+          [640, 960, 1200, 1440, 1600],
+        )}
+        sizes="100vw"
         alt="Audience and stage at a past Africa DevOps Summit"
         className="w-full h-full object-cover"
         loading="eager"
+        fetchPriority="high"
+        decoding="async"
+        width={1440}
+        height={810}
       />
       <div className="absolute inset-0 bg-dark-bg/85" />
       <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-transparent" />
@@ -105,7 +128,7 @@ const PastSummitsHero: React.FC = () => (
 
 /* ─── Stat Card ─── */
 const MetricCard: React.FC<{ value: string; label: string }> = ({ value, label }) => (
-  <div className="bg-card rounded-xl p-5 text-center shadow-sm border border-border">
+  <div className="bg-card/20 rounded-xl p-5 text-center shadow-sm border border-border">
     <p className="text-3xl font-bold text-primary font-heading">{value}</p>
     <p className="text-sm text-muted-foreground mt-1">{label}</p>
   </div>
@@ -126,10 +149,28 @@ const SpeakerCardFull: React.FC<{ speaker: Speaker; compact?: boolean }> = ({
       <div className="aspect-square overflow-hidden bg-muted relative">
         {speaker.imageUrl ? (
           <img
-            src={speaker.imageUrl}
+            src={buildCloudinaryUrl(speaker.imageUrl, {
+              width: 360,
+              height: 360,
+              crop: "fill",
+              gravity: "face",
+            })}
+            srcSet={buildCloudinarySrcSet(
+              speaker.imageUrl,
+              {
+                aspectRatio: "1:1",
+                crop: "fill",
+                gravity: "face",
+              },
+              [180, 240, 320, 360, 480],
+            )}
+            sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 90vw"
             alt={speaker.name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
+            decoding="async"
+            width={360}
+            height={360}
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/50 transition-transform duration-300 group-hover:scale-105">
@@ -152,7 +193,7 @@ const SpeakerCardFull: React.FC<{ speaker: Speaker; compact?: boolean }> = ({
           </div>
         )}
       </div>
-      <div className="p-4 flex flex-col items-center text-center">
+      <div className="p-4 flex flex-col items-center text-center bg-white">
         {speaker.isKeynote && !compact && (
           <span className="inline-flex items-center gap-1 text-xs font-medium text-primary mb-2">
             <Star className="w-3 h-3" /> Keynote
@@ -166,14 +207,9 @@ const SpeakerCardFull: React.FC<{ speaker: Speaker; compact?: boolean }> = ({
         </h4>
         <p
           className="text-xs text-muted-foreground line-clamp-2"
-          title={`${speaker.designation || ""}${speaker.designation && speaker.company ? ", " : ""}${speaker.company || ""}`}
+          title={[speaker.designation, speaker.company].filter(Boolean).join(", ")}
         >
-          {speaker.designation}
-          {speaker.designation && speaker.company
-            ? `, ${speaker.company}`
-            : speaker.company
-              ? speaker.company
-              : ""}
+          {[speaker.designation, speaker.company].filter(Boolean).join(", ")}
         </p>
         <p className="text-xs text-foreground/80 mt-2 line-clamp-2">
           {speaker.topic ?? "Topic to be announced."}
@@ -181,7 +217,7 @@ const SpeakerCardFull: React.FC<{ speaker: Speaker; compact?: boolean }> = ({
         <div className="flex gap-3 justify-center mt-3">
           {hasVideo && (
             <SafeLink
-              href={speaker.videoUrl}
+              href={speaker.videoUrl as string}
               className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
             >
               <Play className="w-3 h-3" /> Watch
@@ -189,7 +225,7 @@ const SpeakerCardFull: React.FC<{ speaker: Speaker; compact?: boolean }> = ({
           )}
           {hasSlides && (
             <SafeLink
-              href={speaker.slidesUrl}
+              href={speaker.slidesUrl as string}
               className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
             >
               <Presentation className="w-3 h-3" /> Slides
@@ -198,6 +234,103 @@ const SpeakerCardFull: React.FC<{ speaker: Speaker; compact?: boolean }> = ({
         </div>
       </div>
     </div>
+  );
+};
+
+/* ─── Keynotes Section ─── */
+const KeynotesSection: React.FC<{ keynotes: Speaker[] }> = ({ keynotes }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const cardsPerPage = 3;
+  const isCarousel = keynotes.length > cardsPerPage;
+  const totalPages = Math.ceil(keynotes.length / cardsPerPage);
+
+  const prev = () => setCurrentIndex((i) => Math.max(0, i - 1));
+  const next = () => setCurrentIndex((i) => Math.min(totalPages - 1, i + 1));
+
+  if (keynotes.length === 0) return null;
+
+  if (!isCarousel) {
+    return (
+      <section>
+        <SectionHeader
+          title="Keynote Speakers"
+          subtitle="The voices that inspired and challenged us."
+        />
+        <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto px-4">
+          {keynotes.map((s) => (
+            <div
+              key={s.id || s.name}
+              className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] max-w-[350px]"
+            >
+              <SpeakerCardFull speaker={s} />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  const visibleKeynotes = keynotes.slice(
+    currentIndex * cardsPerPage,
+    currentIndex * cardsPerPage + cardsPerPage,
+  );
+
+  return (
+    <section>
+      <SectionHeader
+        title="Keynote Speakers"
+        subtitle="The voices that inspired and challenged us."
+      />
+      <div className="max-w-5xl mx-auto px-4 relative">
+        <div className="flex justify-end gap-2 mb-6">
+          <button
+            onClick={prev}
+            disabled={currentIndex === 0}
+            aria-label="Previous slide"
+            className="w-10 h-10 rounded-full border border-border/30 flex items-center justify-center text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={next}
+            disabled={currentIndex >= totalPages - 1}
+            aria-label="Next slide"
+            className="w-10 h-10 rounded-full border border-border/30 flex items-center justify-center text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {visibleKeynotes.map((s) => (
+              <SpeakerCardFull key={s.id || s.name} speaker={s} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="flex justify-center gap-2 mt-8">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => setCurrentIndex(i)}
+              className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -225,11 +358,11 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
           pill={String(data.year)}
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto mb-6">
-          <div className="bg-card rounded-xl p-4 border border-border">
+          <div className="bg-card/20 rounded-xl p-4 border border-border">
             <p className="text-sm text-muted-foreground">Date</p>
             <p className="font-semibold text-foreground font-heading text-sm">{data.date}</p>
           </div>
-          <div className="bg-card rounded-xl p-4 border border-border">
+          <div className="bg-card/20 rounded-xl p-4 border border-border">
             <p className="text-sm text-muted-foreground">Venue</p>
             <p className="font-semibold text-foreground font-heading text-sm">{data.venue}</p>
             <p className="text-xs text-muted-foreground">{data.location}</p>
@@ -278,14 +411,14 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card rounded-xl p-6 border border-border shadow-sm flex gap-4"
+              className="bg-card/20 rounded-xl p-6 border border-border shadow-sm flex gap-4"
             >
               <div className="w-12 h-12 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">
                 {iconMap[h.icon] || <Star className="w-6 h-6" />}
               </div>
               <div>
                 <h4 className="font-bold text-foreground font-heading mb-1">{h.title}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{h.description}</p>
+                <p className="text-sm text-foreground/70 leading-relaxed">{h.description}</p>
               </div>
             </motion.div>
           ))}
@@ -293,19 +426,7 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
       </section>
 
       {/* Keynote Speakers */}
-      {keynotes.length > 0 && (
-        <section>
-          <SectionHeader
-            title="Keynote Speakers"
-            subtitle="The voices that inspired and challenged us."
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {keynotes.map((s) => (
-              <SpeakerCardFull key={s.name} speaker={s} />
-            ))}
-          </div>
-        </section>
-      )}
+      <KeynotesSection keynotes={keynotes} />
 
       {/* Full Speaker Archive */}
       <section>
@@ -313,11 +434,9 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
           title="Full Speaker Archive"
           subtitle="A complete list of all speakers and sessions from the summit."
         />
-        <div className="max-w-5xl mx-auto bg-card rounded-xl border border-border overflow-hidden">
-          <div
+        <div className="max-w-5xl mx-auto bg-muted rounded-xl border border-border overflow-hidden">
+          <section
             className="divide-y divide-border max-h-[820px] overflow-y-auto custom-scrollbar focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
-            tabIndex={0}
-            role="region"
             aria-label="Full speaker archive"
           >
             {[...keynotes, ...otherSpeakers].map((s) => {
@@ -335,10 +454,28 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
                     <div className="flex-shrink-0 w-14 h-14 rounded-full bg-muted flex items-center justify-center">
                       {s.imageUrl ? (
                         <img
-                          src={s.imageUrl}
+                          src={buildCloudinaryUrl(s.imageUrl, {
+                            width: 96,
+                            height: 96,
+                            crop: "fill",
+                            gravity: "face",
+                          })}
+                          srcSet={buildCloudinarySrcSet(
+                            s.imageUrl,
+                            {
+                              aspectRatio: "1:1",
+                              crop: "fill",
+                              gravity: "face",
+                            },
+                            [56, 96, 112],
+                          )}
+                          sizes="56px"
                           alt={s.name}
                           className="w-full h-full object-cover rounded-full"
                           loading="lazy"
+                          decoding="async"
+                          width={56}
+                          height={56}
                         />
                       ) : (
                         <span className="text-lg font-semibold text-muted-foreground">
@@ -360,8 +497,7 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
                         <p className="text-xs text-primary font-medium truncate">{s.eventRole}</p>
                       )}
                       <p className="text-xs text-muted-foreground truncate">
-                        {s.designation}
-                        {s.designation && s.company ? `, ${s.company}` : s.company ? s.company : ""}
+                        {[s.designation, s.company].filter(Boolean).join(", ")}
                       </p>
                     </div>
                   </div>
@@ -379,7 +515,7 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
                       <div className="flex gap-3">
                         {hasVideo && (
                           <SafeLink
-                            href={s.videoUrl}
+                            href={s.videoUrl as string}
                             className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
                           >
                             <Play className="w-3.5 h-3.5" /> Watch
@@ -387,7 +523,7 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
                         )}
                         {hasSlides && (
                           <SafeLink
-                            href={s.slidesUrl}
+                            href={s.slidesUrl as string}
                             className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
                           >
                             <Presentation className="w-3.5 h-3.5" /> Slides
@@ -403,7 +539,7 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
                 </div>
               );
             })}
-          </div>
+          </section>
         </div>
       </section>
 
@@ -415,7 +551,7 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
         if (testimonials.length === 0) return null;
 
         return (
-          <section className="bg-muted rounded-2xl py-16">
+          <section className="bg-card/20 rounded-2xl py-16">
             <SectionHeader title="What Attendees Said" subtitle="Voices from the community." />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto section-padding">
               {testimonials.map((t, i) => (
@@ -425,7 +561,7 @@ const SummitYearContent: React.FC<{ data: PastSummit }> = ({ data }) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-card rounded-xl p-6 border border-border shadow-sm"
+                  className="bg-pure-white rounded-xl p-6 border border-border shadow-sm"
                 >
                   <Quote className="w-8 h-8 text-primary/30 mb-3" />
                   <p className="text-sm text-foreground leading-relaxed mb-4 italic">"{t.quote}"</p>
@@ -483,16 +619,34 @@ const SummitCard: React.FC<{ summit: PastSummit; onExplore?: (year: string) => v
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col"
+      className="bg-muted rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col"
     >
       {/* Image placeholder / gallery preview */}
       <div className="aspect-[16/9] bg-muted overflow-hidden">
         {summitGallery[summit.year]?.[0] ? (
           <img
-            src={summitGallery[summit.year][0].src}
+            src={buildCloudinaryUrl(summitGallery[summit.year][0].src, {
+              width: 640,
+              height: 360,
+              crop: "fill",
+              gravity: "auto",
+            })}
+            srcSet={buildCloudinarySrcSet(
+              summitGallery[summit.year][0].src,
+              {
+                aspectRatio: "16:9",
+                crop: "fill",
+                gravity: "auto",
+              },
+              [320, 480, 640, 768],
+            )}
+            sizes="(min-width: 1024px) 380px, (min-width: 768px) 45vw, 90vw"
             alt={`${summit.year} Summit`}
             className="w-full h-full object-cover"
             loading="lazy"
+            decoding="async"
+            width={640}
+            height={360}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -571,6 +725,14 @@ const GrowthSection: React.FC<{ onExplore?: (year: string) => void }> = ({ onExp
     [totalPages],
   );
 
+  useEffect(() => {
+    if (!needsCarousel) return;
+    const interval = setInterval(() => {
+      setCarouselIndex((current) => (current === totalPages - 1 ? 0 : current + 1));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [needsCarousel, totalPages]);
+
   const visibleSummits = needsCarousel
     ? summitsArray.slice(carouselIndex * cardsPerPage, carouselIndex * cardsPerPage + cardsPerPage)
     : summitsArray;
@@ -579,57 +741,10 @@ const GrowthSection: React.FC<{ onExplore?: (year: string) => void }> = ({ onExp
     <section className="py-20 bg-primary">
       <div className="max-w-7xl mx-auto section-padding">
         <SectionHeader
-          title="Summit Evolution & Growth"
+          title="Summit Evolution"
           subtitle="How the Africa DevOps Summit has grown year over year."
           light
         />
-
-        {/* Growth Metrics */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20">
-          {growthMetrics.map((metric) => (
-            <motion.div
-              key={metric.label}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-card-dark rounded-xl p-6 border border-border/20"
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="w-5 h-5 text-primary" />
-                <h4 className="font-bold text-primary-foreground font-heading">{metric.label}</h4>
-              </div>
-              <div className="space-y-3">
-                {metric.values.map((v) => (
-                  <div key={v.year}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-muted-foreground">{v.year}</span>
-                      <span className="text-primary-foreground font-semibold">{v.value}</span>
-                    </div>
-                    <Progress
-                      value={(v.value / (maxValues[metric.label] * 1.2)) * 100}
-                      className="h-2 bg-muted-foreground/20"
-                    />
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-primary mt-3 font-medium">
-                {metric.values.length > 1 && metric.values[0].value !== 0 ? (
-                  <>
-                    +
-                    {Math.round(
-                      ((metric.values[metric.values.length - 1].value - metric.values[0].value) /
-                        metric.values[0].value) *
-                        100,
-                    )}
-                    % growth
-                  </>
-                ) : (
-                  "0% growth"
-                )}
-              </p>
-            </motion.div>
-          ))}
-        </div> */}
 
         {/* Summit Year Cards */}
         <div className="relative">
@@ -661,10 +776,23 @@ const GrowthSection: React.FC<{ onExplore?: (year: string) => void }> = ({ onExp
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className={
+                needsCarousel
+                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  : "flex flex-wrap justify-center gap-6"
+              }
             >
               {visibleSummits.map((summit) => (
-                <SummitCard key={summit.year} summit={summit} onExplore={onExplore} />
+                <div
+                  key={summit.year}
+                  className={
+                    needsCarousel
+                      ? ""
+                      : "w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] max-w-sm"
+                  }
+                >
+                  <SummitCard summit={summit} onExplore={onExplore} />
+                </div>
               ))}
             </motion.div>
           </AnimatePresence>
@@ -721,7 +849,7 @@ const PastSummits: React.FC = () => {
 
   return (
     <>
-      <SEO
+      <Seo
         title="Past Summits"
         description="Explore highlights, speakers, and milestones from previous editions of the Africa DevOps Summit."
         keywords="past summits, DevOps history, conference archive, Africa DevOps, speakers"

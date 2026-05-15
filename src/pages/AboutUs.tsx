@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
@@ -17,6 +17,7 @@ import { AnimatePresence, useReducedMotion } from "framer-motion";
 import { useDynamicBackground } from "@/hooks/useDynamicBackground";
 import { ADS2025_HERO_IMAGES, FALLBACK_IMAGE } from "@/data/heroImages";
 import { Button } from "@/components/ui/button";
+import { summitDetails, pastSummitsData } from "@/data/summitData";
 
 /* ------------------------------------------------------------------ */
 /*  Reusable animation variant                                        */
@@ -29,7 +30,7 @@ const fadeUp = {
 /* ------------------------------------------------------------------ */
 /*  1 · Hero Banner                                                   */
 /* ------------------------------------------------------------------ */
-const AboutHero: React.FC = () => {
+const AboutHero = memo(() => {
   const { currentImage } = useDynamicBackground(ADS2025_HERO_IMAGES, 7000);
   const prefersReducedMotion = useReducedMotion();
 
@@ -47,10 +48,11 @@ const AboutHero: React.FC = () => {
             className="absolute inset-0"
           >
             <img
-              src={currentImage}
+              src={`${currentImage}?tr=w-1920,q-80,f-auto`}
               alt=""
               className="w-full h-full object-cover"
               loading="eager"
+              fetchPriority="high"
               onError={(e) => {
                 const target = e.currentTarget;
                 if (target.dataset.errorHandled === "true") return;
@@ -95,7 +97,9 @@ const AboutHero: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+AboutHero.displayName = "AboutHero";
 
 /* ------------------------------------------------------------------ */
 /*  2 · About Africa DevOps Summit                                    */
@@ -105,9 +109,11 @@ const platformPoints = [
   "Connect Africa's vibrant global DevOps leaders",
   "Promote diversity, inclusion, and culture across events",
   "Provide hands-on learning through workshops and demos",
+  "Bridge global engineering standards with local African contexts",
+  "Accelerate career growth in SRE, Cloud, and Platform Engineering",
 ];
 
-const AboutSummit: React.FC = () => (
+const AboutSummit = memo(() => (
   <section className="py-20 md:py-28 bg-primary">
     <div className="max-w-7xl mx-auto section-padding">
       <div className="flex items-center justify-center gap-4 mb-20 md:mb-24 overflow-hidden">
@@ -123,16 +129,16 @@ const AboutSummit: React.FC = () => (
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
         >
           <motion.div variants={fadeUp}>
             <div className="flex items-center gap-4 mb-8 overflow-hidden">
-              <div className="h-[1px] w-12 md:w-20 bg-brand-cyan/40" />
-              <div className="bg-brand-cyan text-black px-8 py-2 rounded-full font-bold text-lg md:text-xl shadow-md">
+              <div className="h-[1px] w-12 md:w-20 bg-secondary/40" />
+              <div className="bg-secondary text-black px-8 py-2 rounded-full font-bold text-lg md:text-xl shadow-md">
                 About Us
               </div>
-              <div className="h-[1px] w-12 md:w-20 bg-brand-cyan/40" />
+              <div className="h-[1px] w-12 md:w-20 bg-secondary/40" />
             </div>
 
             <p className="text-black leading-relaxed mb-8">
@@ -148,16 +154,13 @@ const AboutSummit: React.FC = () => (
           </motion.div>
 
           {/* Event card */}
-          <motion.div variants={fadeUp} className="bg-brand-cyan rounded-2xl p-8 text-black">
-            <h3 className="font-heading text-black font-bold text-lg mb-2">
-              Africa DevOps Summit 2026
-            </h3>
+          <motion.div variants={fadeUp} className="bg-pure-white rounded-2xl p-8 text-black">
+            <h3 className="font-heading text-black font-bold text-lg mb-2">{summitDetails.name}</h3>
             <div className="flex items-center gap-2 text-sm opacity-80 mb-1">
-              <Calendar className="w-4 h-4" /> 20th – 21st November, 2026
+              <Calendar className="w-4 h-4" /> {summitDetails.date}
             </div>
             <div className="flex items-center gap-2 text-sm opacity-80 mb-3">
-              <MapPin className="w-4 h-4" /> Marking a pivotal moment in an Africa-wide DevOps event
-              experience.
+              <MapPin className="w-4 h-4" /> {summitDetails.venue}, {summitDetails.location}
             </div>
           </motion.div>
         </motion.div>
@@ -166,16 +169,17 @@ const AboutSummit: React.FC = () => (
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
           className="flex flex-col"
         >
           <motion.div variants={fadeUp} className="rounded-2xl overflow-hidden mb-6">
             <img
-              src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9856.jpg?updatedAt=1757829550534"
+              src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9856.jpg?updatedAt=1757829550534&tr=w-800,q-80,f-auto"
               alt="Africa DevOps Summit conference audience"
               className="w-full h-48 md:h-56 object-cover"
               loading="lazy"
+              decoding="async"
             />
           </motion.div>
           <motion.div variants={fadeUp}>
@@ -185,7 +189,7 @@ const AboutSummit: React.FC = () => (
             <ul className="space-y-3">
               {platformPoints.map((pt) => (
                 <li key={pt} className="flex items-start gap-3 text-black">
-                  <CheckCircle className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                   <span className="leading-relaxed">{pt}</span>
                 </li>
               ))}
@@ -195,7 +199,9 @@ const AboutSummit: React.FC = () => (
       </div>
     </div>
   </section>
-);
+));
+
+AboutSummit.displayName = "AboutSummit";
 
 /* ------------------------------------------------------------------ */
 /*  3 · Strategic Direction (Mission, Vision, Core Values)             */
@@ -226,7 +232,7 @@ const strategicValues = [
   },
 ];
 
-const StrategicDirection: React.FC = () => (
+const StrategicDirection = memo(() => (
   <section className="py-20 md:py-28 bg-background">
     <div className="max-w-7xl mx-auto section-padding">
       {/* Mission & Vision Grid */}
@@ -234,9 +240,9 @@ const StrategicDirection: React.FC = () => (
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={fadeUp}
-          className="bg-brand-cyan rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-brand-cyan/10"
+          className="bg-card/20 rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-secondary/10"
         >
           <h2 className="text-2xl md:text-3xl font-black font-heading text-black mb-6">
             Our Mission
@@ -252,9 +258,9 @@ const StrategicDirection: React.FC = () => (
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={fadeUp}
-          className="bg-brand-cyan rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-brand-cyan/10"
+          className="bg-card/20 rounded-[2.5rem] p-10 md:p-14 text-center shadow-xl shadow-secondary/10"
         >
           <h2 className="text-2xl md:text-3xl font-black font-heading text-black mb-6">
             Our Vision
@@ -284,7 +290,7 @@ const StrategicDirection: React.FC = () => (
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-50px" }}
         variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
         className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
       >
@@ -292,10 +298,10 @@ const StrategicDirection: React.FC = () => (
           <motion.div
             key={v.title}
             variants={fadeUp}
-            className="bg-brand-cyan rounded-[2rem] p-8 text-center shadow-lg shadow-brand-cyan/5 transition-transform hover:-translate-y-2 duration-300"
+            className="bg-card/20 rounded-[2rem] p-8 text-center shadow-lg shadow-secondary/5 transition-transform hover:-translate-y-2 duration-300"
           >
             <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-6">
-              <v.icon className="w-8 h-8 text-black" />
+              <v.icon className="w-8 h-8 text-primary" />
             </div>
             <h3 className="text-xl font-bold font-heading text-black mb-3">{v.title}</h3>
             <p className="text-black/70 text-sm leading-relaxed font-medium">{v.description}</p>
@@ -304,7 +310,9 @@ const StrategicDirection: React.FC = () => (
       </motion.div>
     </div>
   </section>
-);
+));
+
+StrategicDirection.displayName = "StrategicDirection";
 
 /* ------------------------------------------------------------------ */
 /*  5 · Who Attends                                                   */
@@ -333,7 +341,7 @@ const globalReach = [
   },
   {
     label: "International Participation",
-    desc: "Global speakers and attendees from Europe, North America, and Asia sharing to share knowledge.",
+    desc: "Global speakers and attendees from Africa, Europe, North America, and Asia sharing to share knowledge.",
   },
   {
     label: "Student Focus",
@@ -341,16 +349,16 @@ const globalReach = [
   },
 ];
 
-const WhoAttends: React.FC = () => (
-  <section className="py-20 md:py-28 bg-primary/50">
+const WhoAttends = memo(() => (
+  <section className="py-20 md:py-28 bg-muted">
     <div className="max-w-7xl mx-auto section-padding">
       {/* Styled Section Header */}
       <div className="flex items-center justify-center gap-6 mb-8">
-        <div className="h-[2px] flex-grow bg-foreground/10 max-w-[200px]" />
+        <div className="h-[2px] flex-grow bg-pure-black max-w-[200px]" />
         <h2 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">
           Who Attends
         </h2>
-        <div className="h-[2px] flex-grow bg-foreground/10 max-w-[200px]" />
+        <div className="h-[2px] flex-grow bg-pure-black max-w-[200px]" />
       </div>
 
       <p className="text-center text-black max-w-2xl mx-auto mb-20 font-medium">
@@ -364,9 +372,9 @@ const WhoAttends: React.FC = () => (
           {/* Header Pill with lines */}
           <div className="relative flex items-center justify-center">
             <div className="absolute inset-0 flex items-center" aria-hidden="true">
-              <div className="w-full border-t border-primary/20"></div>
+              <div className="w-full border-t border-primary"></div>
             </div>
-            <span className="relative px-8 py-2.5 rounded-full bg-brand-cyan text-black text-lg font-black shadow-lg shadow-brand-cyan/20">
+            <span className="relative px-8 py-2.5 rounded-full bg-secondary text-black text-lg font-black shadow-lg shadow-secondary/20">
               Our Diverse Community
             </span>
           </div>
@@ -374,7 +382,7 @@ const WhoAttends: React.FC = () => (
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
             className="space-y-6"
           >
@@ -388,7 +396,7 @@ const WhoAttends: React.FC = () => (
               <motion.div
                 key={g.label}
                 variants={fadeUp}
-                className="bg-brand-cyan border border-brand-cyan/20 rounded-2xl p-6 shadow-sm transition-transform hover:-translate-y-1 duration-300"
+                className="bg-card/20 border border-primary rounded-2xl p-6 shadow-sm transition-transform hover:-translate-y-1 duration-300"
               >
                 <h3 className="font-heading font-black text-black text-lg mb-2">{g.label}</h3>
                 <p className="text-black/70 text-sm font-medium leading-relaxed">{g.desc}</p>
@@ -402,7 +410,7 @@ const WhoAttends: React.FC = () => (
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={fadeUp}
             className="bg-white rounded-[2.5rem] p-10 md:p-14 shadow-2xl shadow-blue-900/5 relative overflow-hidden"
           >
@@ -420,41 +428,35 @@ const WhoAttends: React.FC = () => (
           </motion.div>
 
           {/* Gallery Image */}
-          <Link
-            to="/gallery"
-            className="block outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan rounded-[2.5rem]"
-          >
+          <div className="block outline-none focus-visible:ring-2 focus-visible:ring-secondary rounded-[2.5rem]">
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               variants={fadeUp}
               className="rounded-[2.5rem] overflow-hidden aspect-video relative group cursor-pointer shadow-2xl shadow-blue-900/10"
             >
               <img
-                src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9872.jpg?updatedAt=1757829555177"
+                src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9872.jpg?updatedAt=1757829555177&tr=w-800,q-80,f-auto"
                 alt="Africa DevOps Summit Event Gallery"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
+                decoding="async"
               />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="bg-brand-cyan text-black px-6 py-2 rounded-full font-black text-sm transform transition-transform duration-500 scale-90 group-hover:scale-100">
-                  View Event Gallery
-                </div>
-              </div>
             </motion.div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>
   </section>
-);
+));
+
+WhoAttends.displayName = "WhoAttends";
 
 /* ------------------------------------------------------------------ */
 /*  6 · About Nairobi DevOps Community                                */
 /* ------------------------------------------------------------------ */
-const NairobiCommunity: React.FC = () => (
+const NairobiCommunity = memo(() => (
   <section className="py-20 md:py-28 bg-background">
     <div className="max-w-7xl mx-auto section-padding">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -462,16 +464,18 @@ const NairobiCommunity: React.FC = () => (
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={fadeUp}
           className="relative group lg:order-1"
         >
           <div className="absolute -inset-4 bg-primary/5 rounded-[3rem] blur-2xl group-hover:bg-primary/10 transition-colors duration-500" />
           <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/3] bg-slate-200 shadow-2xl shadow-blue-900/10">
             <img
-              src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9856.jpg?updatedAt=1757829550534"
+              src="https://ik.imagekit.io/nairobidevops/ads2024/IMG_9856.jpg?updatedAt=1757829550534&tr=w-800,q-80,f-auto"
               alt="Nairobi DevOps Community"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </motion.div>
@@ -480,7 +484,7 @@ const NairobiCommunity: React.FC = () => (
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={fadeUp}
           className="lg:order-2"
         >
@@ -493,12 +497,12 @@ const NairobiCommunity: React.FC = () => (
             <div className="h-[2px] w-12 bg-foreground/10" />
           </div>
 
-          <p className="text-muted-foreground leading-relaxed mb-6 font-medium">
+          <p className="text-pure-black leading-relaxed mb-6 font-medium">
             The Nairobi DevOps Community (NDC) is a vibrant group of DevOps enthusiasts and
             professionals in Nairobi, Kenya. We aim to foster innovation and collaboration,
             providing a platform for learning and networking in the DevOps space.
           </p>
-          <p className="text-muted-foreground leading-relaxed mb-10 font-medium text-sm md:text-base">
+          <p className="text-pure-black leading-relaxed mb-10 font-medium text-sm md:text-base">
             Our community organizes regular meetups, workshops, and training sessions on topics
             ranging from containerization and CI/CD to security and cloud architecture. We partner
             with leading organizations to provide our members with access to cutting-edge tools and
@@ -507,13 +511,13 @@ const NairobiCommunity: React.FC = () => (
 
           <div className="flex flex-wrap gap-12 md:gap-20 mb-12">
             <div>
-              <p className="text-4xl md:text-3xl font-black text-foreground mb-2">3000+</p>
+              <p className="text-4xl md:text-3xl font-black text-foreground mb-2">5000+</p>
               <p className="text-sm font-bold text-muted-foreground tracking-wider uppercase">
                 Active Members
               </p>
             </div>
             <div>
-              <p className="text-4xl md:text-3xl font-black text-foreground mb-2">50+</p>
+              <p className="text-4xl md:text-3xl font-black text-foreground mb-2">60+</p>
               <p className="text-sm font-bold text-muted-foreground tracking-wider uppercase">
                 Monthly Events
               </p>
@@ -524,7 +528,7 @@ const NairobiCommunity: React.FC = () => (
             href="https://nairobidevops.org/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-7 py-3 rounded-full bg-brand-cyan text-black font-semibold text-sm hover:opacity-90 hover:bg-primary transition-all"
+            className="px-7 py-3 rounded-full bg-secondary text-black font-semibold text-sm hover:opacity-90 hover:bg-primary transition-all"
           >
             Join Our Community
           </a>
@@ -532,113 +536,154 @@ const NairobiCommunity: React.FC = () => (
       </div>
     </div>
   </section>
-);
+));
+
+NairobiCommunity.displayName = "NairobiCommunity";
 
 /* ------------------------------------------------------------------ */
 /*  7 · Our Journey (Timeline)                                        */
 /* ------------------------------------------------------------------ */
+const START_YEAR = 2024;
+
+const getEditionOrdinal = (year: number) => {
+  const ordinals = [
+    "First",
+    "Second",
+    "Third",
+    "Fourth",
+    "Fifth",
+    "Sixth",
+    "Seventh",
+    "Eighth",
+    "Ninth",
+    "Tenth",
+  ];
+  const index = year - START_YEAR;
+  return index >= 0 && index < ordinals.length
+    ? `${ordinals[index]} Edition`
+    : `${index + 1}th Edition`;
+};
+
+// Automatically generate journey items from summitData source of truth
+// This ensures that adding new years to pastSummitsData or updating summitDetails
+// will automatically reflect in the "Our Journey" timeline without code changes.
+const currentSummitYear = new Date(summitDetails.datetime).getFullYear();
+
 const journeyItems = [
+  // The upcoming/current summit
   {
-    year: "2026",
-    edition: "Third Edition",
-    tagline: "Taking DevOps beyond the coastline",
-    stat: "1000+ Expected attendees",
-    align: "left" as const,
+    year: currentSummitYear.toString(),
+    edition: getEditionOrdinal(currentSummitYear),
+    tagline: summitDetails.theme,
+    stat: `${summitDetails.attendees} attendees`,
+    date: summitDetails.date,
   },
-  {
-    year: "2025",
-    edition: "Second Edition",
-    tagline: "Uniting Tech Innovations Across the Continent",
-    stat: "500+ Attendees",
-    align: "right" as const,
-  },
-  {
-    year: "2024",
-    edition: "First Edition",
-    tagline: "Taking DevOps from the shoreline",
-    stat: "300+ Expected attendees",
-    align: "left" as const,
-  },
+  // All past summits sorted by year descending
+  ...Object.values(pastSummitsData)
+    .sort((a, b) => b.year - a.year)
+    .filter((s) => s.year < currentSummitYear)
+    .map((s) => ({
+      year: s.year.toString(),
+      edition: getEditionOrdinal(s.year),
+      tagline: s.theme,
+      stat: `${s.attendees} attendees`,
+      date: s.date,
+    })),
 ];
 
-const OurJourney: React.FC = () => {
-  const colors = [
-    { text: "text-brand-orange", border: "border-brand-orange", badgeBg: "bg-brand-orange/10" },
-    { text: "text-brand-purple", border: "border-brand-purple", badgeBg: "bg-brand-purple/10" },
-    { text: "text-brand-blue", border: "border-brand-blue", badgeBg: "bg-brand-blue/10" },
-  ];
-
+const OurJourney = memo(() => {
   return (
     <section className="py-24 md:py-32 bg-primary overflow-hidden">
       <div className="max-w-7xl mx-auto section-padding">
-        <div className="flex items-center justify-center gap-6 mb-16">
-          <div className="h-[2px] flex-grow bg-foreground/10 max-w-[200px]" />
-          <h2 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">
+        {/* Styled Section Header */}
+        <div className="flex items-center justify-center gap-6 mb-20 md:mb-32">
+          <div className="h-[2px] flex-grow bg-white/20 max-w-[100px] md:max-w-[200px]" />
+          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight text-center">
             Our Journey
           </h2>
-          <div className="h-[2px] flex-grow bg-foreground/10 max-w-[200px]" />
+          <div className="h-[2px] flex-grow bg-white/20 max-w-[100px] md:max-w-[200px]" />
         </div>
 
         <div className="relative">
-          {/* Vertical Dashed line in the center */}
-          <div className="absolute left-[30px] md:left-1/2 top-0 bottom-0 w-0 border-r-2 border-dashed border-white md:-translate-x-1/2 z-0" />
+          {/* Vertical Central Line */}
+          <div
+            className="absolute left-[30px] md:left-1/2 top-0 bottom-0 w-0 border-r-2 border-dashed border-white/40 md:-translate-x-1/2 z-0"
+            aria-hidden="true"
+          />
 
-          <div className="space-y-24 md:space-y-32">
+          <div className="space-y-32 md:space-y-48">
             {journeyItems.map((item, idx) => {
-              const color = colors[idx % colors.length];
               const isEven = idx % 2 === 0;
 
               return (
-                <motion.div
-                  key={item.year}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                  variants={fadeUp}
-                  className={`relative flex items-center ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}
-                >
-                  {/* Central Node and Horizontal connection */}
-                  <div className="absolute left-[30px] md:left-1/2 -translate-x-1/2 z-10">
-                    <div
-                      className={`w-10 h-10 rounded-full bg-white border-[3.5px] ${color.border} shadow-xl shadow-gray-200`}
-                    />
-                    {/* Horizontal connection line to content - only show on desktop */}
-                    <div
-                      className={`hidden md:block absolute top-[19px] w-[50px] border-t-2 border-dashed border-white ${isEven ? "right-[40px]" : "left-[40px]"}`}
-                    />
-                  </div>
-
-                  {/* Content Box */}
-                  <div
-                    className={`w-full md:w-1/2 ${isEven ? "md:pl-24" : "md:pr-24"} pl-20 md:pl-0 flex ${isEven ? "justify-start" : "md:justify-end"}`}
-                  >
-                    <div className={`max-w-md ${isEven ? "text-left" : "md:text-right text-left"}`}>
-                      {/* Badge Pill */}
-                      <span
-                        className={`inline-block px-4 py-1 rounded-full ${color.badgeBg} ${color.text} text-[10px] font-black uppercase tracking-widest mb-4 border border-current/20 shadow-sm`}
-                      >
-                        {item.edition}
-                      </span>
-
-                      {/* Year with prominent styling */}
-                      <h3
-                        className={`text-5xl md:text-6xl font-black ${color.text} mb-4 tracking-tighter leading-none`}
-                      >
+                <div key={item.year} className="relative">
+                  {/* Central Node with Year */}
+                  <div className="absolute left-[30px] md:left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 z-20">
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-secondary border-4 border-white flex items-center justify-center shadow-2xl"
+                    >
+                      <span className="text-white font-black text-xl md:text-3xl tracking-tight">
                         {item.year}
-                      </h3>
-
-                      {/* Tagline and description */}
-                      <div className="space-y-2">
-                        <p className="text-foreground text-lg md:text-xl font-bold leading-tight">
-                          {item.tagline}
-                        </p>
-                        <p className="text-muted-foreground font-medium text-base italic md:text-lg">
-                          {item.stat}
-                        </p>
-                      </div>
-                    </div>
+                      </span>
+                    </motion.div>
                   </div>
-                </motion.div>
+
+                  {/* Horizontal Connection Line (Desktop) */}
+                  <div
+                    className={`hidden md:block absolute top-0 w-[15%] lg:w-[20%] border-t-2 border-dashed border-white/40 ${
+                      isEven ? "right-1/2 mr-14 lg:mr-16" : "left-1/2 ml-14 lg:ml-16"
+                    } z-10`}
+                    aria-hidden="true"
+                  />
+
+                  {/* Desktop Year Badge */}
+                  <motion.div
+                    initial={{ x: isEven ? -20 : 20, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    className={`hidden md:flex absolute top-0 -translate-y-1/2 items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-secondary text-white shadow-xl shadow-blue-900/20 ${
+                      isEven ? "left-0" : "right-0"
+                    }`}
+                  >
+                    <Calendar className="w-5 h-5" />
+                    <span className="font-black text-lg">{item.date}</span>
+                  </motion.div>
+
+                  {/* Mobile Year Badge */}
+                  <div className="md:hidden absolute left-[85px] top-[-85px] flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary text-white shadow-lg">
+                    <Calendar className="w-4 h-4" />
+                    <span className="font-black text-sm">{item.date}</span>
+                  </div>
+
+                  {/* Content Container */}
+                  <div
+                    className={`flex flex-col md:flex-row items-center ${
+                      isEven ? "md:justify-start" : "md:justify-end"
+                    }`}
+                  >
+                    {/* Content Card */}
+                    <motion.div
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, margin: "-100px" }}
+                      variants={fadeUp}
+                      className="w-full md:w-[42%] bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl relative mt-16 md:mt-24"
+                    >
+                      <h3 className="text-black font-black text-2xl md:text-3xl mb-4 font-heading tracking-tight">
+                        {item.edition}
+                      </h3>
+                      <p className="text-gray-700 text-base md:text-lg font-medium leading-relaxed mb-6">
+                        {item.tagline}
+                      </p>
+                      <p className="text-gray-500 text-sm md:text-base font-bold uppercase tracking-wider">
+                        {item.stat}
+                      </p>
+                    </motion.div>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -646,7 +691,9 @@ const OurJourney: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+OurJourney.displayName = "OurJourney";
 
 /* ------------------------------------------------------------------ */
 /*  8 · Why DevOps Matters                                            */
@@ -669,9 +716,9 @@ const impactCards = [
   },
 ];
 
-const WhyDevOps: React.FC = () => {
+const WhyDevOps = memo(() => {
   return (
-    <section className="py-20 md:py-28 bg-primary/50">
+    <section className="py-20 md:py-28 bg-muted">
       <div className="max-w-7xl mx-auto section-padding">
         {/* Styled Section Header */}
         <div className="flex flex-col items-center mb-16">
@@ -681,8 +728,8 @@ const WhyDevOps: React.FC = () => {
 
           <div className="flex items-center justify-center gap-6 w-full max-w-xl">
             <div className="h-[2px] flex-grow bg-foreground/10" />
-            <span className="px-6 py-2 rounded-full bg-brand-cyan text-black text-sm font-black shadow-lg shadow-brand-cyan/20 whitespace-nowrap">
-              2026 Summit Evolution
+            <span className="px-6 py-2 rounded-full bg-secondary text-black text-sm font-black shadow-lg shadow-secondary/20 whitespace-nowrap">
+              {new Date().getFullYear()} Summit Evolution
             </span>
             <div className="h-[2px] flex-grow bg-foreground/10" />
           </div>
@@ -697,7 +744,7 @@ const WhyDevOps: React.FC = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
         >
@@ -705,12 +752,12 @@ const WhyDevOps: React.FC = () => {
             <motion.div
               key={i}
               variants={fadeUp}
-              className="bg-brand-cyan rounded-[2rem] p-10 flex flex-col items-center text-center shadow-xl shadow-brand-cyan/10 transition-transform hover:-translate-y-2 duration-300"
+              className="bg-card/20 rounded-[2rem] p-10 flex flex-col items-center text-center shadow-xl shadow-secondary/10 transition-transform hover:-translate-y-2 duration-300"
             >
               <div className="w-16 h-16 rounded-2xl bg-black/5 flex items-center justify-center mb-6">
-                <CheckCircle className="text-black w-8 h-8" />
+                <CheckCircle className="text-primary w-8 h-8" />
               </div>
-              <h3 className="font-heading font-black text-black text-2xl mb-4">{c.title}</h3>
+              <h3 className="font-heading font-black text-pure-black text-2xl mb-4">{c.title}</h3>
               <p className="text-black/70 text-base font-medium leading-relaxed">{c.description}</p>
             </motion.div>
           ))}
@@ -720,7 +767,7 @@ const WhyDevOps: React.FC = () => {
           <Button
             asChild
             size="lg"
-            className="px-7 py-3 rounded-full bg-brand-cyan text-black font-semibold text-sm hover:opacity-90 hover:bg-white transition-all"
+            className="px-7 py-3 rounded-full bg-secondary text-black font-semibold text-sm hover:opacity-90 hover:bg-white transition-all"
           >
             <Link to="/past-summits">Explore Our Past Summits</Link>
           </Button>
@@ -728,7 +775,9 @@ const WhyDevOps: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+WhyDevOps.displayName = "WhyDevOps";
 
 /* ------------------------------------------------------------------ */
 /*  Page                                                              */

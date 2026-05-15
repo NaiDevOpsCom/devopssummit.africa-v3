@@ -1,11 +1,10 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
 import { AutoSizer } from "react-virtualized-auto-sizer";
 import { useGalleryImages } from "@/hooks/useGalleryImages";
 import { useLazyImage } from "@/hooks/useLazyImage";
-import { GALLERY_YEAR_MAP } from "@/lib/imagekit.paths";
 import { summitGallery as fallbackGallery } from "@/data/summitExperience";
 import { IS_DEVELOPMENT } from "@/config/env";
 

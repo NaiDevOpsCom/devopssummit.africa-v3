@@ -21,9 +21,11 @@ assignees: ""
 **Section:** e.g. "2026 Speakers", "Tickets & Registration FAQs", "2025 Sponsor grid"
 
 **Current content:**
+
 <!-- Paste or describe what's currently on the site -->
 
 **Correct content:**
+
 <!-- What should it say / show instead? -->
 
 ## Which data file needs updating?
@@ -35,10 +37,10 @@ assignees: ""
 - [ ] `src/data/faqs.ts` — FAQ questions and answers
 - [ ] `src/data/summitData.ts` — past summit details and highlights
 - [ ] `src/data/team.ts` — organising team members
-- [ ] `src/data/tickets.ts` — ticket tiers *(requires developer review)*
+- [ ] `src/data/tickets.ts` — ticket tiers _(requires developer review)_
 - [ ] `src/data/benefits.ts` — attendance benefits
 - [ ] `src/data/stats.ts` — summit metrics
-- [ ] Static page content (Code of Conduct, Privacy Policy) *(requires developer review)*
+- [ ] Static page content (Code of Conduct, Privacy Policy) _(requires developer review)_
 - [ ] Not sure — please triage
 
 ## Supporting assets
@@ -47,7 +49,7 @@ assignees: ""
   If this involves a new or updated image (speaker photo, sponsor logo):
   - Attach the image directly to this issue, OR
   - Share the Cloudinary URL if already uploaded
-  
+
   Image requirements:
   - Speaker photos: square, minimum 400×400px, JPG or WebP, under 300KB
   - Sponsor logos: SVG preferred, transparent background, under 100KB
