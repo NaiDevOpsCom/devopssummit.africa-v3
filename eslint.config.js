@@ -8,7 +8,7 @@ import tseslint from "typescript-eslint";
 import prettier from "eslint-plugin-prettier";
 
 export default [
-  { ignores: ["dist", "storybook-static"] },
+  { ignores: ["coverage", "dist", "storybook-static"] },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.{ts,tsx}"],

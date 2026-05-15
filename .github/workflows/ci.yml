@@ -102,7 +102,7 @@ jobs:
       - run: npm ci
 
       - name: Run unit tests with coverage
-        run: npx vitest run --coverage --reporter=verbose --reporter=github-actions
+        run: npx vitest run --project=unit --coverage --reporter=verbose --reporter=github-actions
         env:
           # Provide stub values so env validation doesn't fail
           VITE_IMAGEKIT_URL_ENDPOINT: https://ik.imagekit.io/test

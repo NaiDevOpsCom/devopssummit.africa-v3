@@ -6,9 +6,21 @@ import { MemoryRouter } from "react-router-dom";
 
 vi.mock("framer-motion", () => ({
   motion: {
-    div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-      <div {...props}>{children}</div>
-    ),
+    div: ({
+      animate: _animate,
+      children,
+      initial: _initial,
+      transition: _transition,
+      viewport: _viewport,
+      whileInView: _whileInView,
+      ...props
+    }: React.HTMLAttributes<HTMLDivElement> & {
+      animate?: unknown;
+      initial?: unknown;
+      transition?: unknown;
+      viewport?: unknown;
+      whileInView?: unknown;
+    }) => <div {...props}>{children}</div>,
   },
   useReducedMotion: () => false,
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
