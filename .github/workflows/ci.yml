@@ -27,7 +27,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Verify lockfile sync
         run: npm ci
 
       - name: Run TypeScript compiler
@@ -47,7 +47,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Verify lockfile sync
         run: npm ci
 
       - name: Run ESLint
@@ -73,7 +73,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Verify lockfile sync
         run: npm ci
 
       - name: Check formatting
@@ -99,7 +99,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - run: npm ci
+      - name: Verify lockfile sync
+        run: npm ci
 
       - name: Run unit tests with coverage
         run: npx vitest run --coverage --reporter=verbose --reporter=github-actions
@@ -151,7 +152,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Verify lockfile sync
         run: npm ci
 
       - name: Build (skip gallery fetch in CI)
@@ -213,7 +214,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Verify lockfile sync
         run: npm ci
 
       # ── Dependency vulnerability audit ──────────────────────
@@ -304,7 +305,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - run: npm ci
+      - name: Verify lockfile sync
+        run: npm ci
 
       - name: Download build artifact
         uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
@@ -384,7 +386,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - run: npm ci
+      - name: Verify lockfile sync
+        run: npm ci
 
       - name: Download web-build for Lighthouse
         uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
