@@ -95,7 +95,7 @@ export const IKImage = forwardRef<HTMLImageElement, IKImageProps>(
 
     useEffect(() => {
       if (!debugImages) return;
-      console.info("[IKImage] Debug info:", {
+      console.log("[IKImage] Debug info:", {
         path,
         fullSrc,
         srcSet,

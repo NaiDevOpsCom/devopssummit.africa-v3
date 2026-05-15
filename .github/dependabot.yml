@@ -112,7 +112,6 @@ updates:
       time: "08:00"
       timezone: "Africa/Nairobi" # changed from UTC
     open-pull-requests-limit: 5
-    target-branch: "staging"
 
     ignore:
       - dependency-name: "*"

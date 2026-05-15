@@ -18,6 +18,7 @@ const TicketCard: React.FC<Ticket> = ({
       <span className="text-3xl font-bold text-primary font-heading">{price}</span>
       {priceNote && <span className="text-sm text-muted-foreground ml-2">/ {priceNote}</span>}
     </div>
+    <hr className="border-border mb-4" />
     <ul className="space-y-3 flex-1 mb-6">
       {features.map((f) => (
         <li key={f} className="flex items-start gap-2 text-sm text-pure-black">

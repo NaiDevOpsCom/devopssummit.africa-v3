@@ -23,7 +23,7 @@ import Footer from "@/components/layout/Footer";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { type Speaker } from "@/types";
+import { Speaker } from "@/types";
 import { speakers } from "@/data/speakers";
 
 /* ------------------------------------------------------------------ */

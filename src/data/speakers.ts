@@ -1,4 +1,4 @@
-import { type Speaker } from "@/types";
+import { Speaker } from "@/types";
 
 /**
  * Centralized Speaker Data

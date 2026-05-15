@@ -68,21 +68,6 @@ export interface GrowthMetric {
 }
 
 /**
- * Overarching statistics for the summit over the years.
- * Displayed in the About section on the landing page.
- *
- * NOTE: These are marketing-rounded projection figures intended for at-a-glance
- * impact and are NOT summed totals derived from growthMetrics. For precise
- * year-by-year breakdowns, refer to growthMetrics below.
- */
-export const stats: Stat[] = [
-  { value: "700+", label: "Attendees since 2024" },
-  { value: "23+", label: "Speakers" },
-  { value: "10+", label: "African countries represented" },
-  { value: "10+", label: "Partners & Sponsors" },
-];
-
-/**
  * Metrics tracking the summit's evolution across years.
  * Displayed in the "Summit Evolution & Growth" section.
  */
@@ -201,3 +186,13 @@ export const pastSummitsData: Record<number, PastSummit> = {
     ],
   },
 };
+
+/**
+ * Overarching summit stats displayed in the About section.
+ */
+export const stats: Stat[] = [
+  { value: "500+", label: "Attendees since 2024" },
+  { value: "4+", label: "African countries represented" },
+  { value: "15+", label: "Speakers" },
+  { value: "7+", label: "Partners & Sponsors" },
+];

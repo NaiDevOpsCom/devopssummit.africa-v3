@@ -1,60 +1,49 @@
-// src/test/setup.ts
 import "@testing-library/jest-dom";
-import { afterEach, vi } from "vitest";
-import { cleanup } from "@testing-library/react";
 
-// ── Cleanup after every test ─────────────────────────────────────────────────
-// Prevents state leaking between tests
-afterEach(() => {
-  cleanup();
-});
-
-// ── matchMedia ───────────────────────────────────────────────────────────────
-// jsdom doesn't implement matchMedia — required by next-themes + use-mobile hook
-Object.defineProperty(globalThis, "matchMedia", {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: (query: string) => ({
     matches: false,
     media: query,
     onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => {},
   }),
 });
 
 // ── ResizeObserver ───────────────────────────────────────────────────────────
 // Required by radix-ui components (ScrollArea, NavigationMenu, etc.)
 class MockResizeObserver {
-  callback: any;
-  constructor(callback: any) {
+  callback: ResizeObserverCallback;
+  constructor(callback: ResizeObserverCallback) {
     this.callback = callback;
   }
   observe = vi.fn();
   unobserve = vi.fn();
   disconnect = vi.fn();
-  trigger(entries: any[]) {
+  trigger(entries: ResizeObserverEntry[]) {
     if (this.callback) {
       this.callback(entries, this);
     }
   }
 }
-globalThis.ResizeObserver = MockResizeObserver as any;
+globalThis.ResizeObserver = MockResizeObserver as unknown as typeof ResizeObserver;
 
 // ── IntersectionObserver ─────────────────────────────────────────────────────
 // Required by lazy loading, useDynamicBackground
 class MockIntersectionObserver {
-  callback: any;
-  root: any = null;
+  callback: IntersectionObserverCallback;
+  root: Element | Document | null = null;
   rootMargin: string = "";
-  thresholds: any[] = [];
-  constructor(callback: any, options?: any) {
+  thresholds: number[] = [];
+  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
     this.callback = callback;
     if (options) {
-      this.root = options.root || null;
-      this.rootMargin = options.rootMargin || "";
+      this.root = options.root ?? null;
+      this.rootMargin = options.rootMargin ?? "";
       if (options.threshold === undefined) {
         this.thresholds = [];
       } else if (Array.isArray(options.threshold)) {
@@ -67,9 +56,10 @@ class MockIntersectionObserver {
   observe = vi.fn();
   unobserve = vi.fn();
   disconnect = vi.fn();
-  takeRecords = () => [];
+  takeRecords = (): IntersectionObserverEntry[] => [];
 }
-globalThis.IntersectionObserver = MockIntersectionObserver as any;
+globalThis.IntersectionObserver =
+  MockIntersectionObserver as unknown as typeof IntersectionObserver;
 
 // ── MutationObserver ─────────────────────────────────────────────────────────
 // Required by lazy loading
@@ -78,7 +68,7 @@ class MockMutationObserver {
   disconnect = vi.fn();
   takeRecords = vi.fn();
 }
-globalThis.MutationObserver = MockMutationObserver as any;
+globalThis.MutationObserver = MockMutationObserver as unknown as typeof MutationObserver;
 
 // ── Canvas ───────────────────────────────────────────────────────────────────
 // Required by Hero component — avoids "getContext is not a function" errors

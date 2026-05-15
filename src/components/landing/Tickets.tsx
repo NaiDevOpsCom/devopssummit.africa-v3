@@ -79,20 +79,18 @@ const Tickets: React.FC = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-primary rounded-xl border border-border p-8 md:p-12 text-center"
+        className="bg-card rounded-xl border border-border p-8 md:p-12 text-center"
       >
-        <h3 className="text-2xl font-bold font-heading text-white mb-2">
+        <h3 className="text-2xl font-bold font-heading text-foreground mb-2">
           Need custom group or corporate tickets?
         </h3>
-        <p className="text-white/60 mb-6">
+        <p className="text-muted-foreground mb-6">
           Contact our team for tailored packages and special rates.
         </p>
         <a
           href={groupTicketMailto}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex px-10 py-4 rounded-full border-2 border-white text-white font-bold text-base hover:bg-white hover:text-primary transition-all"
-          aria-label="Contact us for group or corporate ticket rates"
+          className="inline-flex px-7 py-3 rounded-full border-2 border-foreground/20 text-foreground font-semibold text-sm hover:bg-foreground/5 transition-colors"
+          aria-label="Contact for group rates"
         >
           Contact for Group Rates
         </a>
