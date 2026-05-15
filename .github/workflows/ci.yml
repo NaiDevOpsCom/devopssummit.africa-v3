@@ -102,6 +102,9 @@ jobs:
       - name: Verify lockfile sync
         run: npm ci
 
+      - name: Install Playwright browser for tests
+        run: npx playwright install chromium --with-deps
+
       - name: Run unit tests with coverage
         run: npx vitest run --coverage --reporter=verbose --reporter=github-actions
         env:
