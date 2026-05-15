@@ -1,3 +1,5 @@
+import { GrowthMetric, PastSummit, Stat } from "@/types";
+
 /**
  * Summit Data
  *
@@ -5,7 +7,7 @@
  *
  * Used in:
  * - src/pages/PastSummits.tsx: To display detailed year-by-year highlights and growth charts.
- */
+import { Stat, SummitHighlight, PastSummit, GrowthMetric } from "@/types";
 
 /**
  * Upcoming Summit Details
@@ -38,31 +40,6 @@ export const summitDetails = {
   theme: "Africa Ascends: Build What's Next",
   attendees: "1000+ Expected",
 };
-
-export interface SummitHighlight {
-  title: string;
-  description: string;
-  icon: string;
-}
-
-export interface PastSummit {
-  year: number;
-  theme: string;
-  themeDescription: string;
-  date: string;
-  venue: string;
-  location: string;
-  attendees: string;
-  countries: string;
-  reportUrl: string;
-  videoUrl: string;
-  highlights: SummitHighlight[];
-}
-
-export interface GrowthMetric {
-  label: string;
-  values: { year: string; value: number }[];
-}
 
 /**
  * Metrics tracking the summit's evolution across years.

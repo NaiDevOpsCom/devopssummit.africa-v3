@@ -1,26 +1,26 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
 
-import js from "@eslint/js";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import prettier from "eslint-plugin-prettier";
-import prettierConfig from "eslint-config-prettier";
-import noUnsanitized from "eslint-plugin-no-unsanitized";
 
-export default tseslint.config(
+export default [
   { ignores: ["dist", "storybook-static"] },
+  ...tseslint.configs.recommended,
   {
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parser: tseslint.parser,
     },
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
+      "@typescript-eslint": tseslint.plugin,
       prettier: prettier,
     },
     rules: {
@@ -36,5 +36,7 @@ export default tseslint.config(
       "prettier/prettier": "warn",
     },
   },
-  storybook.configs["flat/recommended"],
-);
+  ...(Array.isArray(storybook.configs["flat/recommended"])
+    ? storybook.configs["flat/recommended"]
+    : [storybook.configs["flat/recommended"]]),
+];

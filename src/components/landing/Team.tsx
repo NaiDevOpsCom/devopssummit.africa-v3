@@ -12,7 +12,7 @@ const Team: React.FC = () => {
   const filtered = activeRole === "All" ? team : team.filter((t) => t.role === activeRole);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [_, setSelectedIndex] = React.useState(0);
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setSelectedIndex(emblaApi.selectedScrollSnap());
@@ -21,6 +21,7 @@ const Team: React.FC = () => {
   React.useEffect(() => {
     if (!emblaApi) return;
     emblaApi.on("select", onSelect);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     onSelect();
   }, [emblaApi, onSelect]);
 

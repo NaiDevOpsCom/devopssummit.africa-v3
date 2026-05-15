@@ -78,3 +78,28 @@ export interface SponsorshipPackage {
   highlight?: boolean;
   benefits: string[];
 }
+
+export interface SummitHighlight {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface PastSummit {
+  year: number;
+  theme: string;
+  themeDescription: string;
+  date: string;
+  venue: string;
+  location: string;
+  attendees: string;
+  countries: string;
+  reportUrl: string;
+  videoUrl: string;
+  highlights: SummitHighlight[];
+}
+
+export interface GrowthMetric {
+  label: string;
+  values: { year: string; value: number }[];
+}
