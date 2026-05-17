@@ -713,7 +713,7 @@ These are real, documented issues. Do NOT "fix" them unless the fix has been dis
 | --- | -------------------------------------------------------------------------------------------------------------- | --------- | ------ |
 | 1   | `Speaker` interface overloaded — current and past speakers share one type with incompatible field sets         | 🔴 High   | Open   |
 | 2   | `Speaker.imageUrl: HttpUrl \| string \| null` — `string` makes `HttpUrl` validation pointless                  | 🔴 High   | Open   |
-| 3   | `Sponsor` has no `websiteUrl` — logos can't link to sponsor websites                                           | 🔴 High   | Open   |
+| 3   | `Sponsor` has no `websiteUrl` — intentionally omitted as we only fetch logos                                   | 🟢 Low    | Closed |
 | 4   | `Session` type is entirely missing — schedule page has no typed data model                                     | 🔴 High   | Open   |
 | 5   | `Sponsor.id` resets to `1` each year — not globally unique                                                     | 🟡 Medium | Open   |
 | 6   | `PastSummit`, `SummitHighlight`, `GrowthMetric`, `FAQItem` defined locally — should be in `src/types/index.ts` | 🟡 Medium | Open   |

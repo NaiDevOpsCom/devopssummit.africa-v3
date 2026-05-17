@@ -573,7 +573,11 @@ function avatarColor(name: string) {
 /*  6 · Testimonials                                                   */
 /* ------------------------------------------------------------------ */
 const Testimonials: React.FC = React.memo(() => {
-  const total = sponsorTestimonials.length;
+  const verifiedTestimonials = React.useMemo(
+    () => sponsorTestimonials.filter((t) => t.verified),
+    [],
+  );
+  const total = verifiedTestimonials.length;
   const [startIdx, setStartIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -605,7 +609,7 @@ const Testimonials: React.FC = React.memo(() => {
   const visibleCount = Math.min(5, total);
   const visible = Array.from(
     { length: visibleCount },
-    (_, i) => sponsorTestimonials[(startIdx + i) % total],
+    (_, i) => verifiedTestimonials[(startIdx + i) % total],
   );
   const [featured, ...gridCards] = visible;
 
