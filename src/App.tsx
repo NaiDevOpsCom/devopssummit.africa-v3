@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loading from "@/components/ui/Loading";
 import RootLayout from "@/components/layout/RootLayout";
-import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { RouteError } from "@/components/ui/RouteError";
 
 // Lazy load pages
 const Index = lazy(() => import("./pages/Index"));
@@ -42,11 +42,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    errorElement: (
-      <ErrorBoundary>
-        <div />
-      </ErrorBoundary>
-    ),
+    errorElement: <RouteError />,
     children: [
       { index: true, element: <LazyRoute component={Index} /> },
       { path: "about", element: <LazyRoute component={AboutUs} /> },

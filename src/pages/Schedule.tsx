@@ -16,7 +16,6 @@ import {
   MessageSquare,
   Presentation,
   Award,
-import {
   Quote,
 } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
