@@ -170,7 +170,7 @@ const Navbar = memo(() => {
           aria-label="Africa DevOps Summit home"
         >
           <img
-            src="https://res.cloudinary.com/nairobidevops/image/upload/v1778755016/Updated_ADS_logo_grjrqu.png"
+            src="https://res.cloudinary.com/nairobidevops/image/upload/v1778759087/Updated_ADS_logo_jo105p.png"
             alt="Africa DevOps Summit Logo"
             className="h-9 md:h-11 w-auto object-contain transition-transform duration-300 hover:scale-105 origin-left"
           />
