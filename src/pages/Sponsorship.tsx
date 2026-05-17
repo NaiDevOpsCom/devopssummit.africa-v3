@@ -20,8 +20,6 @@ import {
   Contact,
   GraduationCap,
 } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { SafeLink } from "@/components/SafeLink";
 import {
@@ -916,7 +914,6 @@ const Sponsorship: React.FC = () => {
         title="Sponsorship | Africa DevOps Summit"
         description="Partner with Africa's leading DevOps conference and connect with 1,000+ engineers, decision-makers, and tech leaders."
       />
-      <Navbar />
       <main>
         <SponsorHero />
         <WhySponsor />
@@ -927,7 +924,6 @@ const Sponsorship: React.FC = () => {
         <PastSponsors />
         <FinalCTA />
       </main>
-      <Footer />
     </div>
   );
 };

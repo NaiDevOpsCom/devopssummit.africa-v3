@@ -16,10 +16,9 @@ import {
   MessageSquare,
   Presentation,
   Award,
+import {
   Quote,
 } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -736,7 +735,6 @@ const Schedule: React.FC = () => {
 
   return (
     <main>
-      <Navbar />
       <Seo
         title="Schedule"
         description="Explore the full 2-day programme for Africa DevOps Summit 2026 — keynotes, workshops, panels, and networking sessions."
@@ -748,7 +746,6 @@ const Schedule: React.FC = () => {
       <FullAgenda />
       <SpeakersSection />
       <ClosingQuote />
-      <Footer />
     </main>
   );
 };

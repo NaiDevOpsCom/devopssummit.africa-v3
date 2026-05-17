@@ -3,9 +3,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loading from "@/components/ui/Loading";
-
+import RootLayout from "@/components/layout/RootLayout";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 // Lazy load pages
@@ -38,27 +38,35 @@ const LazyRoute = ({
   </Suspense>
 );
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: (
+      <ErrorBoundary>
+        <div />
+      </ErrorBoundary>
+    ),
+    children: [
+      { index: true, element: <LazyRoute component={Index} /> },
+      { path: "about", element: <LazyRoute component={AboutUs} /> },
+      { path: "schedule", element: <LazyRoute component={Schedule} /> },
+      { path: "sponsorship", element: <LazyRoute component={Sponsorship} /> },
+      { path: "code-of-conduct", element: <LazyRoute component={CodeOfConduct} /> },
+      { path: "privacy-policy", element: <LazyRoute component={PrivacyPolicy} /> },
+      { path: "faqs", element: <LazyRoute component={FAQs} /> },
+      { path: "past-summits", element: <LazyRoute component={PastSummits} /> },
+      { path: "*", element: <LazyRoute component={NotFound} /> },
+    ],
+  },
+]);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <ErrorBoundary>
-          <Routes>
-            <Route path="/" element={<LazyRoute component={Index} />} />
-            <Route path="/about" element={<LazyRoute component={AboutUs} />} />
-            <Route path="/schedule" element={<LazyRoute component={Schedule} />} />
-            <Route path="/sponsorship" element={<LazyRoute component={Sponsorship} />} />
-            <Route path="/code-of-conduct" element={<LazyRoute component={CodeOfConduct} />} />
-            <Route path="/privacy-policy" element={<LazyRoute component={PrivacyPolicy} />} />
-            <Route path="/faqs" element={<LazyRoute component={FAQs} />} />
-            <Route path="/past-summits" element={<LazyRoute component={PastSummits} />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<LazyRoute component={NotFound} />} />
-          </Routes>
-        </ErrorBoundary>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -109,7 +109,7 @@ export default defineConfig(({ mode }) => ({
     VitePWA({
       registerType: "autoUpdate",
       injectRegister: "script-defer",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
+      includeAssets: [],
       manifest: {
         name: "Africa DevOps Summit",
         short_name: "ADSummit",
@@ -119,14 +119,20 @@ export default defineConfig(({ mode }) => ({
         display: "standalone",
         icons: [
           {
-            src: "pwa-192x192.png",
+            src: "https://res.cloudinary.com/nairobidevops/image/upload/v1778759086/ads_favicon-01_juoi6r.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png",
+            src: "https://res.cloudinary.com/nairobidevops/image/upload/v1778759086/ads_favicon-01_juoi6r.png",
             sizes: "512x512",
             type: "image/png",
+          },
+          {
+            src: "https://res.cloudinary.com/nairobidevops/image/upload/v1778759086/ads_favicon-01_juoi6r.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable",
           },
         ],
       },
