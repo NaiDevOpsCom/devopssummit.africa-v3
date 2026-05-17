@@ -25,14 +25,14 @@ We have introduced a zero-dependency automated promotion solution composed of th
 graph TD
     A[developer merges feature PRs to staging] --> B[staging push triggers GitHub Action]
     B --> C[generate-release-pr.mjs Node script]
-    C --> D[extract staging..main commits]
+    C --> D[extract main..staging commits]
     D --> E[parse Conventional Commits]
     E --> F[generate title & grouped changelog]
     F --> G[GitHub CLI gh syncs Pull Request]
     G --> H[Open / Updated PR: release: promote staging...]
 ```
 
-### A. The Parsing Script: [generate-release-pr.mjs](file:///c:/Users/jlc254/Music/devopssummit.africa-v3/scripts/generate-release-pr.mjs)
+### A. The Parsing Script: [generate-release-pr.mjs](../scripts/generate-release-pr.mjs)
 
 A standalone Node.js ES script that:
 
@@ -43,7 +43,7 @@ A standalone Node.js ES script that:
   `release: promote staging to main for May 2026 release`
 - Saves these outputs inside a `.release-temp/` directory for downstream tools.
 
-### B. The GitHub Action Workflow: [promote-release.yml](file:///c:/Users/jlc254/Music/devopssummit.africa-v3/.github/workflows/promote-release.yml)
+### B. The GitHub Action Workflow: [promote-release.yml](../.github/workflows/promote-release.yml)
 
 A fully automated GitHub workflow running on push to `staging` or manually triggered. It:
 
@@ -52,7 +52,7 @@ A fully automated GitHub workflow running on push to `staging` or manually trigg
 - **Updates** the existing promotion PR's title and changelog description if one is already open.
 - **Creates** a new promotion PR if none exists, pre-filled with the structured changelog, assigned to the release actor, and labeled `chore`.
 
-### C. Validation Updates: [pr-checks.yml](file:///c:/Users/jlc254/Music/devopssummit.africa-v3/.github/workflows/pr-checks.yml)
+### C. Validation Updates: [pr-checks.yml](../.github/workflows/pr-checks.yml)
 
 - Added `release` as a first-class allowed Conventional Commit type.
 - Updated the vague word list rule to include the `release` type to prevent vague release titles.

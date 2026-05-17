@@ -33,3 +33,7 @@ src/data/gallery.generated.json
 
 storybook-static
 .lighthouseci/
+
+# Ephemeral release promotion build artifacts
+.release-temp/
+

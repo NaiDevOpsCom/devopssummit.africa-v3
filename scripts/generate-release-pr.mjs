@@ -48,12 +48,20 @@ console.log(`🔍 Comparing branches: ${baseRef} (base) <--- ${headRef} (head)`)
 // Ensure references are fetched and up-to-date
 if (!dryRun) {
   console.log("🔄 Fetching latest branches from origin...");
-  runCmd("git fetch origin main staging --quiet");
+  try {
+    execSync("git fetch origin main staging --quiet", { stdio: ["ignore", "pipe", "pipe"] });
+  } catch (error) {
+    console.error(
+      "❌ Failed to fetch latest branches from origin. Please check your internet connection or git remote settings.",
+    );
+    console.error(error.stderr?.toString() || error.message);
+    process.exit(1);
+  }
 }
 
 // Check if there are any commits difference
 const commitCount = Number.parseInt(
-  runCmd(`git rev-list --count ${baseRef}..${headRef}`) || "0",
+  runCmd(`git rev-list --count --no-merges ${baseRef}..${headRef}`) || "0",
   10,
 );
 
@@ -82,6 +90,68 @@ const rawCommits = rawLog.split(`${COMMIT_DELIMITER}\n`);
 const parsedCommits = [];
 const authors = new Set();
 
+function isConventionalTypeChar(char) {
+  const code = char.charCodeAt(0);
+  return (
+    (code >= 48 && code <= 57) ||
+    (code >= 65 && code <= 90) ||
+    (code >= 97 && code <= 122) ||
+    char === "-"
+  );
+}
+
+function isHorizontalWhitespace(char) {
+  return char === " " || char === "\t";
+}
+
+function parseConventionalCommitSubject(subject) {
+  let index = 0;
+
+  while (index < subject.length && isConventionalTypeChar(subject[index])) {
+    index += 1;
+  }
+
+  if (index === 0) {
+    return null;
+  }
+
+  const type = subject.slice(0, index);
+  let scope = null;
+
+  if (subject[index] === "(") {
+    const scopeStart = index + 1;
+    const scopeEnd = subject.indexOf(")", scopeStart);
+
+    if (scopeEnd <= scopeStart) {
+      return null;
+    }
+
+    scope = subject.slice(scopeStart, scopeEnd);
+    index = scopeEnd + 1;
+  }
+
+  const isBreaking = subject[index] === "!";
+  if (isBreaking) {
+    index += 1;
+  }
+
+  if (subject[index] !== ":" || !isHorizontalWhitespace(subject[index + 1])) {
+    return null;
+  }
+
+  index += 2;
+  while (index < subject.length && isHorizontalWhitespace(subject[index])) {
+    index += 1;
+  }
+
+  const description = subject.slice(index);
+  if (!description) {
+    return null;
+  }
+
+  return { type, scope, isBreaking, description };
+}
+
 for (const raw of rawCommits) {
   if (!raw.trim()) continue;
   const lines = raw.split("\n");
@@ -92,12 +162,10 @@ for (const raw of rawCommits) {
 
   if (authorName) authors.add(authorName);
 
-  // Parse Conventional Commit pattern: type(scope)?: description
-  const ccRegex = /^([a-z0-9-]+)(?:\(([^)]+)\))?(!)?:\s+(.*)$/i;
-  const match = subject.match(ccRegex);
+  const conventionalCommit = parseConventionalCommitSubject(subject);
 
-  if (match) {
-    const [, type, scope, isBreaking, description] = match;
+  if (conventionalCommit) {
+    const { type, scope, isBreaking, description } = conventionalCommit;
     parsedCommits.push({
       hash,
       author: authorName,
