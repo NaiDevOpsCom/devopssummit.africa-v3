@@ -18,14 +18,12 @@ export default function RootLayout() {
           {/* We wrap the Outlet in our PageTransition, keyed by pathname to trigger animations */}
           <PageTransition key={location.pathname}>
             <Suspense fallback={<Loading />}>
-              <div className="flex-grow flex flex-col">
-                <Outlet />
-                <Footer />
-              </div>
+              <Outlet />
             </Suspense>
           </PageTransition>
         </AnimatePresence>
       </main>
+      <Footer />
       {/* ScrollRestoration natively handles scroll state for react-router-dom */}
       <ScrollRestoration />
     </div>
