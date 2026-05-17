@@ -57,7 +57,9 @@ const Footer: React.FC = () => (
               <img
                 src="https://res.cloudinary.com/nairobidevops/image/upload/v1778905753/white_logo_black_bg_yljjt4.png"
                 alt="Africa DevOps Summit Logo"
-                className="h-10 md:h-12 w-auto object-contain"
+                width="196"
+                height="48"
+                className="h-10 w-[163px] md:h-12 md:w-[196px] object-contain"
               />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
