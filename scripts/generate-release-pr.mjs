@@ -13,6 +13,7 @@
 
 import { execSync } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
 // Parse command line arguments
@@ -20,10 +21,66 @@ const args = new Set(process.argv.slice(2));
 const dryRun = args.has("--dry-run");
 const useChoreType = args.has("--chore") || args.has("--use-chore");
 
+// Clean/sanitize the environment PATH to only include trusted system directories.
+function getSafeEnv() {
+  const isWin = os.platform() === "win32";
+  const systemPaths = isWin
+    ? [
+        "C:/Windows/system32",
+        "C:/Windows",
+        "C:/Windows/System32/Wbem",
+        "C:/Windows/System32/WindowsPowerShell/v1.0",
+        "C:/Program Files/Git/cmd",
+        "C:/Program Files/Git/bin",
+        process.env.PATH ? process.env.PATH.split(";").find((p) => p.includes("Git")) : null,
+      ].filter(Boolean)
+    : ["/usr/bin", "/bin", "/usr/sbin", "/sbin", "/usr/local/bin"];
+
+  return {
+    ...process.env,
+    PATH: systemPaths.join(isWin ? ";" : ":"),
+  };
+}
+
+// Locate the git executable path in standard secure directories, with fallback
+function resolveGitPath() {
+  const isWin = os.platform() === "win32";
+
+  if (isWin) {
+    const windowsPaths = [
+      "C:/Program Files/Git/cmd/git.exe",
+      "C:/Program Files/Git/bin/git.exe",
+      "C:/Program Files (x86)/Git/cmd/git.exe",
+      "C:/Windows/System32/git.exe",
+    ];
+    for (const p of windowsPaths) {
+      if (fs.existsSync(p)) {
+        return `"${p}"`;
+      }
+    }
+  } else {
+    const posixPaths = ["/usr/bin/git", "/usr/local/bin/git", "/opt/homebrew/bin/git", "/bin/git"];
+    for (const p of posixPaths) {
+      if (fs.existsSync(p)) {
+        return p;
+      }
+    }
+  }
+
+  // Fallback to searching in our sanitized PATH
+  return "git";
+}
+
+const GIT_PATH = resolveGitPath();
+
 // Helper to run shell commands safely
 function runCmd(cmd) {
   try {
-    return execSync(cmd, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
+    return execSync(cmd, {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+      env: getSafeEnv(),
+    }).trim();
   } catch {
     // Return empty string on command failure (expected for non-existent refs)
     return "";
@@ -36,10 +93,10 @@ let baseRef = "origin/main";
 let headRef = "origin/staging";
 
 // Validate references or fallback to local main/staging
-if (!runCmd(`git rev-parse --verify ${baseRef}`)) {
+if (!runCmd(`${GIT_PATH} rev-parse --verify ${baseRef}`)) {
   baseRef = "main";
 }
-if (!runCmd(`git rev-parse --verify ${headRef}`)) {
+if (!runCmd(`${GIT_PATH} rev-parse --verify ${headRef}`)) {
   headRef = "staging";
 }
 
@@ -49,7 +106,10 @@ console.log(`🔍 Comparing branches: ${baseRef} (base) <--- ${headRef} (head)`)
 if (!dryRun) {
   console.log("🔄 Fetching latest branches from origin...");
   try {
-    execSync("git fetch origin main staging --quiet", { stdio: ["ignore", "pipe", "pipe"] });
+    execSync(`${GIT_PATH} fetch origin main staging --quiet`, {
+      stdio: ["ignore", "pipe", "pipe"],
+      env: getSafeEnv(),
+    });
   } catch (error) {
     console.error(
       "❌ Failed to fetch latest branches from origin. Please check your internet connection or git remote settings.",
@@ -61,7 +121,7 @@ if (!dryRun) {
 
 // Check if there are any commits difference
 const commitCount = Number.parseInt(
-  runCmd(`git rev-list --count --no-merges ${baseRef}..${headRef}`) || "0",
+  runCmd(`${GIT_PATH} rev-list --count --no-merges ${baseRef}..${headRef}`) || "0",
   10,
 );
 
@@ -77,7 +137,7 @@ console.log(`📦 Found ${commitCount} commits to process.`);
 // Get commits with author name, email, subject, and body
 // Using a unique delimiter to split commits reliably
 const COMMIT_DELIMITER = "===COMMIT_END===";
-const gitLogCmd = `git log ${baseRef}..${headRef} --no-merges --format="%H%n%an%n%s%n%b%n${COMMIT_DELIMITER}"`;
+const gitLogCmd = `${GIT_PATH} log ${baseRef}..${headRef} --no-merges --format="%H%n%an%n%s%n%b%n${COMMIT_DELIMITER}"`;
 const rawLog = runCmd(gitLogCmd);
 
 if (!rawLog) {
@@ -91,7 +151,7 @@ const parsedCommits = [];
 const authors = new Set();
 
 function isConventionalTypeChar(char) {
-  const code = char.charCodeAt(0);
+  const code = char.codePointAt(0);
   return (
     (code >= 48 && code <= 57) ||
     (code >= 65 && code <= 90) ||
@@ -324,7 +384,7 @@ if (authors.size > 0) {
 }
 
 // Add comparison link & footers
-const repoUrl = runCmd("git config --get remote.origin.url")
+const repoUrl = runCmd(`${GIT_PATH} config --get remote.origin.url`)
   ?.replace("git@github.com:", "https://github.com/")
   ?.replace(".git", "");
 
