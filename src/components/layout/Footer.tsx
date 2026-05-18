@@ -55,9 +55,11 @@ const Footer: React.FC = () => (
           <div>
             <div className="flex items-center gap-2 mb-3">
               <img
-                src="https://res.cloudinary.com/nairobidevops/image/upload/v1778755016/Updated_ADS_logo_grjrqu.png"
+                src="https://res.cloudinary.com/nairobidevops/image/upload/v1778905753/white_logo_black_bg_yljjt4.png"
                 alt="Africa DevOps Summit Logo"
-                className="h-10 md:h-12 w-auto object-contain"
+                width="196"
+                height="48"
+                className="h-10 w-[163px] md:h-12 md:w-[196px] object-contain"
               />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">

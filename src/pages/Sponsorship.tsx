@@ -20,8 +20,6 @@ import {
   Contact,
   GraduationCap,
 } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { SafeLink } from "@/components/SafeLink";
 import {
@@ -575,7 +573,11 @@ function avatarColor(name: string) {
 /*  6 · Testimonials                                                   */
 /* ------------------------------------------------------------------ */
 const Testimonials: React.FC = React.memo(() => {
-  const total = sponsorTestimonials.length;
+  const verifiedTestimonials = React.useMemo(
+    () => sponsorTestimonials.filter((t) => t.verified),
+    [],
+  );
+  const total = verifiedTestimonials.length;
   const [startIdx, setStartIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -607,7 +609,7 @@ const Testimonials: React.FC = React.memo(() => {
   const visibleCount = Math.min(5, total);
   const visible = Array.from(
     { length: visibleCount },
-    (_, i) => sponsorTestimonials[(startIdx + i) % total],
+    (_, i) => verifiedTestimonials[(startIdx + i) % total],
   );
   const [featured, ...gridCards] = visible;
 
@@ -916,7 +918,6 @@ const Sponsorship: React.FC = () => {
         title="Sponsorship | Africa DevOps Summit"
         description="Partner with Africa's leading DevOps conference and connect with 1,000+ engineers, decision-makers, and tech leaders."
       />
-      <Navbar />
       <main>
         <SponsorHero />
         <WhySponsor />
@@ -927,7 +928,6 @@ const Sponsorship: React.FC = () => {
         <PastSponsors />
         <FinalCTA />
       </main>
-      <Footer />
     </div>
   );
 };

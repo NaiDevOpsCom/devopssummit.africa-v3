@@ -38,6 +38,11 @@ export const summitDetails = {
    * The Calendly link for booking sponsorship partnership calls.
    */
   sponsorshipCalendlyUrl: "https://calendly.com/africadevopssummit",
+  /**
+   * @property {string} cfpUrl
+   * The public URL for call-for-papers submissions.
+   */
+  cfpUrl: "https://talks.nairobidevops.org/africa-devops-summit-2026/",
   theme: "Africa Ascends: Build What's Next",
   attendees: "1000+ Expected",
 };

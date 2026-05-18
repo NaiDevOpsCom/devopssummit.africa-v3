@@ -69,12 +69,29 @@ const dangerousPatterns = [
 
 const safeVariables = new Set(["VITE_VERCEL_GIT_COMMIT_SHA", "VITE_GIT_COMMIT_SHA"]);
 
+const isPublicVariable = (key: string) => {
+  const allowedPrefixes = [
+    "VITE_API_",
+    "VITE_APP_",
+    "VITE_IMAGEKIT_URL_ENDPOINT",
+    "VITE_IMAGEKIT_PUBLIC_KEY",
+    "VITE_STRIPE_PUBLISHABLE_KEY",
+    "VITE_SENTRY_DSN",
+    "VITE_ENABLE_DEVTOOLS",
+    "VITE_DEBUG_IMAGES",
+  ];
+  return allowedPrefixes.some((prefix) => key === prefix || key.startsWith(prefix));
+};
+
 const testSecurityVariables = (errors: string[], key: string, value: unknown): void => {
+  if (typeof value !== "string") return;
   if (key.startsWith("VITE_") === false) return;
   if (safeVariables.has(key)) return;
 
+  let foundDangerous = false;
   dangerousPatterns.forEach(({ pattern, name }) => {
-    if (pattern.test(String(value))) {
+    if (pattern.test(value)) {
+      foundDangerous = true;
       errors.push(
         `SECURITY: ${key} appears to contain a ${name}. ` +
           `Secret keys must NEVER be prefixed with VITE_ — ` +
@@ -82,6 +99,12 @@ const testSecurityVariables = (errors: string[], key: string, value: unknown): v
       );
     }
   });
+
+  if (!foundDangerous && !isPublicVariable(key)) {
+    console.warn(
+      `SECURITY WARNING: Unrecognized public variable ${key}. Ensure this is not a secret.`,
+    );
+  }
 };
 
 const checkSecurity = (errors: string[]): void => {
